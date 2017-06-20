@@ -1,5 +1,5 @@
 import * as types from '../actions/types';
-const INITIAL_STATE = {modalState: false, fontSize: 14, postBackground: 'white', textColor: 'black', nightMode: false};
+const INITIAL_STATE = { modalState: false, fontSize: 14, postBackground: 'white', textColor: 'black', nightMode: false ,menuBarColor :'rgba(0, 0, 0, 0.39)'};
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -49,6 +49,12 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         nightMode: action.payload
+      }
+      break;
+    case types.CHANGE_MENUBAR_COLOR:
+      return {
+        ...state,
+        menuBarColor: action.payload
       }
       break;
     default:
