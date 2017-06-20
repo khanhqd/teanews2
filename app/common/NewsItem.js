@@ -28,7 +28,7 @@ import { connect } from 'react-redux';
 import { changeFontSize, changeModalState, changeBackgroundColor, changeTextColor, changeNightMode } from '../actions';
 var WEBVIEW_REF = 'webview';
 
-import HTMLView from 'react-native-htmlview';
+import HTMLView from './react-native-htmlview';
 import Video from 'react-native-video';
 
 class NewsItem extends Component {
@@ -47,7 +47,8 @@ class NewsItem extends Component {
     loading: true,
     videoUrl: null,
     list: [],
-    switcher: false
+    switcher: false,
+    fontSize: 14
   };
   componentWillMount() {
     if (this.props.row) {
@@ -435,109 +436,153 @@ class NewsItem extends Component {
   }
 
   render() {
+    const styles2 = {
+      h1: {
+        marginLeft: 20,
+        marginRight: 10,
+        fontSize: this.props.fontSize,
+        color: this.props.textColor,
+      },
+      h2: {
+        marginLeft: 20,
+        marginRight: 10,
+        fontSize: this.props.fontSize,
+        fontWeight: '500',
+        color: this.props.textColor,
+      },
+      h3: {
+        marginLeft: 20,
+        marginRight: 10,
+        fontWeight: '400',
+        fontSize: this.props.fontSize,
+        color: this.props.textColor,
+      },
+      p: {
+        marginLeft: 20,
+        marginRight: 10,
+        fontSize: this.props.fontSize,
+        color: this.props.textColor,
+      },
+      td: {
+        marginLeft: 20,
+        marginRight: 10,
+        fontSize: 15,
+        color: this.props.textColor
+      },
+      strong: {
+        color: this.props.textColor,
+        fontSize: this.props.fontSize,
+      },
+      ul: {
+        padding: 0,
+      }
+    };
     return (
-        <ScrollView style={{ height: height }}>
-        {this.props.openMenu &&
-          <TouchableOpacity style={styles.modalContainer} onPress={() => this.props.dispatch(changeModalState(!this.props.openMenu))}>
-            <Animatable.View animation="slideInDown" duration={300} style={[styles.menuModal,{backgroundColor: this.props.postBackground}]}>
-              <View style={{ flexDirection: 'row', flex: 1 }}>
+      <View>
+          {this.props.openMenu &&
+            <TouchableOpacity style={styles.modalContainer} onPress={() => this.props.dispatch(changeModalState(!this.props.openMenu))}>
+              <Animatable.View animation="slideInDown" duration={300} style={[styles.menuModal,{backgroundColor: this.props.postBackground}]}>
+                <View style={{ flexDirection: 'row', flex: 1 }}>
+                  <TouchableHighlight
+                    underlayColor="white"
+                    onPress={() => {
+                      if (this.props.fontSize < 30) {
+                        this.props.dispatch(changeFontSize(this.props.fontSize + 2));
+                        setTimeout(() => {
+                          this.props.dispatch(changeModalState(!this.props.openMenu))
+                        }, 100)
+                      } else {
+                        Toast.show('Cỡ chữ đã tăng tối đa');
+                      }
+                      if (Platform.OS === 'android') {
+                        setTimeout(() => this.reloadWebview(), 200)
+                      }
+                    }}
+                    style={[styles.modalItem, { borderRightWidth: 1, borderTopLeftRadius: 10 }]}>
+                    <View style={{ alignItems: 'center' }}>
+                      <Text style={{ fontSize: 20, fontWeight: 'bold', color: this.props.textColor }}>A</Text>
+                    </View>
+                  </TouchableHighlight>
+                  <TouchableHighlight
+                    underlayColor="white"
+                    onPress={() => {
+                      if (this.props.fontSize > 7) {
+                        this.props.dispatch(changeFontSize(this.props.fontSize - 2));
+                        setTimeout(() => {
+                          this.updateWebview(this.props.row)
+                          this.props.dispatch(changeModalState(!this.props.openMenu))
+                        }, 100)
+                      } else {
+                        Toast.show('Cỡ chữ đã thu nhỏ tối đa');
+                      }
+                      if (Platform.OS === 'android') {
+                        setTimeout(() => this.reloadWebview(), 200)
+                      }
+                    }}
+                    style={[styles.modalItem, { borderTopRightRadius: 10 }]}>
+                    <View style={{ alignItems: 'center' }}>
+                      <Text style={{ color: this.props.textColor }}>A</Text>
+                    </View>
+                  </TouchableHighlight>
+                </View>
+                <TouchableHighlight
+                  underlayColor="white"
+                  onPress={() => this.switcherPressed()}
+                  style={styles.modalItem}>
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingRight: 20 }}>
+                    <Text style={[styles.modalText,{ color: this.props.textColor }]}>Chế độ đọc ban đêm
+                          </Text>
+                    <Switch
+                      value={this.props.nightMode}
+                      onValueChange={() => {
+                        this.switcherPressed()
+                      }} />
+                  </View>
+                </TouchableHighlight>
+
+                <TouchableHighlight
+                  underlayColor="white"
+                  onPress={() => this._openLink()}
+                  style={styles.modalItem}>
+                  <View>
+                    <Text style={[styles.modalText,{ color: this.props.textColor }]}>Mở trong trình duyệt
+                          </Text>
+                  </View>
+                </TouchableHighlight>
+
                 <TouchableHighlight
                   underlayColor="white"
                   onPress={() => {
-                    if (this.props.fontSize < 30) {
-                      this.props.dispatch(changeFontSize(this.props.fontSize + 2));
-                      setTimeout(() => {
-                        this.updateWebview(this.props.row)
-                        this.props.dispatch(changeModalState(!this.props.openMenu))
-                      }, 100)
-                    } else {
-                      Toast.show('Cỡ chữ đã tăng tối đa');
-                    }
-                    if (Platform.OS === 'android') {
-                      setTimeout(() => this.reloadWebview(), 200)
-                    }
+                    Clipboard.setString(this.props.row.url);
+                    Toast.show('Đã sao chép link');
+                    this.props.dispatch(changeModalState(!this.props.openMenu))
                   }}
-                  style={[styles.modalItem, { borderRightWidth: 1, borderTopLeftRadius: 10 }]}>
-                  <View style={{ alignItems: 'center' }}>
-                    <Text style={{ fontSize: 20, fontWeight: 'bold', color: this.props.textColor }}>A</Text>
+                  style={[styles.modalItem, { borderBottomLeftRadius: 10, borderBottomRightRadius: 10, borderBottomWidth: 0 }]}
+                >
+                  <View>
+                    <Text style={[styles.modalText,{  color: this.props.textColor }]}>Sao chép link
+                          </Text>
                   </View>
                 </TouchableHighlight>
-                <TouchableHighlight
-                  underlayColor="white"
-                  onPress={() => {
-                    if (this.props.fontSize > 7) {
-                      this.props.dispatch(changeFontSize(this.props.fontSize - 2));
-                      setTimeout(() => {
-                        this.updateWebview(this.props.row)
-                        this.props.dispatch(changeModalState(!this.props.openMenu))
-                      }, 100)
-                    } else {
-                      Toast.show('Cỡ chữ đã thu nhỏ tối đa');
-                    }
-                    if (Platform.OS === 'android') {
-                      setTimeout(() => this.reloadWebview(), 200)
-                    }
-                  }}
-                  style={[styles.modalItem, { borderTopRightRadius: 10 }]}>
-                  <View style={{ alignItems: 'center' }}>
-                    <Text style={{ color: this.props.textColor }}>A</Text>
-                  </View>
-                </TouchableHighlight>
-              </View>
-              <TouchableHighlight
-                underlayColor="white"
-                onPress={() => this.switcherPressed()}
-                style={styles.modalItem}>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingRight: 20 }}>
-                  <Text style={[styles.modalText,{ color: this.props.textColor }]}>Chế độ đọc ban đêm
-                        </Text>
-                  <Switch
-                    value={this.props.nightMode}
-                    onValueChange={() => {
-                      this.switcherPressed()
-                    }} />
-                </View>
-              </TouchableHighlight>
 
-              <TouchableHighlight
-                underlayColor="white"
-                onPress={() => this._openLink()}
-                style={styles.modalItem}>
-                <View>
-                  <Text style={[styles.modalText,{ color: this.props.textColor }]}>Mở trong trình duyệt
-                        </Text>
-                </View>
-              </TouchableHighlight>
+              </Animatable.View>
+            </TouchableOpacity>
+          }
 
-              <TouchableHighlight
-                underlayColor="white"
-                onPress={() => {
-                  Clipboard.setString(this.props.row.url);
-                  Toast.show('Đã sao chép link');
-                  this.props.dispatch(changeModalState(!this.props.openMenu))
-                }}
-                style={[styles.modalItem, { borderBottomLeftRadius: 10, borderBottomRightRadius: 10, borderBottomWidth: 0 }]}
-              >
-                <View>
-                  <Text style={[styles.modalText,{  color: this.props.textColor }]}>Sao chép link
-                        </Text>
-                </View>
-              </TouchableHighlight>
+          <ScrollView style={{ height: height, backgroundColor: this.props.postBackground }}>
+            <Image
+            style={{width: width, height: width *9/16}}
+            source={{uri: this.props.row.thumb }}/>
+            <Text style={{marginLeft: 20, color: this.props.textColor, fontSize: this.props.fontSize, fontWeight: 'bold', marginTop: 10, marginBottom: 10}}>{this.props.row.title}
+            </Text>
+            <HTMLView
+              value={this.state.bodyHTML}
+              stylesheet={styles2}
+            />
+          </ScrollView>
 
-            </Animatable.View>
-          </TouchableOpacity>
-        }
+      </View>
 
-          <Image
-          style={{width: width, height: width *9/16}}
-          source={{uri: this.props.row.thumb }}/>
-          <Text style={{marginLeft: 20, fontSize: 17, fontWeight: 'bold', marginTop: 10, marginBottom: 10}}>{this.props.row.title}
-          </Text>
-          <HTMLView
-            value={this.state.bodyHTML}
-            stylesheet={styles2}
-          />
-        </ScrollView>
     )
   }
 }
@@ -641,43 +686,7 @@ const styles = {
 
   }
 }
-const styles2 = StyleSheet.create({
-  h1: {
-    marginLeft: 20,
-    marginRight: 10,
-    fontSize: 15,
-    color: 'black',
-  },
-  h2: {
-    marginLeft: 20,
-    marginRight: 10,
-    fontSize: 15,
-    fontWeight: '500',
-    color: 'black',
-  },
-  h3: {
-    marginLeft: 20,
-    marginRight: 10,
-    fontWeight: '400',
-    fontSize: 15,
-    color: 'black',
-  },
-  p: {
-    marginLeft: 20,
-    marginRight: 10,
-    fontSize: 15,
-    color: 'black',
-  },
-  td: {
-    marginLeft: 20,
-    marginRight: 10,
-    fontSize: 15,
-    color: 'black'
-  },
-  ul: {
-    padding: 0,
-  }
-});
+
 const mapStateToProps = state => {
   return {
     openMenu: state.readerModalReducer.modalState,
