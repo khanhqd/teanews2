@@ -31,7 +31,10 @@ class NewsItem2 extends Component {
             <Text style={[styles.date,{color: this.props.textColor}]}>{source} - {date.toLocaleString()}
             </Text>
             <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
-              <Text style={[styles.description,{color: this.props.textColor}]}>{this.props.data.des}
+              <Text
+              numberOfLines={4}
+              ellipsizeMode="tail"
+              style={[styles.description,{color: this.props.textColor}]}>{this.props.data.des}
               </Text>
             </View>
         </TouchableOpacity>

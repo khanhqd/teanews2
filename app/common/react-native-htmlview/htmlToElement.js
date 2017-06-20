@@ -17,8 +17,7 @@ const Img = props => {
 
   const imgStyle = {
     width,
-    height,
-    marginBottom: 100
+    height
   };
   const source = {
     uri: props.attribs.src,
@@ -71,6 +70,7 @@ export default function htmlToElement(rawHtml, opts, done) {
             break;
           case 'p':
             if (index < list.length - 1) {
+              linebreakBefore = LINE_BREAK;
               linebreakAfter = PARAGRAPH_BREAK;
             } else {
               linebreakBefore = LINE_BREAK;

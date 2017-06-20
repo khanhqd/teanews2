@@ -60,8 +60,6 @@ class NewsItem extends Component {
   componentWillReceiveProps(props) {
     if ((props.row != this.props.row) && (props.row)) {
       this.setState({ loading: true }, () => { this.fetchContent(this.props.row) })
-    } else if (props.textColor) {
-      this.updateWebview(props.row)
     }
   }
   componentDidMount() {
@@ -129,7 +127,7 @@ class NewsItem extends Component {
   fetchContent(row) {
     let sourceReal;
     this.setState({ loading: true });
-    setTimeout(() => this.setState({ loading: false }), 5000);
+    setTimeout(() => this.setState({ loading: false }), 4000);
     let url = row.url
     let other = []
     fetch(url)
@@ -149,9 +147,7 @@ class NewsItem extends Component {
           this.setState({
             bodyHTML: $('.newbody').html(),
             sourceReal: sourceReal
-          }, () => {
-            this.updateWebview(row)
-          })
+          },()=>{this.setState({loading: false})})
         }
       })
   }
@@ -160,144 +156,14 @@ class NewsItem extends Component {
     let source = sourceTinmoi.replace(/\s+ /g, "")
     if (row.url.includes("vnexpress")) {
       this.setState({
-        source: "Vnexpress.net"
+        source: "Vnexpress.net",
+        loading: false
       })
     } else {
       this.setState({
-        source: source
+        source: source,
+        loading: false
       })
-    }
-  }
-  returnHtml = () => {
-    let htmlPlus = `
-    <style>
-      .title{
-        padding-left: 20px
-      }
-      a{
-        text-decoration: none;
-        color: black
-      }
-      img{
-        max-width:${width - 5}px;
-      }
-      * {
-        -webkit-touch-callout: none !important;
-      }
-      h1 {
-        margin-left: 20px;
-        margin-right: 10px;
-        font-size: ${this.props.fontSize + 3};
-        color: ${this.props.textColor};
-      }
-      h3, h2, p, h1, td {
-        margin-left: 20px;
-        line-height: 1.3em;
-        margin-right: 10px;
-        font-size: ${this.props.fontSize};
-        color: ${this.props.textColor};
-      }
-      span, em {
-        font-size: ${this.props.fontSize};
-        color: ${this.props.textColor};
-      }
-      .minutes {
-        width: 0!important
-      }
-      ul {
-        padding: 0;
-      }
-      #container_tab_live ul li {
-        list-style: none;
-        width: 100%!important;
-        margin-left: 0!important;
-      }
-      #container_tab_live div.text_live {
-        float: right!important;
-        width: 100%;
-        display: block;
-      }
-      li{
-        list-style-type:none;
-      }
-      script,a,#wrapper_footer,#box_tinkhac_detail,.box_tintaitro,
-       .main_show_comment.width_common,.title_show.txt_666,#box_xemnhieunhat,#col_300{
-        display: none
-      }
-      iframe {
-        max-width:${width}px;
-        max-height:${width / 16 * 9}px;
-      }
-      html, body{
-        width: ${width}px;
-        overflow-x:hidden;
-        font-family: 'Nunito', sans-serif;
-        margin-left: 0px;
-        margin-right: 5px;
-        margin-top: 0px;
-        padding-top: 0px;
-        background-color: ${this.props.postBackground}
-      }
-    </style>
-    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    <script>
-    $(document).ready(function(){
-      setTimeout(function(){
-        var messageHeight = {key:"heightContent",value:$(document).height()};
-        // alert($(document).height().toString())
-        window.postMessageNative(JSON.stringify(messageHeight));
-      },200)
-    });
-    $('span').removeAttr('style');
-    $('em').removeAttr('style');
-    $("[data-component-type=video]").replaceWith("<h1>Bài viết chứa video, vui lòng mở link bằng trình duyệt để xem video</h1>");
-   $("iframe,.block_filter_live,.detail_top_live.width_common,.block_breakumb_left,#menu-box,.bi-related,head,#result_other_news,#social_like,noscript,#myvne_taskbar,.block_more_info,#wrapper_header,#header_web,#wrapper_footer,.breakumb_timer.width_common,.banner_980x60,.right,#box_comment,.nativeade,#box_tinkhac_detail,#box_tinlienquan,.block_tag.width_common.space_bottom_20,#ads_endpage,.block_timer_share,.title_news,.div-fbook.width_common.title_div_fbook,.xemthem_new_ver.width_common,.relative_new,#topbar,#topbar-scroll,.text_xemthem,#box_col_left,.form-control.change_gmt,.tt_2,.back_tt,.box_tinkhac.width_common,#sticky_info_st,.col_fillter.box_sticky_left,.start.have_cap2,.cap2,.list_news_dot_3x3,.minutes,.div-fbook.width_common.title_div_fbook,#live-updates-wrapper,.block_share.right,.block_goithutoasoan,.xemthem_new_ver.width_common,meta,link,.menu_main,.top_3,.number_bgs,.filter_right,#headmass,.box_category.width_common,.banner_468.width_common,.adsbyeclick,.block_col_160.right,#ArticleBanner2,#ad_wrapper_protection,#WIDGET").remove();
-
-    var link = document.querySelectorAll("a");
-      for(var i = 0; i < link.length; i++){
-        link[i].setAttribute("href", "javascript:void(0)");
-    };
-    $("header,.relative,.footer").remove();
-    var text = $("p").last().text();
-    if(text.includes(">>> Đọc thêm:")==true){
-      $("p").last().remove();
-    }
-    function getSelectionText() {
-        var text = "";
-        var activeEl = document.activeElement;
-        var activeElTagName = activeEl ? activeEl.tagName.toLowerCase() : null;
-        if (
-          (activeElTagName == "textarea") || (activeElTagName == "input" &&
-          /^(?:text|search|password|tel|url)$/i.test(activeEl.type)) &&
-          (typeof activeEl.selectionStart == "number")
-        ) {
-            text = activeEl.value.slice(activeEl.selectionStart, activeEl.selectionEnd);
-        } else if (window.getSelection) {
-            text = window.getSelection().toString();
-        }
-        return text;
-    };
-    document.onmouseup = document.onkeyup = document.onselectionchange = function() {
-      var text = getSelectionText();
-      var messageText = {key:"textSelected",value:text};
-      window.postMessageNative(JSON.stringify(messageText));
-    };
-    </script>
-    `;
-    return htmlPlus
-  }
-  reloadWebview = () => {
-    this.refs[WEBVIEW_REF].reload();
-  };
-  handleMessageFromWebview(event) {
-    let message = JSON.parse(event.nativeEvent.data);
-    switch (message.key) {
-      case 'heightContent':
-        this.setState({ heightContent: message.value }, () => this.setState({ loading: false }))
-        break;
-      case 'textSelected':
-        this.setState({ textSelected: message.value })
-        break;
     }
   }
   loading() {
@@ -333,6 +199,7 @@ class NewsItem extends Component {
       this.props.dispatch(changeBackgroundColor('white'));
       this.props.dispatch(changeNightMode(false));
     }
+
   }
 
   render() {
@@ -409,7 +276,6 @@ class NewsItem extends Component {
                     if (this.props.fontSize > 7) {
                       this.props.dispatch(changeFontSize(this.props.fontSize - 2));
                       setTimeout(() => {
-                        this.updateWebview(this.props.row)
                         this.props.dispatch(changeModalState(!this.props.openMenu))
                       }, 100)
                     } else {
@@ -435,7 +301,10 @@ class NewsItem extends Component {
                   <Switch
                     value={this.props.nightMode}
                     onValueChange={() => {
-                      this.switcherPressed()
+                      this.switcherPressed();
+                      setTimeout(() => {
+                        this.props.dispatch(changeModalState(!this.props.openMenu))
+                      }, 100)
                     }} />
                 </View>
               </TouchableHighlight>
@@ -469,7 +338,7 @@ class NewsItem extends Component {
           </TouchableOpacity>
         }
 
-        <ScrollView style={{ height: height }}>
+        <ScrollView style={{ height: height, backgroundColor: this.props.postBackground }}>
           <Image
             style={{ width: width, height: width * 9 / 16 }}
             source={{ uri: this.props.row.thumb }}>
@@ -480,7 +349,7 @@ class NewsItem extends Component {
               <Text style={styles.textSource}>{this.state.source}</Text>
             </View>
           </Image>
-          <Text style={{ marginLeft: 20, fontSize: 17, fontWeight: 'bold', marginTop: 10, marginBottom: 10 }}>{this.props.row.title}</Text>
+          <Text style={{ marginLeft: 20,color: this.props.textColor, fontSize: this.props.fontSize, fontWeight: 'bold', marginTop: 10, marginBottom: 10 }}>{this.props.row.title}</Text>
           <HTMLView
             value={this.state.bodyHTML}
             stylesheet={styles2}
