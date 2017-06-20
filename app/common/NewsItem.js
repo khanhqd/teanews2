@@ -155,41 +155,6 @@ class NewsItem extends Component {
         }
       })
   }
-  // injectedJavaScript='
-  // if(!quackKhanh){
-  //   var quackKhanh = true;
-  //   $("body").prepend("<img src=`http://img.f31.vnecdn.net/2017/06/06/ransanchuot-1496740480.jpg`/>");
-  // }
-  // $(".block_filter_live,.detail_top_live.width_common,.block_breakumb_left,#menu-box,.bi-related,head,#result_other_news,#social_like,noscript,#myvne_taskbar,.block_more_info,#wrapper_header,#header_web,#wrapper_footer,
-  // .breakumb_timer.width_common,.banner_980x60,.right,#box_comment,.nativeade,#box_tinkhac_detail,
-  // #box_tinlienquan,.block_tag.width_common.space_bottom_20,#ads_endpage,.block_timer_share,
-  // .div-fbook.width_common.title_div_fbook,.xemthem_new_ver.width_common,.relative_new,#topbar,#topbar-scroll,
-  // #headmass,.box_category.width_common,.banner_468.width_common,.adsbyeclick,.block_col_160.right,#ArticleBanner2,#ad_wrapper_protection").remove();
-  // var link = document.querySelectorAll("a");
-  // for(var i = 0; i < link.length; i++){
-  //   link[i].setAttribute("href", "javascript:void(0)");
-  // };
-  //
-  // function getSelectionText() {
-  //     var text = "";
-  //     var activeEl = document.activeElement;
-  //     var activeElTagName = activeEl ? activeEl.tagName.toLowerCase() : null;
-  //     if (
-  //       (activeElTagName == "textarea") || (activeElTagName == "input" &&
-  //       /^(?:text|search|password|tel|url)$/i.test(activeEl.type)) &&
-  //       (typeof activeEl.selectionStart == "number")
-  //     ) {
-  //         text = activeEl.value.slice(activeEl.selectionStart, activeEl.selectionEnd);
-  //     } else if (window.getSelection) {
-  //         text = window.getSelection().toString();
-  //     }
-  //     return text;
-  // }
-  //
-  // document.onmouseup = document.onkeyup = document.onselectionchange = function() {
-  //   window.postMessageNative(getSelectionText());
-  // };
-  // '
   updateWebview(row) {
     let sourceTinmoi = this.state.sourceReal
     let source = sourceTinmoi.replace(/\s+ /g, "")
@@ -357,23 +322,7 @@ class NewsItem extends Component {
       )
     }
   }
-  // {(true)&&
-  // <WebView
-  // style={{ width: width, height: 200 }}
-  // source={{ url: this.state.videoUrl }}/>
-  // }
-  // <WebView
-  // style={{ height: 0, width: 0 }}
-  // injectedJavaScript='
-  // var x = $(".parser_player_vnexpress").attr("src");
-  // window.postMessageNative(x)
-  // '
-  // onMessage={(event) => {
-  //   if((this.state.videoUrl == null)&&(event.nativeEvent.data != null)){
-  //     this.setState({videoUrl: event.nativeEvent.data},()=>console.log('update url '+ this.state.videoUrl))
-  //   }
-  // }}
-  // source={{ url: this.state.thisUrl }} />
+
   switcherPressed() {
     if (this.props.postBackground == 'white') {
       this.props.dispatch(changeTextColor('white'));
@@ -383,12 +332,6 @@ class NewsItem extends Component {
       this.props.dispatch(changeTextColor('black'));
       this.props.dispatch(changeBackgroundColor('white'));
       this.props.dispatch(changeNightMode(false));
-    }
-    setTimeout(() => {
-      this.updateWebview(this.props.row)
-    }, 100)
-    if (Platform.OS === 'android') {
-      setTimeout(() => this.reloadWebview(), 200)
     }
   }
 
