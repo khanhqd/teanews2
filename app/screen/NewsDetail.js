@@ -45,12 +45,10 @@ class NewsDetail extends Component {
     var foo;
     this._panResponder = PanResponder.create({
       onMoveShouldSetResponderCapture: (event, gestureState) => {
-        console.log(event.nativeEvent.locationX)
-        return (event.nativeEvent.locationX < 35 || event.nativeEvent.locationX > width-35)
+        return (event.nativeEvent.locationX < 45 || event.nativeEvent.locationX > width-45)
       },
       onStartShouldSetPanResponder: (event, gestureState) => {
-        console.log(event.nativeEvent.locationX)
-        return (event.nativeEvent.locationX < 35 || event.nativeEvent.locationX > width-35)
+        return (event.nativeEvent.locationX < 45 || event.nativeEvent.locationX > width-45)
       },
       // onMoveShouldSetPanResponderCapture: (event, gestureState) => console.log(gestureState),
       onPanResponderGrant: (event, gestureState) => {
@@ -67,48 +65,42 @@ class NewsDetail extends Component {
           }
         });
 
-        if((gestureState.x0<35)||(gestureState.x0>width-35)) {
+        if((gestureState.x0<45)||(gestureState.x0>width-45)) {
           this.props.dispatch(disableScrollWebview(false));
           switch (this.state.index0) {
             case 2:
-                if (gestureState.dx > 30) {
+                if (gestureState.dx > 0) {
                   if (this.props.dataSlot0 >0) {
-                    this.state.left2.setValue(-width+gestureState.dx-30)
-                    this.state.left0.setValue(gestureState.dx-30)
+                    this.state.left2.setValue(-width+gestureState.dx)
+                    this.state.left0.setValue(gestureState.dx)
                   }
                 } else {
-                  if (gestureState.dx < -30) {
                     if (this.props.dataSlot0 +1 < listLength) {
-                      this.state.left0.setValue(gestureState.dx+30)
-                      this.state.left1.setValue(width+gestureState.dx+30)
+                      this.state.left0.setValue(gestureState.dx)
+                      this.state.left1.setValue(width+gestureState.dx)
                     }
-                  }
                 }
                 break;
             case 3:
-                if (gestureState.dx > 30) {
-                  this.state.left0.setValue(-width+gestureState.dx-30)
-                  this.state.left1.setValue(gestureState.dx-30)
+                if (gestureState.dx > 0) {
+                  this.state.left0.setValue(-width+gestureState.dx)
+                  this.state.left1.setValue(gestureState.dx)
                 } else {
-                  if (gestureState.dx < -30) {
                     if (this.props.dataSlot0 +2 < listLength) {
-                      this.state.left1.setValue(gestureState.dx+30)
-                      this.state.left2.setValue(width+gestureState.dx+30)
+                      this.state.left1.setValue(gestureState.dx)
+                      this.state.left2.setValue(width+gestureState.dx)
                     }
-                  }
                 }
                 break;
             case 1:
-                if (gestureState.dx > 30) {
-                  this.state.left1.setValue(-width+gestureState.dx-30)
-                  this.state.left2.setValue(gestureState.dx-30)
+                if (gestureState.dx > 0) {
+                  this.state.left1.setValue(-width+gestureState.dx)
+                  this.state.left2.setValue(gestureState.dx)
                 } else {
-                  if (gestureState.dx < -30) {
                     if (this.props.dataSlot0 < listLength) {
-                      this.state.left0.setValue(width+gestureState.dx+30)
-                      this.state.left2.setValue(gestureState.dx+30)
+                      this.state.left0.setValue(width+gestureState.dx)
+                      this.state.left2.setValue(gestureState.dx)
                     }
-                  }
                 }
                 break;
           }
