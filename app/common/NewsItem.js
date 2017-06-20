@@ -338,34 +338,34 @@ class NewsItem extends Component {
   render() {
     const styles2 = {
       h1: {
-        marginLeft: 20,
-        marginRight: 10,
+        paddingLeft: 20,
+        paddingRight: 10,
         fontSize: this.props.fontSize,
         color: this.props.textColor,
       },
       h2: {
-        marginLeft: 20,
-        marginRight: 10,
+        paddingLeft: 20,
+        paddingRight: 10,
         fontSize: this.props.fontSize,
         fontWeight: '500',
         color: this.props.textColor,
       },
       h3: {
-        marginLeft: 20,
-        marginRight: 10,
+        paddingLeft: 20,
+        paddingRight: 10,
         fontWeight: '400',
         fontSize: this.props.fontSize,
         color: this.props.textColor,
       },
       p: {
-        marginLeft: 20,
-        marginRight: 10,
+        paddingLeft: 20,
+        paddingRight: 10,
         fontSize: this.props.fontSize,
         color: this.props.textColor,
       },
       td: {
-        marginLeft: 20,
-        marginRight: 10,
+        paddingLeft: 20,
+        paddingRight: 10,
         fontSize: 15,
         color: this.props.textColor
       },

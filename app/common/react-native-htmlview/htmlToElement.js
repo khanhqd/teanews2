@@ -43,7 +43,7 @@ export default function htmlToElement(rawHtml, opts, done) {
       if (node.type == 'text') {
         if (entities.decodeHTML(node.data).trim() !== "") {
           return (
-            <Text key={index} style={parent ? opts.styles[parent.name] : null}>
+            <Text key={index} style={parent ? opts.styles[parent.name] : null} selectable={true}>
                {"  " + entities.decodeHTML(node.data).trim()}
             </Text>
           );
@@ -105,7 +105,7 @@ export default function htmlToElement(rawHtml, opts, done) {
         }
 
         return (
-          <Text key={index} onPress={linkPressHandler} >
+          <Text key={index} onPress={linkPressHandler} selectable={true} style={{paddingLeft: 10, paddingRight: 5}}>
             {linebreakBefore}
             {listItemPrefix}
             {domToElement(node.children, node)}
