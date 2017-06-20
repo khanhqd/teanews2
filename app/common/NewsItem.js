@@ -246,6 +246,7 @@ class NewsItem extends Component {
     };
     return (
       <View>
+
         {this.props.openMenu &&
           <TouchableOpacity style={styles.modalContainer} onPress={() => this.props.dispatch(changeModalState(!this.props.openMenu))}>
             <Animatable.View animation="slideInDown" duration={300} style={[styles.menuModal, { backgroundColor: this.props.postBackground }]}>
@@ -337,7 +338,7 @@ class NewsItem extends Component {
             </Animatable.View>
           </TouchableOpacity>
         }
-
+        {this.loading()}
         <ScrollView style={{ height: height, backgroundColor: this.props.postBackground }}>
           <Image
             style={{ width: width, height: width * 9 / 16 }}
