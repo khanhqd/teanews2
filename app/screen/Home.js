@@ -330,7 +330,6 @@ class Home extends Component {
                 date: new Date($(this).find('pubDate').text()).getTime(),
                 cate: cate,
                 cateColor: cateColor,
-                logo:require('../../img/vnExpress.png'),
               })
             }
           })
@@ -370,7 +369,7 @@ class Home extends Component {
                 date: newsTime,
                 cate: cate,
                 cateColor: cateColor,
-                logo:require('../../img/tinmoi24h.png'),
+                
               })
             }
           })
