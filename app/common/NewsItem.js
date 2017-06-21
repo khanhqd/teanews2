@@ -160,14 +160,12 @@ class NewsItem extends Component {
   updateWebview(row) {
     if (row.url.includes("vnexpress")) {
       this.setState({
-        logo: '../../vnExpress.png',
         source: "Vnexpress.net",
         loading: false,
 
       })
     } else {
       this.setState({
-        logo: '../../img/tinmoi24h.png',
         source: 'Tinmoi24h.vn',
         loading: false,
 
@@ -348,16 +346,16 @@ class NewsItem extends Component {
         }
         {this.loading()}
 
-        <ScrollView style={{ height: height, backgroundColor: this.props.postBackground, paddingTop:56 }}
+        <ScrollView style={{ height: height, backgroundColor: this.props.postBackground, paddingTop: 56 }}
         >
-          <Text style={{ marginLeft: 20, color: this.props.textColor, fontSize: this.props.fontSize+5, fontWeight: 'bold', marginTop: 10, marginBottom: 10 }}>{this.props.row.title.toUpperCase()}</Text>
+          <Text style={{ marginLeft: 20, color: this.props.textColor, fontSize: this.props.fontSize + 5, fontWeight: 'bold', marginTop: 10, marginBottom: 10 }}>{this.props.row.title.toUpperCase()}</Text>
           <View style={[styles.cateContainer, { backgroundColor: this.props.row.cateColor }]}>
             <Text style={styles.textCate}>{this.props.row.cate}</Text>
           </View>
           <View style={styles.sourceContainer}>
-            <Image source={require('../../img/tinmoi24h.png')} style={{ height: 20, width: 20, marginLeft: 20 }} />
+            <Image source={this.props.row.logo} style={{ height: 20, width: 20, marginLeft: 20 }} />
             <Text style={{ textAlign: 'center', marginLeft: 10 }}>{this.state.source}</Text>
-            <Text style={{ marginLeft: width /2-25, textAlign: 'center' }}>{time}</Text>
+            <Text style={{ marginRight: 20 , marginLeft : width/2 -50, textAlign: 'center' }}>{time}</Text>
           </View>
           <HTMLView
             value={this.state.bodyHTML}

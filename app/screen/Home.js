@@ -329,7 +329,8 @@ class Home extends Component {
                 url: url,
                 date: new Date($(this).find('pubDate').text()).getTime(),
                 cate: cate,
-                cateColor: cateColor
+                cateColor: cateColor,
+                logo:require('../../img/vnExpress.png'),
               })
             }
           })
@@ -368,7 +369,8 @@ class Home extends Component {
                 url: $(this).find('figure').find('a').attr('href').replace(/\s+ /g, ""),
                 date: newsTime,
                 cate: cate,
-                cateColor: cateColor
+                cateColor: cateColor,
+                logo:require('../../img/tinmoi24h.png'),
               })
             }
           })
