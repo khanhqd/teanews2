@@ -46,11 +46,11 @@ class NewsDetail extends Component {
     this._panResponder = PanResponder.create({
       onMoveShouldSetResponderCapture: (event, gestureState) => {
         console.log(event.nativeEvent.locationX)
-        return (event.nativeEvent.locationX < 50 || event.nativeEvent.locationX > width-50)
+        return (event.nativeEvent.locationX < 35 || event.nativeEvent.locationX > width-35)
       },
       onStartShouldSetPanResponder: (event, gestureState) => {
         console.log(event.nativeEvent.locationX)
-        return (event.nativeEvent.locationX < 50 || event.nativeEvent.locationX > width-50)
+        return (event.nativeEvent.locationX < 35 || event.nativeEvent.locationX > width-35)
       },
       // onMoveShouldSetPanResponderCapture: (event, gestureState) => console.log(gestureState),
       onPanResponderGrant: (event, gestureState) => {
@@ -61,45 +61,54 @@ class NewsDetail extends Component {
         }
       },
       onPanResponderMove: (event, gestureState) => {
-        if((gestureState.x0<50)||(gestureState.x0>width-50)) {
+        this.setState({ toTop: foo - gestureState.dy },()=>{
+          if(150> this.state.toTop > 0) {
+            this.setState({ navBarBackground: "rgba(0, 0, 0, 0." + Math.floor(this.state.toTop/150*10)+ ")"})
+          }
+        });
+
+        if((gestureState.x0<35)||(gestureState.x0>width-35)) {
+          this.props.dispatch(disableScrollWebview(false));
           switch (this.state.index0) {
             case 2:
-                if (gestureState.dx > 0) {
+                if (gestureState.dx > 30) {
                   if (this.props.dataSlot0 >0) {
-                    this.state.left2.setValue(-width+gestureState.dx)
-                    this.state.left0.setValue(gestureState.dx)
+                    this.state.left2.setValue(-width+gestureState.dx-30)
+                    this.state.left0.setValue(gestureState.dx-30)
                   }
                 } else {
-
+                  if (gestureState.dx < -30) {
                     if (this.props.dataSlot0 +1 < listLength) {
-                      this.state.left0.setValue(gestureState.dx)
-                      this.state.left1.setValue(width+gestureState.dx)
+                      this.state.left0.setValue(gestureState.dx+30)
+                      this.state.left1.setValue(width+gestureState.dx+30)
                     }
-
+                  }
                 }
                 break;
             case 3:
-                if (gestureState.dx > 0) {
-                  this.state.left0.setValue(-width+gestureState.dx)
-                  this.state.left1.setValue(gestureState.dx)
+                if (gestureState.dx > 30) {
+                  this.state.left0.setValue(-width+gestureState.dx-30)
+                  this.state.left1.setValue(gestureState.dx-30)
                 } else {
+                  if (gestureState.dx < -30) {
                     if (this.props.dataSlot0 +2 < listLength) {
-                      this.state.left1.setValue(gestureState.dx)
-                      this.state.left2.setValue(width+gestureState.dx)
+                      this.state.left1.setValue(gestureState.dx+30)
+                      this.state.left2.setValue(width+gestureState.dx+30)
                     }
+                  }
                 }
                 break;
             case 1:
-                if (gestureState.dx > 0) {
-                  this.state.left1.setValue(-width+gestureState.dx)
-                  this.state.left2.setValue(gestureState.dx)
+                if (gestureState.dx > 30) {
+                  this.state.left1.setValue(-width+gestureState.dx-30)
+                  this.state.left2.setValue(gestureState.dx-30)
                 } else {
-
+                  if (gestureState.dx < -30) {
                     if (this.props.dataSlot0 < listLength) {
-                      this.state.left0.setValue(width+gestureState.dx)
-                      this.state.left2.setValue(gestureState.dx)
+                      this.state.left0.setValue(width+gestureState.dx+30)
+                      this.state.left2.setValue(gestureState.dx+30)
                     }
-
+                  }
                 }
                 break;
           }
@@ -109,7 +118,11 @@ class NewsDetail extends Component {
         }
       },
       onPanResponderRelease: (event, gestureState) => {
+        if(this.state.toTop < 0) {
+          this.setState({ toTop: 0 })
+        }
         if (this.state.canScrollPage) {
+          this.props.dispatch(disableScrollWebview(true));
           this.setState({ canScrollPage: false })
           switch (this.state.index0) {
             case 2:
