@@ -51,8 +51,7 @@ class NewsItem extends Component {
     fontSize: 14,
     sourceReal: '',
     source: '',
-    arr: [],
-    logo: ''
+    arr: []
   };
   componentWillMount() {
     if (this.props.row) {
@@ -150,27 +149,22 @@ class NewsItem extends Component {
           this.setState({
             bodyHTML: $('.newbody').html(),
             sourceReal: sourceReal
-          }, () => {
-            this.setState({ loading: false }, () => this.updateWebview(row))
-
-          })
+          }, () => { this.setState({ loading: false }) })
         }
       })
   }
   updateWebview(row) {
+    let sourceTinmoi = this.state.sourceReal
+    let source = sourceTinmoi.replace(/\s+ /g, "")
     if (row.url.includes("vnexpress")) {
       this.setState({
-        logo: '../../vnExpress.png',
         source: "Vnexpress.net",
-        loading: false,
-
+        loading: false
       })
     } else {
       this.setState({
-        logo: '../../img/tinmoi24h.png',
-        source: 'Tinmoi24h.vn',
-        loading: false,
-
+        source: source,
+        loading: false
       })
     }
   }
@@ -209,6 +203,28 @@ class NewsItem extends Component {
     }
 
   }
+  // onScroll = (e) => {
+  //   let arr = this.state.arr
+  //   let offset = e.nativeEvent.contentOffset.y;
+  //   console.log(offset)
+  //   arr.push(offset)
+  //   let number = arr.sort(function (a, b) { return b - a });
+  //   if (offset == offset) {
+  //     this.props.dispatch(changeMenuBarColor('rgba(0, 0, 0, 0)'));
+  //   }
+  //   if (offset < number[0]) {
+  //     this.props.dispatch(changeMenuBarColor('red'));
+  //     for (let i = 0; i < arr.length; i++) {
+  //       if (arr[i] < offset){
+  //         arr.splice(0, i-3)
+  //         break;
+  //       }
+  //     }
+  //   }
+  //   this.setState({
+  //     arr: arr
+  //   })
+  // };
   render() {
     const styles2 = {
       h1: {
@@ -251,10 +267,9 @@ class NewsItem extends Component {
         padding: 0,
       }
     };
-    let date = new Date(this.props.row.date)
-    let time = date.toLocaleDateString();
     return (
       <View>
+
         {this.props.openMenu &&
           <TouchableOpacity style={styles.modalContainer} onPress={() => this.props.dispatch(changeModalState(!this.props.openMenu))}>
             <Animatable.View animation="slideInDown" duration={300} style={[styles.menuModal, { backgroundColor: this.props.postBackground }]}>
@@ -347,18 +362,19 @@ class NewsItem extends Component {
           </TouchableOpacity>
         }
         {this.loading()}
+        <ScrollView style={{ height: height, backgroundColor: this.props.postBackground }}>
 
-        <ScrollView style={{ height: height, backgroundColor: this.props.postBackground, paddingTop:56 }}
-        >
-          <Text style={{ marginLeft: 20, color: this.props.textColor, fontSize: this.props.fontSize+5, fontWeight: 'bold', marginTop: 10, marginBottom: 10 }}>{this.props.row.title.toUpperCase()}</Text>
-          <View style={[styles.cateContainer, { backgroundColor: this.props.row.cateColor }]}>
-            <Text style={styles.textCate}>{this.props.row.cate}</Text>
-          </View>
-          <View style={styles.sourceContainer}>
-            <Image source={require('../../img/tinmoi24h.png')} style={{ height: 20, width: 20, marginLeft: 20 }} />
-            <Text style={{ textAlign: 'center', marginLeft: 10 }}>{this.state.source}</Text>
-            <Text style={{ marginLeft: width /2-25, textAlign: 'center' }}>{time}</Text>
-          </View>
+          <Image
+            style={{ width: width, height: width * 9 / 16 }}
+            source={{ uri: this.props.row.thumb }}>
+            <View style={[styles.cateContainer, { backgroundColor: this.props.row.cateColor }]}>
+              <Text style={styles.textCate}>{this.props.row.cate}</Text>
+            </View>
+            <View style={styles.sourceContainer}>
+              <Text style={styles.textSource}>{this.state.source}</Text>
+            </View>
+          </Image>
+          <Text style={{ marginLeft: 20, color: this.props.textColor, fontSize: this.props.fontSize, fontWeight: 'bold', marginTop: 10, marginBottom: 10 }}>{this.props.row.title}</Text>
           <HTMLView
             value={this.state.bodyHTML}
             stylesheet={styles2}
@@ -400,22 +416,28 @@ class NewsItem extends Component {
 // }
 const styles = {
   cateContainer: {
-    marginTop: 5,
-    marginLeft: 20,
+    position: "absolute",
+    marginLeft: 25,
     borderRadius: 4,
-    width: 70,
+    marginTop: (width * 9 / 16) - 60,
   },
   textCate: {
     color: "white",
     textAlign: "center",
-    fontSize: 12,
+    fontSize: 14,
     margin: 5,
     borderRadius: 4,
   },
   sourceContainer: {
-    marginTop: 10,
-    height: 50,
-    flexDirection: 'row',
+    backgroundColor: "transparent",
+    position: "absolute",
+    borderRadius: 5,
+    marginTop: (width * 9 / 16) - 30,
+  },
+  textSource: {
+    color: "white",
+    textAlign: "center",
+    fontSize: 14,
   },
   cover: {
     justifyContent: 'center',

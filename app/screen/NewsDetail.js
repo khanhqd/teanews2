@@ -44,9 +44,7 @@ class NewsDetail extends Component {
     let listLength = this.props.listData.length;
     var foo;
     this._panResponder = PanResponder.create({
-      onMoveShouldSetResponderCapture: (event, gestureState) => {
-        return (event.nativeEvent.locationX < 50 || event.nativeEvent.locationX > width-50)
-      },
+      onMoveShouldSetResponderCapture: (event, gestureState) => true,
       onStartShouldSetPanResponder: (event, gestureState) => {
         return (event.nativeEvent.locationX < 50 || event.nativeEvent.locationX > width - 50)
       },
@@ -58,11 +56,6 @@ class NewsDetail extends Component {
         }
       },
       onPanResponderMove: (event, gestureState) => {
-        this.setState({ toTop: foo - gestureState.dy }, () => {
-          if (150 > this.state.toTop > 0) {
-            this.setState({ navBarBackground: "rgba(0, 0, 0, 0." + Math.floor(this.state.toTop / 150 * 10) + ")" })
-          }
-        });
         if ((gestureState.x0 < 50) || (gestureState.x0 > width - 50)) {
           switch (this.state.index0) {
             case 2:
@@ -431,6 +424,7 @@ const styles = StyleSheet.create({
   iconNavBar: {
     height: 25,
     width: 25,
+    tintColor: 'black'
   }
 });
 const mapStateToProps = state => {
