@@ -203,28 +203,28 @@ class NewsItem extends Component {
     }
 
   }
-  onScroll = (e) => {
-    let arr = this.state.arr
-    let offset = e.nativeEvent.contentOffset.y;
-    console.log(offset)
-    arr.push(offset)
-    let number = arr.sort(function (a, b) { return b - a });
-    if (offset == offset) {
-      this.props.dispatch(changeMenuBarColor('rgba(0, 0, 0, 0)'));
-    }
-    if (offset < number[0]) {
-      this.props.dispatch(changeMenuBarColor('red'));
-      for (let i = 0; i < arr.length; i++) {
-        if (arr[i] < offset){
-          arr.splice(0, i-3)
-          break;
-        }
-      }
-    }
-    this.setState({
-      arr: arr
-    })
-  };
+  // onScroll = (e) => {
+  //   let arr = this.state.arr
+  //   let offset = e.nativeEvent.contentOffset.y;
+  //   console.log(offset)
+  //   arr.push(offset)
+  //   let number = arr.sort(function (a, b) { return b - a });
+  //   if (offset == offset) {
+  //     this.props.dispatch(changeMenuBarColor('rgba(0, 0, 0, 0)'));
+  //   }
+  //   if (offset < number[0]) {
+  //     this.props.dispatch(changeMenuBarColor('red'));
+  //     for (let i = 0; i < arr.length; i++) {
+  //       if (arr[i] < offset){
+  //         arr.splice(0, i-3)
+  //         break;
+  //       }
+  //     }
+  //   }
+  //   this.setState({
+  //     arr: arr
+  //   })
+  // };
   render() {
     const styles2 = {
       h1: {
@@ -362,10 +362,7 @@ class NewsItem extends Component {
           </TouchableOpacity>
         }
         {this.loading()}
-        <ScrollView style={{ height: height, backgroundColor: this.props.postBackground }}
-          onScroll={this.onScroll}
-          scrollEventThrottle={50}
-        >
+        <ScrollView style={{ height: height, backgroundColor: this.props.postBackground }}>
 
           <Image
             style={{ width: width, height: width * 9 / 16 }}
