@@ -25,7 +25,7 @@ var Toast = require('react-native-toast');
 // import RNHTMLtoPDF from 'react-native-html-to-pdf';
 
 import { connect } from 'react-redux';
-import { changeFontSize, changeModalState, changeBackgroundColor, changeTextColor, changeNightMode } from '../actions';
+import { changeFontSize, changeModalState, changeBackgroundColor, changeTextColor, changeNightMode, changeMenuBarColor } from '../actions';
 var WEBVIEW_REF = 'webview';
 
 import HTMLView from './react-native-htmlview';
@@ -50,7 +50,8 @@ class NewsItem extends Component {
     switcher: false,
     fontSize: 14,
     sourceReal: '',
-    source: ''
+    source: '',
+    arr: []
   };
   componentWillMount() {
     if (this.props.row) {
@@ -63,6 +64,7 @@ class NewsItem extends Component {
     }
   }
   componentDidMount() {
+    this.props.dispatch(changeMenuBarColor('rgba(0, 0, 0, 0)'))
     let list = this.state.list
     AsyncStorage.getItem(`listOffline`, (err, result) => {
       if (result !== null) {
@@ -147,7 +149,7 @@ class NewsItem extends Component {
           this.setState({
             bodyHTML: $('.newbody').html(),
             sourceReal: sourceReal
-          },()=>{this.setState({loading: false})})
+          }, () => { this.setState({ loading: false }) })
         }
       })
   }
@@ -201,7 +203,28 @@ class NewsItem extends Component {
     }
 
   }
-
+  onScroll = (e) => {
+    let arr = this.state.arr
+    let offset = e.nativeEvent.contentOffset.y;
+    console.log(offset)
+    arr.push(offset)
+    let number = arr.sort(function (a, b) { return b - a });
+    if (offset == offset) {
+      this.props.dispatch(changeMenuBarColor('rgba(0, 0, 0, 0)'));
+    }
+    if (offset < number[0]) {
+      this.props.dispatch(changeMenuBarColor('red'));
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i] < offset){
+          arr.splice(0, i-3)
+          break;
+        }
+      }
+    }
+    this.setState({
+      arr: arr
+    })
+  };
   render() {
     const styles2 = {
       h1: {
@@ -339,7 +362,11 @@ class NewsItem extends Component {
           </TouchableOpacity>
         }
         {this.loading()}
-        <ScrollView style={{ height: height, backgroundColor: this.props.postBackground }}>
+        <ScrollView style={{ height: height, backgroundColor: this.props.postBackground }}
+          onScroll={this.onScroll}
+          scrollEventThrottle={50}
+        >
+
           <Image
             style={{ width: width, height: width * 9 / 16 }}
             source={{ uri: this.props.row.thumb }}>
@@ -350,7 +377,7 @@ class NewsItem extends Component {
               <Text style={styles.textSource}>{this.state.source}</Text>
             </View>
           </Image>
-          <Text style={{ marginLeft: 20,color: this.props.textColor, fontSize: this.props.fontSize, fontWeight: 'bold', marginTop: 10, marginBottom: 10 }}>{this.props.row.title}</Text>
+          <Text style={{ marginLeft: 20, color: this.props.textColor, fontSize: this.props.fontSize, fontWeight: 'bold', marginTop: 10, marginBottom: 10 }}>{this.props.row.title}</Text>
           <HTMLView
             value={this.state.bodyHTML}
             stylesheet={styles2}
@@ -400,8 +427,6 @@ const styles = {
   textCate: {
     color: "white",
     textAlign: "center",
-    marginLeft: 12,
-    paddingLeft: 0,
     fontSize: 14,
     margin: 5,
     borderRadius: 4,
@@ -479,10 +504,9 @@ const styles = {
   modalContainer: {
     width: '100%',
     height: '100%',
-    backgroundColor: 'rgba(0, 0, 0, 0.39)',
     position: 'absolute',
     zIndex: 3,
-
+    backgroundColor: 'rgba(0, 0, 0, 0.39)'
   }
 }
 
@@ -493,7 +517,8 @@ const mapStateToProps = state => {
     postBackground: state.readerModalReducer.postBackground,
     textColor: state.readerModalReducer.textColor,
     disableScroll: state.readerModalReducer.disableScroll,
-    nightMode: state.readerModalReducer.nightMode
+    nightMode: state.readerModalReducer.nightMode,
+    menuBarColor: state.readerModalReducer.menuBarColor
   }
 }
 export default connect(mapStateToProps)(NewsItem);

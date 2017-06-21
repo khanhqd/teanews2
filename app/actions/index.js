@@ -14,7 +14,8 @@ import {
   RELOAD,
   DISABLE_SCROLL,
   CHANGE_CURRENT_PAGE,
-  CHANGE_NIGHT_MODE
+  CHANGE_NIGHT_MODE,
+  CHANGE_MENUBAR_COLOR
 } from './types';
 
 
@@ -105,6 +106,12 @@ export const changeCurrentPage = (data) => {
 export const changeNightMode = (data) => {
   return {
     type: CHANGE_NIGHT_MODE,
+    payload: data
+  }
+}
+export const changeMenuBarColor = (data) => {
+  return {
+    type: CHANGE_MENUBAR_COLOR,
     payload: data
   }
 }
