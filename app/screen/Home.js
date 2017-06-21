@@ -22,7 +22,7 @@ import { loadListData, selectedPost0, selectedPost1, selectedPost2 } from '../ac
 import { connect } from 'react-redux';
 import { replaceListCate, reload } from '../actions';
 
-const numberOfItem = Math.floor(height / 160);
+const numberOfItem = 3;
 
 class Home extends Component {
   static navigationOptions = {
@@ -403,7 +403,7 @@ class Home extends Component {
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: this.props.postBackground }}>
-        <View style={[styles.navBarContainer, { backgroundColor: this.props.postBackground }]}>
+        <View style={styles.navBarContainer}>
           <Image
             style={{ width: 25, height: 25, marginLeft: 20, tintColor: this.props.textColor }}
             source={require('../../img/navicon_menu.png')} />
@@ -415,7 +415,7 @@ class Home extends Component {
             </View>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => this.props.navigation.navigate('Category_Screen')}>
-            <View style={{ marginRight: 20, height: 30, width: 100, alignItems: 'flex-end', justifyContent: 'center' }}>
+            <View style={{ marginRight: 20, height: 30, width: 100, alignItems: 'flex-end', justifyContent: 'center', backgroundColor: 'transparent' }}>
               <Text style={{ color: this.props.textColor }}>
                 Chọn Cate
                 </Text>
@@ -472,13 +472,10 @@ const styles = StyleSheet.create({
         height: 50
       }
     }),
-    backgroundColor: 'white',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     zIndex: 10,
-    borderBottomWidth: 1,
-    borderColor: 'grey'
   }
 });
 const mapStateToProps = state => {
