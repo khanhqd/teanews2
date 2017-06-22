@@ -162,14 +162,14 @@ class NewsItem extends Component {
       this.setState({
         source: "Vnexpress.net",
         loading: false,
-        logo:require('../../img/vnExpress.png'),
+        logo: require('../../img/vnExpress.png'),
 
       })
     } else {
       this.setState({
         source: 'Tinmoi24h.vn',
         loading: false,
-        logo:require('../../img/tinmoi24h.png'),
+        logo: require('../../img/tinmoi24h.png'),
       })
     }
   }
@@ -354,9 +354,9 @@ class NewsItem extends Component {
             <Text style={styles.textCate}>{this.props.row.cate}</Text>
           </View>
           <View style={styles.sourceContainer}>
-            <Image source={this.state.logo} style={{ height: 20, width: 20, marginLeft: 20 }} />
+              <Image source={this.state.logo} style={{ height: 20, width: 20, marginLeft: 20 }} />
             <Text style={{ textAlign: 'center', marginLeft: 10 }}>{this.state.source}</Text>
-            <Text style={{ marginRight: 20 , marginLeft : width/2 -50, textAlign: 'center' }}>{time}</Text>
+            <Text style={{ marginRight: 20, marginLeft: width / 2 - 50, textAlign: 'center' }}>{time}</Text>
           </View>
           <HTMLView
             value={this.state.bodyHTML}
