@@ -15,7 +15,9 @@ import {
   DISABLE_SCROLL,
   CHANGE_CURRENT_PAGE,
   CHANGE_NIGHT_MODE,
-  CHANGE_MENUBAR_COLOR
+  CHANGE_MENUBAR_COLOR,
+  ADD_BOOKMARK,
+  REPLACE_BOOKMARK
 } from './types';
 
 
@@ -112,6 +114,18 @@ export const changeNightMode = (data) => {
 export const changeMenuBarColor = (data) => {
   return {
     type: CHANGE_MENUBAR_COLOR,
+    payload: data
+  }
+}
+export const addBookmark = (data) => {
+  return {
+    type: ADD_BOOKMARK,
+    payload: data
+  }
+}
+export const replaceBookmark = (data) => {
+  return {
+    type: REPLACE_BOOKMARK,
     payload: data
   }
 }

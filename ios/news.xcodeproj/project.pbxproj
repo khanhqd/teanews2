@@ -39,6 +39,7 @@
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		E6FBE6E3A27248AD912546D1 /* libRCTVideo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CEBCA9FCA2140CE89CF7A92 /* libRCTVideo.a */; };
+		F87A2311282B4B7FAA3875BE /* libSwipeActionView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A69D63439FE04FF697835A22 /* libSwipeActionView.a */; };
 		FA329BD61EFCFF10005A5D31 /* Lora-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA329BD21EFCFF10005A5D31 /* Lora-Bold.ttf */; };
 		FA329BD71EFCFF10005A5D31 /* Lora-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA329BD31EFCFF10005A5D31 /* Lora-BoldItalic.ttf */; };
 		FA329BD81EFCFF10005A5D31 /* Lora-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA329BD41EFCFF10005A5D31 /* Lora-Italic.ttf */; };
@@ -243,6 +244,13 @@
 			remoteGlobalIDString = 327633421BFAAD7E004DA88E;
 			remoteInfo = RCTToast;
 		};
+		FA329C261EFD0DEF005A5D31 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8D6462337BF9459A8D611F62 /* SwipeActionView.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 39C2E45D1D9A679E0074A644;
+			remoteInfo = SwipeActionView;
+		};
 		FA36B7EB1EE815BB00A86175 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CD3B154DE6B741A4841051E8 /* RCTPdf.xcodeproj */;
@@ -295,7 +303,9 @@
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		8D6462337BF9459A8D611F62 /* SwipeActionView.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = SwipeActionView.xcodeproj; path = "../node_modules/react-native-action-view/ios/lib/SwipeActionView.xcodeproj"; sourceTree = "<group>"; };
 		9CEBCA9FCA2140CE89CF7A92 /* libRCTVideo.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTVideo.a; sourceTree = "<group>"; };
+		A69D63439FE04FF697835A22 /* libSwipeActionView.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libSwipeActionView.a; sourceTree = "<group>"; };
 		CD3B154DE6B741A4841051E8 /* RCTPdf.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTPdf.xcodeproj; path = "../node_modules/react-native-pdf/ios/RCTPdf.xcodeproj"; sourceTree = "<group>"; };
 		F4CEAB9232454E5BB8E36526 /* RCTToast.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTToast.xcodeproj; path = "../node_modules/@remobile/react-native-toast/ios/RCTToast.xcodeproj"; sourceTree = "<group>"; };
 		FA329BD21EFCFF10005A5D31 /* Lora-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lora-Bold.ttf"; path = "../../Desktop/Lora/Lora-Bold.ttf"; sourceTree = "<group>"; };
@@ -333,6 +343,7 @@
 				2CCB0DDE5B244624BE6F790F /* libRCTPdf.a in Frameworks */,
 				30EA404C50AA48AE8D95C1E3 /* libRNFetchBlob.a in Frameworks */,
 				E6FBE6E3A27248AD912546D1 /* libRCTVideo.a in Frameworks */,
+				F87A2311282B4B7FAA3875BE /* libSwipeActionView.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -503,6 +514,7 @@
 				CD3B154DE6B741A4841051E8 /* RCTPdf.xcodeproj */,
 				2B10F69F21B1437EB0184851 /* RNFetchBlob.xcodeproj */,
 				44DC6623CFB74A40831BCFEB /* RCTVideo.xcodeproj */,
+				8D6462337BF9459A8D611F62 /* SwipeActionView.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -547,6 +559,14 @@
 			isa = PBXGroup;
 			children = (
 				BAFE108B1EE7968F0051DC08 /* libRCTToast.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FA329C061EFD0DEF005A5D31 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FA329C271EFD0DEF005A5D31 /* libSwipeActionView.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -750,6 +770,10 @@
 					ProductGroup = FA36B7DE1EE815BB00A86175 /* Products */;
 					ProjectRef = 2B10F69F21B1437EB0184851 /* RNFetchBlob.xcodeproj */;
 				},
+				{
+					ProductGroup = FA329C061EFD0DEF005A5D31 /* Products */;
+					ProjectRef = 8D6462337BF9459A8D611F62 /* SwipeActionView.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -944,6 +968,13 @@
 			remoteRef = BAFE108A1EE7968F0051DC08 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		FA329C271EFD0DEF005A5D31 /* libSwipeActionView.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSwipeActionView.a;
+			remoteRef = FA329C261EFD0DEF005A5D31 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		FA36B7EC1EE815BB00A86175 /* libRCTPdf.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1115,12 +1146,14 @@
 					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-video/ios",
+					"$(SRCROOT)/../node_modules/react-native-action-view/ios/lib/**",
 				);
 				INFOPLIST_FILE = newsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1150,12 +1183,14 @@
 					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-video/ios",
+					"$(SRCROOT)/../node_modules/react-native-action-view/ios/lib/**",
 				);
 				INFOPLIST_FILE = newsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1185,6 +1220,7 @@
 					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-video/ios",
+					"$(SRCROOT)/../node_modules/react-native-action-view/ios/lib/**",
 				);
 				INFOPLIST_FILE = news/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1211,6 +1247,7 @@
 					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-video/ios",
+					"$(SRCROOT)/../node_modules/react-native-action-view/ios/lib/**",
 				);
 				INFOPLIST_FILE = news/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1244,11 +1281,13 @@
 					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-video/ios",
+					"$(SRCROOT)/../node_modules/react-native-action-view/ios/lib/**",
 				);
 				INFOPLIST_FILE = "news-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1286,11 +1325,13 @@
 					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-video/ios",
+					"$(SRCROOT)/../node_modules/react-native-action-view/ios/lib/**",
 				);
 				INFOPLIST_FILE = "news-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1329,6 +1370,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.news-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1353,6 +1395,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",

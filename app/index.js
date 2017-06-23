@@ -12,6 +12,7 @@ import News from './screen/News';
 import NewsDetail from './screen/NewsDetail';
 import Category from './screen/Category';
 import ReadOffline from './screen/ReadOffline';
+import Bookmark from './screen/Bookmark';
 import { StackNavigator, DrawerNavigator } from 'react-navigation';
 import ListNewsOffline from './screen/ListNewsOffline';
 import * as Animatable from 'react-native-animatable';
@@ -54,7 +55,14 @@ export const TeaNews = StackNavigator({
   },
   ListNewsOffline_Screen: {
     screen: ListNewsOffline
-  }
+  },
+  Bookmark_Screen: {
+    screen: Bookmark,
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: true,
+    }
+  },
 });
 export const Menu = DrawerNavigator({
   tabbar: {

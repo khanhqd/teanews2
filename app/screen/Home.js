@@ -18,7 +18,7 @@ import NewsItem2 from '../common/NewsItem2';
 import NewsList from '../common/NewsList';
 const cheerio = require('cheerio-without-node-native');
 
-import { loadListData, selectedPost0, selectedPost1, selectedPost2 } from '../actions';
+import { loadListData, selectedPost0, selectedPost1, selectedPost2, replaceBookmark } from '../actions';
 import { connect } from 'react-redux';
 import { replaceListCate, reload } from '../actions';
 
@@ -54,7 +54,8 @@ class Home extends Component {
         top: paddingTop
       }
     }
-    this._get('listCate')
+    this._get('listCate');
+    this._get('listBookmark');
   }
   _updateStyle() {
     topView && topView.setNativeProps(topViewStyle)
@@ -64,6 +65,9 @@ class Home extends Component {
       var value = await AsyncStorage.getItem(key);
       if (value !== null) {
         switch (key) {
+          case 'listBookmark':
+              this.props.dispatch(replaceBookmark(JSON.parse(value)))
+              break;
           case 'listCate':
             this.props.dispatch(replaceListCate(JSON.parse(value)))
             this.setState({ listCate: JSON.parse(value) }, () => {
@@ -92,7 +96,6 @@ class Home extends Component {
       }
     } catch (error) { alert(error) }
   };
-
   arrangeData() {
     let listCate = this.state.listCate;
     var bigData = [];
