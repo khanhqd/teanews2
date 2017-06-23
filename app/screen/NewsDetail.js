@@ -13,7 +13,8 @@ import {
   PanResponder,
   Animated,
   StatusBar,
-  Share
+  Share,
+  AsyncStorage
 } from 'react-native';
 var { height, width } = Dimensions.get('window');
 import * as Animatable from 'react-native-animatable';
@@ -21,8 +22,9 @@ import NewsItem from '../common/NewsItem';
 const cheerio = require('cheerio-without-node-native');
 
 import { connect } from 'react-redux';
-import { changeModalState } from '../actions';
+import { changeModalState, addBookmark, replaceBookmark } from '../actions';
 import { selectedPost2, selectedPost1, selectedPost0, disableScrollWebview } from '../actions';
+var Toast = require('react-native-toast');
 
 class NewsDetail extends Component {
   constructor(props) {
@@ -36,7 +38,11 @@ class NewsDetail extends Component {
       index1: 3,
       index2: 1,
       dx: 0,
-    }
+    };
+  };
+  _set = async (key, value) => {
+      try { await AsyncStorage.setItem(key, value); }
+      catch (error) { console.log(error.message) }
   };
   componentWillMount() {
     let listLength = this.props.listData.length;
@@ -142,6 +148,35 @@ class NewsDetail extends Component {
       }
     });
   }
+  saveBookmark() {
+        var postInfo;
+        if (this.state.index0 == 2) {
+          postInfo = this.props.listData[this.props.dataSlot0];
+        } else if (this.state.index1 == 2) {
+          postInfo = this.props.listData[this.props.dataSlot1];
+        } else {
+          postInfo = this.props.listData[this.props.dataSlot2];
+        }
+        // this._set('listBookmark', JSON.stringify(this.props.listBookmark));
+        let listBookmark = this.props.listBookmark;
+        console.log(postInfo);
+        if(this.state.selected == true) {
+            //delete from Async
+            for (var i = listBookmark.length - 1; i>=0; i--) {
+              if (listBookmark[i].title == postInfo.title) {
+                listBookmark.splice(i,1);
+                Toast.show('Đã bỏ lưu')
+              }
+            }
+            this.props.dispatch(replaceBookmark(listBookmark))
+            this.setState({ selected: false, saving: false })
+        } else {
+            listBookmark.push(postInfo)
+            this.props.dispatch(addBookmark(postInfo))
+            this.setState({ selected: true, saving: false })
+            Toast.show('Đã lưu')
+        }
+  }
   shareLink() {
     var page;
     if (this.state.index0 == 2) {
@@ -189,7 +224,7 @@ class NewsDetail extends Component {
                   source={require('../../img/ic_share.png')} />
               </TouchableHighlight>
               <TouchableHighlight
-                onPress={() => { }}
+                onPress={() => this.saveBookmark()}
                 style={styles.navBarButton}>
                 <Image
                   style={styles.iconNavBar}
@@ -292,7 +327,8 @@ const mapStateToProps = state => {
     dataSlot1: state.loadListDataReducer.selectedPost1,
     dataSlot2: state.loadListDataReducer.selectedPost2,
     openMenu: state.readerModalReducer.modalState,
-    menuBarColor : state.readerModalReducer.menuBarColor
+    menuBarColor : state.readerModalReducer.menuBarColor,
+    listBookmark: state.bookmarkReducer.list
   }
 }
 export default connect(mapStateToProps)(NewsDetail);
