@@ -50,11 +50,6 @@ export default class ListNewOffline extends Component {
                         <View style={styles.item}>
                             <View style={{ height: 30, width: width, flexDirection: 'row', justifyContent: 'space-between' }}>
                                 <Text style={styles.time}>{rowData.time}</Text>
-                                <TouchableOpacity onPress={() => this.delete(rowID)}>
-                                    <Image source={require('../../img/round-remove-button.png')}
-                                        style={{ height: 20, width: 20 }}
-                                    />
-                                </TouchableOpacity>
                             </View>
                             <Text>{rowData.title}</Text>
                         </View>

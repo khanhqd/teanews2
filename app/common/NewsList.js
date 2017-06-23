@@ -23,23 +23,23 @@ class NewsList extends Component {
     }
     if (this.props.data) {
       return (
-        <View style={[{ height: height, backgroundColor: this.props.postBackground, paddingTop: 20 }, this.props.style]}>
+        <View style={[{ height: height, backgroundColor: this.props.postBackground }, this.props.style]}>
+          <View style={styles.menuBar}>
+            <TouchableOpacity onPress={() => { this.props.navigation.navigate('DrawerOpen') }}>
+              <Image source={require('../../img/LeftMenu/ic_list_b.png')} style={{ height: 30, width: 30 }} />
+            </TouchableOpacity>
+            <Text style={{ fontSize: 20, marginLeft: 20 , fontFamily:'AlNile-Bold'}}>TEANEWS</Text>
+            <Image source={require('../../img/LeftMenu/ic_search_b@4x.png')} style={{ height: 30, width: 30, marginLeft: width / 2 - 70 }} />
+          </View>
           <TouchableOpacity
             onPress={() => this.toDetail(this.props.dataIndex)}
-            style={{ width: width - 20, height: width - 20, margin: 10 }}>
+            style={{ width: width - 20, height: width - 40, margin: 10 }}>
             <View style={{ flex: 1 }}>
               <Image
                 resizeMode="cover"
                 style={{ position: 'absolute', width: '100%', height: '100%' }}
                 source={{ uri: this.props.data[0].thumb }} />
               <View style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.5)', justifyContent: 'flex-end' }}>
-                <View style={styles.menuBar}>
-                  <TouchableOpacity onPress={() => { this.props.navigation.navigate('DrawerOpen') }}>
-                    <Image source={require('../../img/navicon_menu@2x.png')} style={{ height: 30, width: 30 }} />
-                  </TouchableOpacity>
-                  <Text style={{ fontSize: 20, marginLeft: 20 }}>TEANEWS</Text>
-                  <Image source={require('../../img/search_icon.png')} style={{ height: 30, width: 30, marginLeft: width / 2 - 40 }} />
-                </View>
                 <View style={{ paddingLeft: 10, paddingBottom: 10 }}>
                   <View style={[styles.category, { backgroundColor: this.props.data[0].cateColor }]}>
                     <Text style={styles.categoryText}>{this.props.data[0].cate}
@@ -125,12 +125,13 @@ const styles = {
     borderRadius: 4
   },
   menuBar: {
+    marginTop: 20,
+    marginLeft:20,
     height: 30,
     width: width,
     flexDirection: 'row',
     backgroundColor: 'transparent',
-    position: 'absolute',
-    top: 20,
+    alignItems:'center',
   }
 }
 export default connect(mapStateToProps)(NewsList);

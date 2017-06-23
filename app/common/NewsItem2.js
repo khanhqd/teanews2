@@ -21,45 +21,46 @@ class NewsItem2 extends Component {
           activeOpacity={1}
           style={[{ height: height, backgroundColor: this.props.postBackground }, this.props.style]}>
           <Image resizeMode='cover' source={{ uri: this.props.data.thumb }} style={{ flex: 2 / 3 }}>
-            <View style={styles.menuBar}>
-              <TouchableOpacity onPress={() => { this.props.navigation.navigate('DrawerOpen') }}>
-                <Image source={require('../../img/navicon_menu@2x.png')} style={{ height: 30, width: 30 }} />
-              </TouchableOpacity>
-              <Text style={{ fontSize: 20, marginLeft: 20 }}>TEANEWS</Text>
-              <Image source={require('../../img/search_icon.png')} style={{ height: 30, width: 30, marginLeft: width / 2 - 40 }} />
-            </View>
-            <Triangle
-              style={{ marginTop: (2 / 3 * height) - (height / 4) + 90 }}
-              width={width + 120}
-              height={height / 4 - 70}
-              direction={"down-left"}
-            >
-
-            </Triangle>
-            <View style={{
-              height: 30,
-              width: 70,
-              backgroundColor: this.props.data.cateColor,
-              position: 'absolute',
-              borderRadius: 4,
-              left: 15,
-              right: 0,
-              top: (2 / 3 * height) - (height / 4) + 110,
-              bottom: 0,
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}
-            >
-              <Text style={{ fontSize: 14, color: 'white' }}>{this.props.data.cate}</Text>
+            <View style={{backgroundColor: 'rgba(0, 0, 0, 0.5)' , flex:1}}>
+              <View style={styles.menuBar}>
+                <TouchableOpacity onPress={() => { this.props.navigation.navigate('DrawerOpen') }}>
+                  <Image source={require('../../img/LeftMenu/ic_list_w.png')} style={{ height: 30, width: 30 }} />
+                </TouchableOpacity>
+                <Text style={{ fontSize: 20, marginLeft: 20, fontFamily: 'AlNile-Bold', color:'white' }}>TEANEWS</Text>
+                <Image source={require('../../img/LeftMenu/ic_search_w@4x.png')} style={{ height: 30, width: 30, marginLeft: width / 2 - 70 }} />
+              </View>
+              <Triangle
+                style={{ marginTop: (2 / 3 * height) - (height / 4) + 90 }}
+                width={width + 120}
+                height={height / 4 - 70}
+                direction={"down-left"}
+              >
+              </Triangle>
+              <View style={{
+                height: 30,
+                width: 80,
+                backgroundColor: this.props.data.cateColor,
+                position: 'absolute',
+                borderRadius: 4,
+                left: 15,
+                right: 0,
+                top: (2 / 3 * height) - (height / 4) + 110,
+                bottom: 0,
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+              >
+                <Text style={{ fontSize: 14, color: 'white' }}>{this.props.data.cate}</Text>
+              </View>
             </View>
           </Image>
           <View style={{ flex: 1 / 3, width: width }} >
-            <Text style={{ fontSize: 14, marginLeft:15 }}>{source} - {date.toLocaleString()}</Text>
-            <Text numberOfLines={3} ellipsizeMode="tail" style={{ marginLeft: 10, fontSize: 20, marginTop: 20 }}> {this.props.data.title} </Text>
+            <Text style={{ fontSize: 14, marginLeft: 15 }}>{source} - {date.toLocaleString()}</Text>
+            <Text numberOfLines={3} ellipsizeMode="tail" style={{ marginLeft: 10, fontSize: 18, marginTop: 10, fontFamily:'TrebuchetMS-Bold' }}> {this.props.data.title} </Text>
             <Text
               numberOfLines={3}
               ellipsizeMode="tail"
-              style={{ marginLeft: 10, marginTop: 30, fontSize: 16, marginRight: 5 }}
+              style={{ marginLeft: 10, marginTop: 5, fontSize: 16, marginRight: 5 , lineHeight: 30, color:'#5c5757', fontFamily:'TimesNewRomanPS-BoldMT' }}
             >{this.props.data.des}</Text>
           </View>
         </TouchableOpacity>
@@ -111,7 +112,8 @@ const styles = {
     backgroundColor: 'transparent',
     position: 'absolute',
     top: 20,
-    left: 20
+    left: 20,
+    alignItems:'center'
   }
 }
 const mapStateToProps = state => {

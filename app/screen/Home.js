@@ -397,7 +397,9 @@ class Home extends Component {
   renderLoading() {
     if (this.props.listCate.length == 0) {
       return (
-        <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}><Text>   Hãy chọn Category --></Text></View>
+        <TouchableOpacity style={{flex:1}} onPress={() => { this.props.navigation.navigate('Category_Screen')  }}>
+          <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}><Text>   Hãy chọn Category --></Text></View>
+        </TouchableOpacity>
       )
     } else {
       return (
@@ -436,7 +438,7 @@ class Home extends Component {
               style={{ position: 'absolute', top: this.state.top0, zIndex: this.state.index0, backgroundColor: (this.state.index0 == 1) ? 'rgba(232, 232, 232, 0.43)' : 'white' }}
               {...this._panResponder.panHandlers}>
               <NewsItem2
-                navigation = {this.props.navigation}
+                navigation={this.props.navigation}
                 onPress={() => this.toDetail(this.state.dataSlot0)}
                 data={this.state.bigData[this.state.dataSlot0]} />
             </Animated.View>
@@ -456,6 +458,7 @@ class Home extends Component {
               style={{ position: 'absolute', top: this.state.top2, zIndex: this.state.index2, backgroundColor: (this.state.index2 == 1) ? 'rgba(232, 232, 232, 0.43)' : 'white' }}
               {...this._panResponder.panHandlers}>
               <NewsItem2
+                navigation={this.props.navigation}
                 onPress={() => this.toDetail(this.state.dataSlot2)}
                 data={this.state.bigData[this.state.dataSlot2]} />
             </Animated.View>
