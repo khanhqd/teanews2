@@ -12,5 +12,4 @@ import {
   View
 } from 'react-native';
 import App from './app/app';
-
 AppRegistry.registerComponent('news', () => App);

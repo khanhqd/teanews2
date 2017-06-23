@@ -347,7 +347,7 @@ class NewsItem extends Component {
         }
         {this.loading()}
 
-        <ScrollView style={{ height: height, backgroundColor: this.props.postBackground, paddingTop: 56 }}
+        <ScrollView style={{ height: height, backgroundColor: this.props.postBackground}}
         >
           <Text style={{ marginLeft: 20, color: this.props.textColor, fontSize: this.props.fontSize + 5, fontWeight: 'bold', marginTop: 10, marginBottom: 10 }}>{this.props.row.title.toUpperCase()}</Text>
           <View style={[styles.cateContainer, { backgroundColor: this.props.row.cateColor }]}>

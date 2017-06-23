@@ -12,10 +12,11 @@ import News from './screen/News';
 import NewsDetail from './screen/NewsDetail';
 import Category from './screen/Category';
 import ReadOffline from './screen/ReadOffline';
-import { StackNavigator } from 'react-navigation';
+import { StackNavigator, DrawerNavigator } from 'react-navigation';
 import ListNewsOffline from './screen/ListNewsOffline';
 import * as Animatable from 'react-native-animatable';
-const {width, height} = Dimensions.get("window");
+import SideMenu from './screen/Menu.js';
+const { width, height } = Dimensions.get("window");
 // import * as firebase from 'firebase';
 // const firebaseConfig = {
 //   apiKey: "AIzaSyCrbUWDKlBCJCOTlF_D17y4zB7BZFHi-6A",
@@ -49,47 +50,22 @@ export const TeaNews = StackNavigator({
       gesturesEnabled: false,
     }
   },
-  ReadOffline_Screen:{
-    screen : ReadOffline
+  ReadOffline_Screen: {
+    screen: ReadOffline
   },
-  ListNewsOffline_Screen:{
-    screen : ListNewsOffline
+  ListNewsOffline_Screen: {
+    screen: ListNewsOffline
   }
-})
-// export default class TeaNews extends Root {
-//     state = {
-//         scene: 'home',
-//         webView: {
-//           postBackground: 'white',
-//           paddingLeft: 15,
-//           fontSize: 15,
-//         },
-//         textSelected: '',
-//         openMenuReader: true
-//     }
-//     render() {
-//         let Page;
-//         const PageProps = {
-//             style: {flex:1, backgroundColor: 'white'}
-//         };
-//         switch(this.state.scene) {
-//             case 'home': Page = <Home {...PageProps} />; break;
-//             case 'news': Page = <News {...PageProps} />; break;
-//             case 'detail': Page = <NewsDetail {...PageProps} />; break;
-//             default: Page = <Home {...PageProps} />;
-//         }
-//         return ( this.state.welcomeScreen === true ? <Welcome /> :
-//         <View style={styles.container}>
-//               {Page}
-//         </View>
-//         );
-//     }
-// }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "white"
-  },
 });
-// module.exports.firebaseApp = firebaseApp;
+export const Menu = DrawerNavigator({
+  tabbar: {
+    screen: TeaNews,
+  },
+},
+  {
+    drawerWidth: 200,
+    drawerPosition: 'left',
+    contentComponent: props => <SideMenu {...props} />
+  }
+
+);

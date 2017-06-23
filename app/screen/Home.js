@@ -123,7 +123,7 @@ class Home extends Component {
       onStartShouldSetPanResponder: (event, gestureState) => true,
       // onMoveShouldSetPanResponder: (event, gestureState) => true,
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => {
-           return gestureState.dx != 0 && gestureState.dy != 0;
+        return gestureState.dx != 0 && gestureState.dy != 0;
       },
       onPanResponderGrant: (event, gestureState) => true,
       onPanResponderMove: (event, gestureState) => {
@@ -369,7 +369,7 @@ class Home extends Component {
                 date: newsTime,
                 cate: cate,
                 cateColor: cateColor,
-                
+
               })
             }
           })
@@ -393,18 +393,18 @@ class Home extends Component {
   renderLoading() {
     if (this.props.listCate.length == 0) {
       return (
-        <View><Text>   Hãy chọn Category --></Text></View>
+        <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}><Text>   Hãy chọn Category --></Text></View>
       )
     } else {
       return (
-        <View><Text>Loading...</Text></View>
+        <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}><Text>Loading...</Text></View>
       )
     }
   }
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: this.props.postBackground }}>
-        <View style={styles.navBarContainer}>
+        {/*<View style={styles.navBarContainer}>
           <Image
             style={{ width: 25, height: 25, marginLeft: 20, tintColor: this.props.textColor }}
             source={require('../../img/navicon_menu.png')} />
@@ -422,14 +422,17 @@ class Home extends Component {
                 </Text>
             </View>
           </TouchableOpacity>
-        </View>
+        </View>*/}
+
         {!this.state.loading ?
           <View>
+
             <Animated.View
               ref={(view) => topView = view}
               style={{ position: 'absolute', top: this.state.top0, zIndex: this.state.index0, backgroundColor: (this.state.index0 == 1) ? 'rgba(232, 232, 232, 0.43)' : 'white' }}
               {...this._panResponder.panHandlers}>
               <NewsItem2
+                navigation = {this.props.navigation}
                 onPress={() => this.toDetail(this.state.dataSlot0)}
                 data={this.state.bigData[this.state.dataSlot0]} />
             </Animated.View>
@@ -460,25 +463,17 @@ class Home extends Component {
     );
   }
 }
-
-
 const styles = StyleSheet.create({
-  navBarContainer: {
-    ...Platform.select({
-      ios: {
-        height: 65,
-        paddingTop: 15
-      },
-      android: {
-        height: 50
-      }
-    }),
+  menuBar: {
+    height: 40,
+    width: width,
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    zIndex: 10,
+    backgroundColor: 'blue',
+    position: 'absolute',
+    top: 20,
+    left: 20
   }
-});
+})
 const mapStateToProps = state => {
   return {
     listCate: state.listCateReducer.list,
