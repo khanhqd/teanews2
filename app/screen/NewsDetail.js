@@ -22,7 +22,6 @@ const cheerio = require('cheerio-without-node-native');
 
 import { connect } from 'react-redux';
 import { changeModalState } from '../actions';
-import ViewPager from 'react-native-viewpager';
 import { selectedPost2, selectedPost1, selectedPost0, disableScrollWebview } from '../actions';
 
 class NewsDetail extends Component {
@@ -32,12 +31,11 @@ class NewsDetail extends Component {
       data: [],
       left0: new Animated.Value(0),
       left1: new Animated.Value(width),
-      left2: new Animated.Value(-width),
+      left2: new Animated.Value(0),
       index0: 2,
-      index1: 1,
-      index2: 3,
+      index1: 3,
+      index2: 1,
       dx: 0,
-      toTop: 1
     }
   };
   componentWillMount() {
@@ -46,234 +44,99 @@ class NewsDetail extends Component {
     this._panResponder = PanResponder.create({
       onMoveShouldSetResponderCapture: (event, gestureState) => true,
       onStartShouldSetPanResponder: (event, gestureState) => {
-        return (event.nativeEvent.locationX < 50 || event.nativeEvent.locationX > width - 50)
+        return (event.nativeEvent.locationX > width - 50)
       },
-      onPanResponderGrant: (event, gestureState) => {
-        if (this.state.toTop > 0) {
-          foo = this.state.toTop;
-        } else {
-          foo = 0;
-        }
-      },
+      onPanResponderGrant: (event, gestureState) => {},
       onPanResponderMove: (event, gestureState) => {
-        if ((gestureState.x0 < 50) || (gestureState.x0 > width - 50)) {
-          switch (this.state.index0) {
-            case 2:
-              if (gestureState.dx > 0) {
-                if (this.props.dataSlot0 > 0) {
-                  this.state.left2.setValue(-width + gestureState.dx)
-                  this.state.left0.setValue(gestureState.dx)
-                }
-              } else {
-                if (this.props.dataSlot0 + 1 < listLength) {
-                  this.state.left0.setValue(gestureState.dx)
-                  this.state.left1.setValue(width + gestureState.dx)
-                }
-              }
-              break;
-            case 3:
-              if (gestureState.dx > 0) {
-                this.state.left0.setValue(-width + gestureState.dx)
-                this.state.left1.setValue(gestureState.dx)
-              } else {
-                if (this.props.dataSlot0 + 2 < listLength) {
-                  this.state.left1.setValue(gestureState.dx)
-                  this.state.left2.setValue(width + gestureState.dx)
-                }
-              }
-              break;
-            case 1:
-              if (gestureState.dx > 0) {
-                this.state.left1.setValue(-width + gestureState.dx)
-                this.state.left2.setValue(gestureState.dx)
-              } else {
-                if (this.props.dataSlot0 < listLength) {
-                  this.state.left0.setValue(width + gestureState.dx)
-                  this.state.left2.setValue(gestureState.dx)
-                }
-              }
-              break;
-          }
-          this.setState({ dx: gestureState.dx, canScrollPage: true })
-        } else {
-          this.setState({ canScrollPage: false })
+        if ((gestureState.x0 > width - 50)&&(gestureState.dx < 0)) {
+            switch (this.state.index0) {
+              case 2:
+                  if (this.props.dataSlot0 + 1 < listLength) {
+                    this.state.left1.setValue(width + gestureState.dx)
+                  }
+                break;
+              case 3:
+                  if (this.props.dataSlot0 + 2 < listLength) {
+                    this.state.left0.setValue(width + gestureState.dx)
+                  }
+                break;
+              case 1:
+                  if (this.props.dataSlot0 < listLength) {
+                    this.state.left2.setValue(width + gestureState.dx)
+                  }
+                break;
+            }
+          this.setState({
+            dx: gestureState.dx,
+            // canScrollPage: true
+          })
         }
+        // else {
+        //   this.setState({ canScrollPage: false })
+        // }
       },
       onPanResponderRelease: (event, gestureState) => {
-        if (this.state.canScrollPage) {
-          this.setState({ canScrollPage: false })
+        // if (this.state.canScrollPage) {
+          // this.setState({ canScrollPage: false })
+        if (this.state.dx < 0) {
           switch (this.state.index0) {
             case 2:
-              if (this.state.dx > 0) {
-                if ((this.state.dx > width / 3) || (gestureState.vx > 1.2)) {
-                  if (this.props.dataSlot0 > 0) {
-                    this.setState({ index2: 2, index1: 3, index0: 1, toTop: 0, navBarBackground: "rgba(0, 0, 0, 0)" }, () => {
-                      setTimeout(() => { this.props.dispatch(selectedPost1(this.props.dataSlot1 - 3)) }, 310)
-                    })
-                    Animated.timing(
-                      this.state.left2,
-                      { toValue: 0, duration: 300 }
-                    ).start();
-                    Animated.timing(
-                      this.state.left0,
-                      { toValue: width, duration: 300 }
-                    ).start();
-                    this.state.left1.setValue(-width)
-                  }
-                } else {
-                  Animated.timing(
-                    this.state.left2,
-                    { toValue: -width, duration: 300 }
-                  ).start();
-                  Animated.timing(
-                    this.state.left0,
-                    { toValue: 0, duration: 300 }
-                  ).start();
-                }
-              } else {
-                if ((this.state.dx < -width / 3) || (gestureState.vy < -1.2)) {
+                if ((this.state.dx < -width / 4) || (gestureState.vx < -1.1)) {
                   if (this.props.dataSlot0 + 1 < listLength) {
-                    this.setState({ index2: 1, index1: 2, index0: 3, toTop: 0, navBarBackground: "rgba(0, 0, 0, 0)" }, () => {
-                      setTimeout(() => { this.props.dispatch(selectedPost2(this.props.dataSlot2 + 3)) }, 310)
+                    this.setState({ index2: 3, index1: 2, index0: 1 }, () => {
+                      setTimeout(() => { this.props.dispatch(selectedPost0(this.props.dataSlot0 + 3)) }, 210)
                     })
-                    Animated.timing(
-                      this.state.left0,
-                      { toValue: -width, duration: 300 }
-                    ).start();
                     Animated.timing(
                       this.state.left1,
-                      { toValue: 0, duration: 300 }
+                      { toValue: 0, duration: 200 }
                     ).start();
                     this.state.left2.setValue(width)
                   }
                 } else {
                   Animated.timing(
-                    this.state.left0,
-                    { toValue: 0, duration: 300 }
-                  ).start();
-                  Animated.timing(
                     this.state.left1,
-                    { toValue: width, duration: 300 }
+                    { toValue: width, duration: 200 }
                   ).start();
                 }
-              }
               break;
             case 3:
-              if (this.state.dx > 0) {
-                if ((this.state.dx > width / 3) || (gestureState.vy > 1.2)) {
-                  this.setState({ index0: 2, index2: 3, index1: 1, toTop: 0, navBarBackground: "rgba(0, 0, 0, 0)" }, () => {
-                    if (this.props.dataSlot2 > 2) {
-                      setTimeout(() => { this.props.dispatch(selectedPost2(this.props.dataSlot2 - 3)) }, 310)
-
-                    }
-                  })
-                  Animated.timing(
-                    this.state.left0,
-                    { toValue: 0, duration: 300 }
-                  ).start();
-                  Animated.timing(
-                    this.state.left1,
-                    { toValue: width, duration: 300 }
-                  ).start();
-                  this.state.left2.setValue(-width)
-                } else {
-                  Animated.timing(
-                    this.state.left0,
-                    { toValue: -width, duration: 300 }
-                  ).start();
-                  Animated.timing(
-                    this.state.left1,
-                    { toValue: 0, duration: 300 }
-                  ).start();
-                }
-              } else {
-                if ((this.state.dx < -width / 3) || (gestureState.vy < -1.2)) {
+                if ((this.state.dx < -width / 4) || (gestureState.vx < -1.1)) {
                   if (this.props.dataSlot0 + 2 < listLength) {
-                    this.setState({ index0: 1, index2: 2, index1: 3, toTop: 0, navBarBackground: "rgba(0, 0, 0, 0)" }, () => {
-                      setTimeout(() => { this.props.dispatch(selectedPost0(this.props.dataSlot0 + 3)) }, 310)
-
+                    this.setState({ index0: 2, index2: 1, index1: 3}, () => {
+                      setTimeout(() => { this.props.dispatch(selectedPost2(this.props.dataSlot2 + 3)) }, 210)
                     })
-                    Animated.timing(
-                      this.state.left1,
-                      { toValue: -width, duration: 300 }
-                    ).start();
-                    Animated.timing(
-                      this.state.left2,
-                      { toValue: 0, duration: 300 }
-                    ).start();
-                    this.state.left0.setValue(width)
-                  }
-                } else {
-                  Animated.timing(
-                    this.state.left1,
-                    { toValue: 0, duration: 300 }
-                  ).start();
-                  Animated.timing(
-                    this.state.left2,
-                    { toValue: width, duration: 300 }
-                  ).start();
-                }
-              }
-              break;
-            case 1:
-              if (this.state.dx > 0) {
-                if ((this.state.dx > width / 3) || (gestureState.vy > 1.2)) {
-                  this.setState({ index1: 2, index0: 3, index2: 1, toTop: 0, navBarBackground: "rgba(0, 0, 0, 0)" }, () => {
-                    if (this.props.dataSlot0 > 2) {
-                      setTimeout(() => { this.props.dispatch(selectedPost0(this.props.dataSlot0 - 3)) }, 310)
-
-                    }
-                  })
-                  Animated.timing(
-                    this.state.left2,
-                    { toValue: width, duration: 300 }
-                  ).start();
-                  Animated.timing(
-                    this.state.left1,
-                    { toValue: 0, duration: 300 }
-                  ).start();
-                  this.state.left0.setValue(-width)
-                } else {
-                  Animated.timing(
-                    this.state.left1,
-                    { toValue: -width, duration: 300 }
-                  ).start();
-                  Animated.timing(
-                    this.state.left2,
-                    { toValue: 0, duration: 300 }
-                  ).start();
-                }
-              } else {
-                if ((this.state.dx < -width / 3) || (gestureState.vy < -1.2)) {
-                  if (this.props.dataSlot0 < listLength) {
-                    this.setState({ index1: 1, index0: 2, index2: 3, toTop: 0, navBarBackground: "rgba(0, 0, 0, 0)" }, () => {
-                      setTimeout(() => { this.props.dispatch(selectedPost1(this.props.dataSlot1 + 3)) }, 310)
-
-                    })
-                    Animated.timing(
-                      this.state.left2,
-                      { toValue: -width, duration: 300 }
-                    ).start();
                     Animated.timing(
                       this.state.left0,
-                      { toValue: 0, duration: 300 }
+                      { toValue: 0, duration: 200 }
                     ).start();
                     this.state.left1.setValue(width)
                   }
                 } else {
                   Animated.timing(
-                    this.state.left2,
-                    { toValue: 0, duration: 300 }
-                  ).start();
-                  Animated.timing(
                     this.state.left0,
-                    { toValue: width, duration: 300 }
+                    { toValue: width, duration: 200 }
                   ).start();
                 }
-              }
               break;
-            default:
-
+            case 1:
+                if ((this.state.dx < -width / 4) || (gestureState.vx < -1.1)) {
+                  if (this.props.dataSlot0 < listLength) {
+                    this.setState({ index1: 1, index0: 3, index2: 2 }, () => {
+                      setTimeout(() => { this.props.dispatch(selectedPost1(this.props.dataSlot1 + 3)) }, 210)
+                    })
+                    Animated.timing(
+                      this.state.left2,
+                      { toValue: 0, duration: 200 }
+                    ).start();
+                    this.state.left0.setValue(width)
+                  }
+                } else {
+                  Animated.timing(
+                    this.state.left2,
+                    { toValue: width, duration: 200 }
+                  ).start();
+                }
+            break;
           }
         }
       }
@@ -309,7 +172,7 @@ class NewsDetail extends Component {
           <StatusBar
             barStyle="light-content"
           />
-          <View style={[styles.navBar, { backgroundColor: this.props.menuBarColor }]}>
+          <View style={styles.navBar}>
             <TouchableHighlight
               onPress={() => this.props.navigation.goBack()}
               style={[styles.navBarButton, { marginLeft: 0 }]}>
@@ -349,6 +212,7 @@ class NewsDetail extends Component {
               style={{ position: 'absolute', left: this.state.left0, zIndex: this.state.index0, backgroundColor: 'white', flex: 1 }}
               {...this._panResponder.panHandlers}>
               <NewsItem
+                navigation = {this.props.navigation}
                 row={this.props.listData[this.props.dataSlot0]} />
             </Animated.View>
 
@@ -357,18 +221,20 @@ class NewsDetail extends Component {
               style={{ position: 'absolute', left: this.state.left1, zIndex: this.state.index1, backgroundColor: 'white', flex: 1 }}
               {...this._panResponder.panHandlers}>
               <NewsItem
+                navigation = {this.props.navigation}
                 row={this.props.listData[this.props.dataSlot1]} />
             </Animated.View>
 
-            {(this.props.dataSlot2 > -1) &&
-              <Animated.View
-                ref={(view) => topView = view}
-                style={{ position: 'absolute', left: this.state.left2, zIndex: this.state.index2, backgroundColor: 'white' }}
-                {...this._panResponder.panHandlers}>
-                <NewsItem
-                  row={this.props.listData[this.props.dataSlot2]} />
-              </Animated.View>
-            }
+
+            <Animated.View
+              ref={(view) => topView = view}
+              style={{ position: 'absolute', left: this.state.left2, zIndex: this.state.index2, backgroundColor: 'white', flex: 1 }}
+              {...this._panResponder.panHandlers}>
+              <NewsItem
+                navigation = {this.props.navigation}
+                row={this.props.listData[this.props.dataSlot2]} />
+            </Animated.View>
+
 
           </View>
 
@@ -389,26 +255,18 @@ const styles = StyleSheet.create({
   navBar: {
     flexDirection: 'row',
     position: 'absolute',
-    top: 0,
-    backgroundColor: 'transparent',
+    bottom: 0,
+    backgroundColor: 'white',
     zIndex: 3,
     paddingLeft: 10,
     paddingRight: 10,
     width: width,
     justifyContent: 'space-between',
     alignItems: 'flex-end',
-    ...Platform.select({
-      ios: {
-        height: 55,
-        paddingTop: 15
-      },
-      android: {
-        height: 50
-      }
-    }),
+    height: 50,
   },
   navBarButton: {
-    backgroundColor: 'transparent',
+    backgroundColor: 'white',
     width: 40,
     height: 40,
     justifyContent: 'flex-end',

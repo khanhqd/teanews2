@@ -34,9 +34,9 @@ export default class AutoSizedImage extends React.Component {
   render() {
     const finalSize = {};
     if (this.state.width > width) {
-      finalSize.width = width;
+      finalSize.width = width - 20;
       const ratio = width / this.state.width;
-      finalSize.height = this.state.height * ratio;
+      finalSize.height = this.state.height * ratio - 15;
     }
     const style = Object.assign(
       baseStyle,
@@ -51,6 +51,6 @@ export default class AutoSizedImage extends React.Component {
       source = Object.assign(source, this.props.source, finalSize);
     }
 
-    return <Image style={style} source={source} />;
+    return <Image style={[style, {margin: 10, paddingBottom: 50}]} source={source} />;
   }
 }

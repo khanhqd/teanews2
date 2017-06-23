@@ -13,7 +13,8 @@ import {
   Switch,
   Animated,
   Easing,
-  StyleSheet
+  StyleSheet,
+  TouchableWithoutFeedback
 } from 'react-native';
 var { height, width } = Dimensions.get('window');
 import _ from 'lodash';
@@ -29,12 +30,12 @@ import { changeFontSize, changeModalState, changeBackgroundColor, changeTextColo
 var WEBVIEW_REF = 'webview';
 
 import HTMLView from './react-native-htmlview';
-import Video from 'react-native-video';
 
 class NewsItem extends Component {
   constructor(props) {
-    super(props)
-    this.spinValue = new Animated.Value(0)
+    super(props);
+    this.spinValue = new Animated.Value(0);
+    this.onScroll = this.onScroll.bind(this);
   }
   state = {
     html: '',
@@ -196,6 +197,23 @@ class NewsItem extends Component {
     }
   }
 
+  onScroll = (e) => {
+    var scrollHeight = e.nativeEvent.contentOffset.y+height-50;
+    var contentHeight = e.nativeEvent.contentSize.height;
+    var num = scrollHeight - contentHeight;
+    if (contentHeight > height) {
+      this.setState({ pullToCloseDist: num })
+      if (num <= 10) {
+        this.setState({ pullToCloseColor: "white" })
+      } else if ((num > 10)&&(num < 100)) {
+        this.setState({ pullToCloseColor: "rgba(0,0,0,0." + Math.floor(num) + ")" })
+      } else {
+        this.setState({ pullToCloseColor: "black" })
+      }
+    } else {
+      this.setState({ pullToCloseDist: e.nativeEvent.contentOffset.y })
+    }
+  }
   switcherPressed() {
     if (this.props.postBackground == 'white') {
       this.props.dispatch(changeTextColor('white'));
@@ -206,7 +224,9 @@ class NewsItem extends Component {
       this.props.dispatch(changeBackgroundColor('white'));
       this.props.dispatch(changeNightMode(false));
     }
-
+    setTimeout(() => {
+      this.props.dispatch(changeModalState(!this.props.openMenu))
+    }, 100)
   }
   render() {
     const styles2 = {
@@ -256,7 +276,7 @@ class NewsItem extends Component {
       <View>
         {this.props.openMenu &&
           <TouchableOpacity style={styles.modalContainer} onPress={() => this.props.dispatch(changeModalState(!this.props.openMenu))}>
-            <Animatable.View animation="slideInDown" duration={300} style={[styles.menuModal, { backgroundColor: this.props.postBackground }]}>
+            <Animatable.View animation="slideInUp" duration={300} style={[styles.menuModal, { backgroundColor: this.props.postBackground }]}>
               <View style={{ flexDirection: 'row', flex: 1 }}>
                 <TouchableHighlight
                   underlayColor="white"
@@ -310,9 +330,6 @@ class NewsItem extends Component {
                     value={this.props.nightMode}
                     onValueChange={() => {
                       this.switcherPressed();
-                      setTimeout(() => {
-                        this.props.dispatch(changeModalState(!this.props.openMenu))
-                      }, 100)
                     }} />
                 </View>
               </TouchableHighlight>
@@ -347,23 +364,42 @@ class NewsItem extends Component {
         }
         {this.loading()}
 
-        <ScrollView style={{ height: height, backgroundColor: this.props.postBackground, paddingTop: 56 }}
+        <ScrollView
+        onScroll={this.onScroll}
+        scrollEventThrottle={30}
+        onTouchStart={()=>console.log('TOUCH START')}
+        onTouchEnd={()=>{
+          if (this.state.pullToCloseDist > 70) {
+            this.props.navigation.goBack();
+          }
+        }}
+        style={{ width: width, height: height-50, backgroundColor: this.props.postBackground, marginBottom: 50 }}
         >
-          <Text style={{ marginLeft: 20, color: this.props.textColor, fontSize: this.props.fontSize + 5, fontWeight: 'bold', marginTop: 10, marginBottom: 10 }}>{this.props.row.title.toUpperCase()}</Text>
+          <View style={styles.sourceContainer}>
+            <View style={{flexDirection: 'row'}}>
+              {(this.state.logo != '') &&
+                <Image source={this.state.logo} style={{ height: 20, width: 20, marginLeft: 20 }} />
+              }
+              <Text style={{ textAlign: 'center', marginLeft: 10 }}>{this.state.source}</Text>
+            </View>
+            <Text style={{ marginRight: 20 , textAlign: 'center' }}>{time}</Text>
+          </View>
+          <Text style={{ marginLeft: 20, color: this.props.textColor, fontSize: this.props.fontSize + 5, fontWeight: 'bold', marginBottom: 10 }}>{this.props.row.title.toUpperCase()}</Text>
           <View style={[styles.cateContainer, { backgroundColor: this.props.row.cateColor }]}>
             <Text style={styles.textCate}>{this.props.row.cate}</Text>
           </View>
-          <View style={styles.sourceContainer}>
-            <Image source={this.state.logo} style={{ height: 20, width: 20, marginLeft: 20 }} />
-            <Text style={{ textAlign: 'center', marginLeft: 10 }}>{this.state.source}</Text>
-            <Text style={{ marginRight: 20 , marginLeft : width/2 -50, textAlign: 'center' }}>{time}</Text>
-          </View>
+
           <HTMLView
             value={this.state.bodyHTML}
             stylesheet={styles2}
           />
-        </ScrollView>
 
+          <View style={{ borderRadius: 10, borderColor: this.state.pullToCloseColor, borderWidth: 1, width: 100, height: 40, alignSelf: 'center', alignItems: 'center', justifyContent: 'center'}}>
+            <Text style={{ color: this.state.pullToCloseColor }}> Pull To Close
+            </Text>
+          </View>
+
+        </ScrollView>
       </View>
 
     )
@@ -413,8 +449,9 @@ const styles = {
   },
   sourceContainer: {
     marginTop: 10,
-    height: 50,
+    height: 30,
     flexDirection: 'row',
+    justifyContent: 'space-between'
   },
   cover: {
     justifyContent: 'center',
@@ -466,9 +503,6 @@ const styles = {
   },
   menuModal: {
     elevation: 5,
-    top: 60,
-    right: 20,
-    marginLeft: width / 3,
     shadowOpacity: 0.3,
     borderRadius: 30,
     height: 200,
@@ -476,11 +510,13 @@ const styles = {
     borderWidth: 1
   },
   modalContainer: {
-    width: '100%',
-    height: '100%',
+    width: width,
+    height: height,
     position: 'absolute',
     zIndex: 3,
-    backgroundColor: 'rgba(0, 0, 0, 0.39)'
+    backgroundColor: 'rgba(0, 0, 0, 0.39)',
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 }
 

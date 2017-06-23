@@ -8,7 +8,7 @@ import entities from 'entities';
 import AutoSizedImage from './AutoSizedImage';
 
 const LINE_BREAK = '\n';
-const PARAGRAPH_BREAK = '\n';
+const PARAGRAPH_BREAK = '\n\n';
 const BULLET = '\u2022 ';
 
 const Img = props => {
@@ -17,7 +17,7 @@ const Img = props => {
 
   const imgStyle = {
     width,
-    height
+    height,
   };
   const source = {
     uri: props.attribs.src,
@@ -43,7 +43,7 @@ export default function htmlToElement(rawHtml, opts, done) {
         if (entities.decodeHTML(node.data).trim() !== "") {
           return (
             <Text key={index} style={parent ? opts.styles[parent.name] : null} selectable={true}>
-               {"  " + entities.decodeHTML(node.data).trim()}
+               {entities.decodeHTML(node.data).trim()}
             </Text>
           );
         }
@@ -52,7 +52,7 @@ export default function htmlToElement(rawHtml, opts, done) {
       if (node.type == 'tag') {
         if (node.name == 'img') {
           return (
-            <Img key={index} attribs={node.attribs} />
+              <Img key={index} attribs={node.attribs} />
           );
         }
 

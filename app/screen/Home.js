@@ -369,7 +369,7 @@ class Home extends Component {
                 date: newsTime,
                 cate: cate,
                 cateColor: cateColor,
-                
+
               })
             }
           })
@@ -382,12 +382,13 @@ class Home extends Component {
 
   }
   toDetail(postId) {
-    console.log("POST ID: " + postId);
     this.props.dispatch(selectedPost0(postId))
     if (postId + 1 < this.state.bigData.length) {
       this.props.dispatch(selectedPost1(postId + 1))
     }
-    this.props.dispatch(selectedPost2(postId - 1))
+    if (postId + 2 < this.state.bigData.length) {
+      this.props.dispatch(selectedPost2(postId + 2))
+    }
     setTimeout(() => { this.props.navigation.navigate('Detail_Screen') }, 100)
   }
   renderLoading() {
@@ -403,7 +404,7 @@ class Home extends Component {
   }
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: this.props.postBackground }}>
+      <View style={{ flex: 1, backgroundColor: this.props.postBackground, height: height }}>
         <View style={styles.navBarContainer}>
           <Image
             style={{ width: 25, height: 25, marginLeft: 20, tintColor: this.props.textColor }}
@@ -424,7 +425,7 @@ class Home extends Component {
           </TouchableOpacity>
         </View>
         {!this.state.loading ?
-          <View>
+          <View style={{height: height, width: width}}>
             <Animated.View
               ref={(view) => topView = view}
               style={{ position: 'absolute', top: this.state.top0, zIndex: this.state.index0, backgroundColor: (this.state.index0 == 1) ? 'rgba(232, 232, 232, 0.43)' : 'white' }}

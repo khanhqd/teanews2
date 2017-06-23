@@ -23,7 +23,7 @@ class NewsList extends Component {
     }
     if (this.props.data) {
       return (
-        <View style={[{ flex:1, backgroundColor: this.props.postBackground},this.props.style]}>
+        <View style={[{ height: height, flex:1, backgroundColor: this.props.postBackground},this.props.style]}>
             <TouchableOpacity
             onPress={()=>this.toDetail(this.props.dataIndex)}
             style={{width: width-20, height: width-20, margin: 10}}>
@@ -60,7 +60,10 @@ class NewsList extends Component {
                     <Text style={styles.categoryText}>{this.props.data[0].cate}
                     </Text>
                   </View>
-                  <Text style={{color: 'white', fontSize: 20, fontWeight: 'bold'}}>{this.props.data[1].title}
+                  <Text
+                  numberOfLines={4}
+                  ellipsizeMode="tail"
+                  style={{color: 'white', fontSize: 20, fontWeight: 'bold'}}>{this.props.data[1].title}
                   </Text>
                   <Text style={{color: 'rgb(217, 217, 217)', fontSize: 13}}>{source[1]}
                   </Text>
@@ -80,7 +83,7 @@ class NewsList extends Component {
                       </Text>
                     </View>
                     <Text
-                    numberOfLines={5}
+                    numberOfLines={4}
                     ellipsizeMode="tail"
                     style={{color: 'white', fontSize: 20, fontWeight: 'bold'}}>{this.props.data[2].title}
                     </Text>
