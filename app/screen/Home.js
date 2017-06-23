@@ -382,12 +382,13 @@ class Home extends Component {
 
   }
   toDetail(postId) {
-    console.log("POST ID: " + postId);
     this.props.dispatch(selectedPost0(postId))
     if (postId + 1 < this.state.bigData.length) {
       this.props.dispatch(selectedPost1(postId + 1))
     }
-    this.props.dispatch(selectedPost2(postId - 1))
+    if (postId + 2 < this.state.bigData.length) {
+      this.props.dispatch(selectedPost2(postId + 2))
+    }
     setTimeout(() => { this.props.navigation.navigate('Detail_Screen') }, 100)
   }
   renderLoading() {
