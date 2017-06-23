@@ -8,7 +8,7 @@ import entities from 'entities';
 import AutoSizedImage from './AutoSizedImage';
 
 const LINE_BREAK = '\n';
-const PARAGRAPH_BREAK = '\n\n';
+const PARAGRAPH_BREAK = '\n';
 const BULLET = '\u2022 ';
 
 const Img = props => {
@@ -40,13 +40,11 @@ export default function htmlToElement(rawHtml, opts, done) {
       }
 
       if (node.type == 'text') {
-        if (entities.decodeHTML(node.data).trim() !== "") {
-          return (
-            <Text key={index} style={parent ? opts.styles[parent.name] : null} selectable={true}>
-               {entities.decodeHTML(node.data).trim()}
-            </Text>
-          );
-        }
+        return (
+          <Text key={index} style={parent ? opts.styles[parent.name] : null} selectable={true}>
+             {entities.decodeHTML(node.data).trim()}
+          </Text>
+        );
       }
 
       if (node.type == 'tag') {
@@ -77,7 +75,17 @@ export default function htmlToElement(rawHtml, opts, done) {
               linebreakAfter = LINE_BREAK;
             }
             break;
+          case 'tr':
+            linebreakAfter = LINE_BREAK;
+            break;
+          case 'span':
+            linebreakAfter = LINE_BREAK;
+            break;
           case 'strong':
+            linebreakBefore = LINE_BREAK;
+            linebreakAfter = LINE_BREAK;
+            break;
+          case 'em':
             linebreakBefore = LINE_BREAK;
             linebreakAfter = LINE_BREAK;
             break;
@@ -86,7 +94,6 @@ export default function htmlToElement(rawHtml, opts, done) {
           case 'h2':
           case 'h3':
             linebreakAfter = LINE_BREAK;
-            linebreakBefore = LINE_BREAK;
             break;
           case 'h4':
           case 'h5':
