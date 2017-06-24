@@ -25,11 +25,13 @@ class NewsList extends Component {
       return (
         <View style={[{ height: height, backgroundColor: this.props.postBackground }, this.props.style]}>
           <View style={styles.menuBar}>
-            <TouchableOpacity onPress={() => { this.props.navigation.navigate('DrawerOpen') }}>
-              <Image source={require('../../img/LeftMenu/ic_list_b.png')} style={{ height: 30, width: 30 }} />
-            </TouchableOpacity>
-            <Text style={{ fontSize: 20, marginLeft: 20 , fontFamily:'AlNile-Bold'}}>TEANEWS</Text>
-            <Image source={require('../../img/LeftMenu/ic_search_b@4x.png')} style={{ height: 30, width: 30, marginLeft: width / 2 - 70 }} />
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <TouchableOpacity onPress={() => { this.props.navigation.navigate('DrawerOpen') }}>
+                <Image source={require('../../img/LeftMenu/ic_list_w.png')} style={{ height: 30, width: 30, marginLeft: 15, tintColor: 'black' }} />
+              </TouchableOpacity>
+              <Text style={{ textAlign: 'center', fontSize: 20, marginLeft: 20, color:'black', fontWeight: 'bold'}}>TEANEWS</Text>
+            </View>
+            <Image source={require('../../img/LeftMenu/ic_search_w@4x.png')} style={{ height: 30, width: 30, tintColor: 'black'}} />
           </View>
           <TouchableOpacity
             onPress={() => this.toDetail(this.props.dataIndex)}
@@ -126,12 +128,13 @@ const styles = {
   },
   menuBar: {
     marginTop: 20,
-    marginLeft:20,
     height: 30,
     width: width,
     flexDirection: 'row',
     backgroundColor: 'transparent',
+    justifyContent: 'space-between',
     alignItems:'center',
-  }
+    paddingRight: 20
+  },
 }
 export default connect(mapStateToProps)(NewsList);
