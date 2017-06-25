@@ -150,6 +150,7 @@ class NewsDetail extends Component {
   }
   saveBookmark() {
         var postInfo;
+        var selected = false;
         if (this.state.index0 == 2) {
           postInfo = this.props.listData[this.props.dataSlot0];
         } else if (this.state.index1 == 2) {
@@ -159,8 +160,13 @@ class NewsDetail extends Component {
         }
         // this._set('listBookmark', JSON.stringify(this.props.listBookmark));
         let listBookmark = this.props.listBookmark;
-        console.log(postInfo);
-        if(this.state.selected == true) {
+        for(var i=0; i<listBookmark.length; i++) {
+          if (listBookmark[i].title == postInfo.title) {
+            selected = true;
+            break;
+          }
+        }
+        if(selected == true) {
             //delete from Async
             for (var i = listBookmark.length - 1; i>=0; i--) {
               if (listBookmark[i].title == postInfo.title) {
@@ -169,11 +175,11 @@ class NewsDetail extends Component {
               }
             }
             this.props.dispatch(replaceBookmark(listBookmark))
-            this.setState({ selected: false, saving: false })
+            this._set('listBookmark', JSON.stringify(listBookmark))
         } else {
-            listBookmark.push(postInfo)
+            // listBookmark.push(postInfo);
+            this._set('listBookmark', JSON.stringify(listBookmark))
             this.props.dispatch(addBookmark(postInfo))
-            this.setState({ selected: true, saving: false })
             Toast.show('Đã lưu')
         }
   }

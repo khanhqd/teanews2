@@ -71,12 +71,16 @@ export default function htmlToElement(rawHtml, opts, done) {
               linebreakBefore = LINE_BREAK;
               linebreakAfter = PARAGRAPH_BREAK;
             } else {
-              linebreakBefore = LINE_BREAK;
-              linebreakAfter = LINE_BREAK;
+              // linebreakBefore = LINE_BREAK;
+              // linebreakAfter = LINE_BREAK;
             }
             break;
           case 'tr':
             linebreakAfter = LINE_BREAK;
+            break;
+          case 'td':
+            linebreakAfter = LINE_BREAK;
+            linebreakBefore = LINE_BREAK;
             break;
           case 'span':
             linebreakAfter = LINE_BREAK;
