@@ -77,6 +77,7 @@ export const Menu = DrawerNavigator({
   {
     drawerWidth: 200,
     drawerPosition: 'left',
+    drawerLockMode: 'locked-closed',
     contentComponent: props => <SideMenu {...props} />
   }
 
