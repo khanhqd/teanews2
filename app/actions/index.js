@@ -17,7 +17,8 @@ import {
   CHANGE_NIGHT_MODE,
   CHANGE_MENUBAR_COLOR,
   ADD_BOOKMARK,
-  REPLACE_BOOKMARK
+  REPLACE_BOOKMARK,
+  ADD_SEARCH_KEYWORD
 } from './types';
 
 
@@ -127,6 +128,12 @@ export const replaceBookmark = (data) => {
   return {
     type: REPLACE_BOOKMARK,
     payload: data
+  }
+}
+export const addSearchKeyword = (item) => {
+  return {
+    type: ADD_SEARCH_KEYWORD ,
+    payload: item
   }
 }
 // export const goToPlay = (number) => {

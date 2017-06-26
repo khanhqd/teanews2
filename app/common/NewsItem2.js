@@ -29,7 +29,9 @@ class NewsItem2 extends Component {
                   </TouchableOpacity>
                   <Text style={{ textAlign: 'center', fontSize: 20, marginLeft: 20, color:'white', fontWeight: 'bold'}}>TEANEWS</Text>
                 </View>
-                <Image source={require('../../img/LeftMenu/ic_search_w@4x.png')} style={{ height: 30, width: 30}} />
+                <TouchableOpacity onPress={() => { this.props.navigation.navigate('Search_Screen') }}>
+                  <Image source={require('../../img/LeftMenu/ic_search_w@4x.png')} style={{ height: 30, width: 30}} />
+                </TouchableOpacity>
               </View>
               <Triangle
                 style={{ marginTop: (2 / 3 * height) - (height / 4) + 90 }}

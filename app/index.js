@@ -11,6 +11,7 @@ import Home from './screen/Home';
 import News from './screen/News';
 import NewsDetail from './screen/NewsDetail';
 import Category from './screen/Category';
+import Search from './screen/Search';
 import ReadOffline from './screen/ReadOffline';
 import Bookmark from './screen/Bookmark';
 import BookmarkReading from './screen/BookmarkReading';
@@ -46,6 +47,13 @@ export const TeaNews = StackNavigator({
   },
   Category_Screen: {
     screen: Category,
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: true,
+    }
+  },
+  Search_Screen: {
+    screen: Search,
     navigationOptions: {
       header: null,
       gesturesEnabled: true,

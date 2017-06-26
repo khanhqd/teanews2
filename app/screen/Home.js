@@ -20,8 +20,9 @@ const cheerio = require('cheerio-without-node-native');
 
 import { loadListData, selectedPost0, selectedPost1, selectedPost2, replaceBookmark } from '../actions';
 import { connect } from 'react-redux';
-import { replaceListCate, reload } from '../actions';
+import { replaceListCate, reload, addSearchKeyword } from '../actions';
 
+import { firebaseApp } from '../app';
 const numberOfItem = 3;
 
 class Home extends Component {
@@ -54,6 +55,11 @@ class Home extends Component {
         top: paddingTop
       }
     }
+
+    firebaseApp.database().ref("search").child("keyword").on('child_added',(data) => {
+      this.props.dispatch(addSearchKeyword(data.val().key))
+    })
+
     this._get('listCate');
     this._get('listBookmark');
   }

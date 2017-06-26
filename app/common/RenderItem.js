@@ -51,7 +51,6 @@ class RenderItem extends Component {
               color: this.props.item.color,
               source: this.props.item.source
             }
-            console.log(cateInfo)
             list.push(cateInfo)
             this.props.dispatch(replaceListCate(list))
             this.setState({ selected: true, loading: false })
@@ -83,7 +82,6 @@ const styles = StyleSheet.create({
     },
 })
 const mapStateToProps = state => {
-  console.log(state.listCateReducer.list)
   return {
     listCate: state.listCateReducer.list,
     postBackground: state.readerModalReducer.postBackground,

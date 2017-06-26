@@ -262,8 +262,8 @@ class NewsItem extends Component {
         padding: 0,
       }
     };
-    let date = new Date(this.props.row.date)
-    let time = date.toLocaleDateString();
+    let date = new Date(this.props.row.date);
+    let time = isNaN(date) ? this.props.row.date : date.toLocaleDateString();
     return (
       <View>
         <View style={{height: 20, width: width, backgroundColor: 'black'}}>
