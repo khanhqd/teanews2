@@ -232,34 +232,24 @@ class NewsItem extends Component {
   render() {
     const styles2 = {
       h1: {
-        paddingLeft: 20,
-        paddingRight: 10,
         fontSize: this.props.fontSize,
         color: this.props.textColor,
       },
       h2: {
-        paddingLeft: 20,
-        paddingRight: 10,
         fontSize: this.props.fontSize,
         fontWeight: '500',
         color: this.props.textColor,
       },
       h3: {
-        paddingLeft: 20,
-        paddingRight: 10,
         fontWeight: '400',
         fontSize: this.props.fontSize,
         color: this.props.textColor,
       },
       p: {
-        paddingLeft: 20,
-        paddingRight: 10,
         fontSize: this.props.fontSize,
         color: this.props.textColor,
       },
       td: {
-        paddingLeft: 20,
-        paddingRight: 10,
         fontSize: 15,
         color: this.props.textColor
       },
@@ -442,6 +432,7 @@ const styles = {
     marginLeft: 10,
     borderRadius: 3,
     width: 70,
+    marginBottom: 10,
   },
   textCate: {
     color: "white",

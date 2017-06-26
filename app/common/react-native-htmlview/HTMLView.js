@@ -8,8 +8,8 @@ import {
 
 import { connect } from 'react-redux';
 
-const boldStyle = {fontWeight: '500', marginLeft: 10};
-const italicStyle = {fontStyle: 'italic', marginLeft: 10};
+const boldStyle = {fontWeight: '500'};
+const italicStyle = {fontStyle: 'italic'};
 const codeStyle = {fontFamily: 'Menlo'};
 
 const baseStyles = StyleSheet.create({
@@ -23,12 +23,12 @@ const baseStyles = StyleSheet.create({
     fontWeight: '500',
     color: '#007AFF',
   },
-  h1: {fontWeight: '500', fontSize: 36, marginLeft: 10},
-  h2: {fontWeight: '500', fontSize: 30, marginLeft: 10},
-  h3: {fontWeight: '500', fontSize: 24, marginLeft: 10},
-  h4: {fontWeight: '500', fontSize: 18, marginLeft: 10},
-  h5: {fontWeight: '500', fontSize: 14, marginLeft: 10},
-  h6: {fontWeight: '500', fontSize: 12, marginLeft: 10},
+  h1: {fontWeight: '500', fontSize: 36},
+  h2: {fontWeight: '500', fontSize: 30},
+  h3: {fontWeight: '500', fontSize: 24},
+  h4: {fontWeight: '500', fontSize: 18},
+  h5: {fontWeight: '500', fontSize: 14},
+  h6: {fontWeight: '500', fontSize: 12},
 });
 
 class HtmlView extends Component {

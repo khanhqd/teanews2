@@ -7,7 +7,6 @@ import {
     Text,
 } from 'react-native';
 
-import Pdf from 'react-native-pdf';
 const { height, width } = Dimensions.get('window')
 export default class ReadOffline extends React.Component {
     constructor(props) {
@@ -28,24 +27,27 @@ export default class ReadOffline extends React.Component {
         //let source = {uri:'bundle-assets://test.pdf'};
         //let source = require('./test.pdf'); //ios only
         //let source = {uri:"data:application/pdf;base64, ..."}; // this is a dummy
-
         return (
-                <Pdf ref={(pdf) => { this.pdf = pdf; }}
-                    source={source}
-                    page={1}
-                    scale={1}
-                    horizontal={false}
-                    /* onLoadComplete={(pageCount) => {
-                         this.setState({ pageCount: pageCount });
-                     }}
-                     onPageChanged={(page, pageCount) => {
-                         this.setState({ page: page });
-                     }}
-                     onError={(error) => {
-                         console.log(error);
-                     }}*/
-                    style={styles.pdf} />
+          <View>
+          </View>
         )
+        // return (
+        //         <Pdf ref={(pdf) => { this.pdf = pdf; }}
+        //             source={source}
+        //             page={1}
+        //             scale={1}
+        //             horizontal={false}
+        //             /* onLoadComplete={(pageCount) => {
+        //                  this.setState({ pageCount: pageCount });
+        //              }}
+        //              onPageChanged={(page, pageCount) => {
+        //                  this.setState({ page: page });
+        //              }}
+        //              onError={(error) => {
+        //                  console.log(error);
+        //              }}*/
+        //             style={styles.pdf} />
+        // )
     }
 }
 

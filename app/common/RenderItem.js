@@ -62,9 +62,9 @@ class RenderItem extends Component {
     render() {
         return (
                 <TouchableOpacity onPress={()=>this.saveCateToAsync()} >
-                    <View style={[styles.item, { opacity: this.state.selected ? 0.2 : 1, borderColor: this.props.textColor }]}  >
-                        <Text style={{fontSize: 13, color: this.props.textColor}}>{this.props.item.name}</Text>
-                        <Text style={{fontSize: 12, color: this.props.textColor}}>
+                    <View style={styles.item}  >
+                        <Text style={{fontSize: 15, color: this.state.selected ? '#f8e71c' : 'white', backgroundColor: 'transparent', fontWeight: 'bold'}}>{this.props.item.name.toUpperCase()}</Text>
+                        <Text style={{fontSize: 12, color: this.state.selected ? '#f8e71c' : 'white', backgroundColor: 'transparent'}}>
                           {this.props.item.source}
                         </Text>
                     </View>
@@ -76,12 +76,10 @@ class RenderItem extends Component {
 const styles = StyleSheet.create({
     item: {
       height: 40,
-      width: width/5+20,
-      borderWidth: 1,
-      borderRadius: 5,
+      width: width/2,
       justifyContent: 'center',
       alignItems: 'center',
-      margin: 15
+      margin: 15,
     },
 })
 const mapStateToProps = state => {

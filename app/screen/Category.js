@@ -7,7 +7,8 @@ import {
     StyleSheet,
     Image,
     AsyncStorage,
-    ScrollView
+    ScrollView,
+    StatusBar
 } from 'react-native'
 import RenderItem from '../common/RenderItem.js'
 const { height, width } = Dimensions.get('window')
@@ -158,21 +159,30 @@ class Category extends Component {
     }
     render() {
         return (
-            <View style={[styles.container,{backgroundColor: this.props.postBackground}]}>
-                <View style={styles.topSmaillContainer}>
-                    <Text style={[styles.titleText,{color: this.props.textColor}]}>TeaNews</Text>
-                    <View>
-                        <Text style={{color: this.props.textColor}}>Chọn nội dung bạn quan tâm </Text>
-                    </View>
+            <View style={styles.container}>
+                <View style={{height: 20, width: width, backgroundColor: 'black'}}>
                 </View>
-                <ScrollView contentContainerStyle={styles.smallContainer} horizontal={true}>
+                <StatusBar
+                  barStyle="light-content"
+                />
+                <Image
+                source={require('../../img/background.jpg')}
+                style={{width: width, height: height, position: 'absolute'}}/>
+
+                <Text style={{fontSize: 20, fontWeight: 'bold', color: 'white', marginTop: 20, backgroundColor: 'transparent'}}>WHAT INTERESTS YOU?
+                </Text>
+
+                <ScrollView showsVerticalScrollIndicator={false}>
                     {this.renderItem()}
                 </ScrollView>
-                <View style={[styles.topSmaillContainer,{ backgroundColor: this.props.postBackground }]}>
-                    <TouchableOpacity
-                        onPress={() => this.saveCate()} style={styles.loginButton}>
-                        <Text style={{color: this.props.textColor}}>Lưu</Text>
-                    </TouchableOpacity>
+                <TouchableOpacity onPress={() => this.saveCate()} style={styles.loginButton}>
+                  <View style={{ backgroundColor: '#4a90e2', height: 40, width: width*0.8, marginBottom: 40, borderRadius: 5, justifyContent: 'center', alignItems: 'center' }}>
+                     <Text style={{color: 'white', fontWeight: 'bold', fontSize: 18}}>Save</Text>
+                  </View>
+                </TouchableOpacity>
+                <View style={{position: 'absolute', bottom: 17, right: width*0.1}} onTouchStart={()=>{this.props.navigation.goBack()}}>
+                  <Text style={{fontStyle: 'italic', color: 'white', backgroundColor:'transparent'}}>Skip
+                  </Text>
                 </View>
             </View>
         )
@@ -189,23 +199,13 @@ class Category extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        alignItems: 'center',
     },
     smallContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         flexWrap: 'wrap',
-    },
-    topSmaillContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    titleText: {
-        textAlign: 'auto',
-        fontFamily: 'Cochin',
-        fontSize: 25,
-        margin: 25
     },
     category: {
         height: 30,
@@ -216,13 +216,9 @@ const styles = StyleSheet.create({
         borderRadius: 10
     },
     loginButton: {
-        width: width - 100,
-        height: 30,
-        borderRadius: 10,
         justifyContent: 'center',
         alignItems: 'center',
-        borderWidth: 1,
-        margin: 5
+        margin: 10
     },
 
 })

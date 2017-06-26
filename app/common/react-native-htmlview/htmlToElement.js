@@ -40,11 +40,15 @@ export default function htmlToElement(rawHtml, opts, done) {
       }
 
       if (node.type == 'text') {
-        return (
-          <Text key={index} style={parent ? opts.styles[parent.name] : null} selectable={true}>
-             {entities.decodeHTML(node.data).trim()}
-          </Text>
-        );
+        if (entities.decodeHTML(node.data).trim() == "") {
+          return null
+        } else {
+          return (
+            <Text key={index} style={[parent ? opts.styles[parent.name] : null,{marginLeft: 10, marginRight: 5, lineHeight: 25}]} selectable={true}>
+               {"    " +entities.decodeHTML(node.data).trim()}
+            </Text>
+          );
+        }
       }
 
       if (node.type == 'tag') {
@@ -116,18 +120,16 @@ export default function htmlToElement(rawHtml, opts, done) {
         }
 
         return (
-          <Text key={index} onPress={linkPressHandler} selectable={true} style={{paddingLeft: 10, paddingRight: 5}}>
-            {linebreakBefore}
-            {listItemPrefix}
+          <View key={index} onPress={linkPressHandler} selectable={true}>
             {domToElement(node.children, node)}
-            {linebreakAfter}
-          </Text>
+          </View>
         );
       }
     });
   }
-// {linebreakBefore}
-// {linebreakAfter}
+  // {linebreakBefore}
+  // {listItemPrefix}
+  // {linebreakAfter}
   const handler = new htmlparser.DomHandler(function(err, dom) {
     if (err) done(err);
     done(null, domToElement(dom));

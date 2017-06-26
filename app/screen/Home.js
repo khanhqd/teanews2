@@ -303,7 +303,11 @@ class Home extends Component {
     });
   }
   componentDidMount() {
-
+    setTimeout(()=>{
+      if(this.props.listCate.length == 0) {
+        this.props.navigation.navigate('Category_Screen')
+      }
+    },200)
   }
   fetchData(linkRSS, cate, cateColor, i, callback) {
     let data = this.state["data" + i]
@@ -403,7 +407,7 @@ class Home extends Component {
       )
     } else {
       return (
-        <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}><Text>Loading...</Text></View>
+        <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1, width: width, height: height }}><Text>Loading...</Text></View>
       )
     }
   }

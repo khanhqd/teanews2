@@ -46,7 +46,7 @@ class NewsItem2 extends Component {
                 position: 'absolute',
                 borderRadius: 4,
                 left: 10,
-                top: (2 / 3 * height) - (height / 4) + 110,
+                top: (2 / 3 * height) - (height / 4) + 105,
                 justifyContent: 'center',
                 alignItems: 'center'
               }}
