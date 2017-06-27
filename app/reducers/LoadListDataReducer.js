@@ -1,5 +1,5 @@
 import * as types from '../actions/types';
-const INITIAL_STATE = {list:[], selectedPost:1};
+const INITIAL_STATE = {list:[], selectedPost:1, loading:false};
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -25,6 +25,12 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         selectedPost2: action.payload
+      }
+      break;
+    case types.CHANGE_LOADING_STATE:
+      return {
+        ...state,
+        loading: action.payload
       }
       break;
     default:

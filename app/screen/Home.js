@@ -441,12 +441,11 @@ class Home extends Component {
         </View>*/}
 
         {!this.state.loading ?
-          <View>
+          <View {...this._panResponder.panHandlers}>
 
             <Animated.View
-              ref={(view) => topView = view}
               style={{ position: 'absolute', top: this.state.top0, zIndex: this.state.index0, backgroundColor: (this.state.index0 == 1) ? 'rgba(232, 232, 232, 0.43)' : 'white' }}
-              {...this._panResponder.panHandlers}>
+              >
               <NewsItem2
                 navigation={this.props.navigation}
                 onPress={() => this.toDetail(this.state.dataSlot0)}
@@ -454,9 +453,8 @@ class Home extends Component {
             </Animated.View>
 
             <Animated.View
-              ref={(view) => topView = view}
               style={{ position: 'absolute', top: this.state.top1, zIndex: this.state.index1, backgroundColor: (this.state.index1 == 1) ? 'rgba(232, 232, 232, 0.43)' : 'white' }}
-              {...this._panResponder.panHandlers}>
+              >
               <NewsList
                 navigation={this.props.navigation}
                 data={this.state.bigData.slice(this.state.dataSlot1, this.state.dataSlot1 + numberOfItem)}
@@ -464,9 +462,8 @@ class Home extends Component {
             </Animated.View>
 
             <Animated.View
-              ref={(view) => topView = view}
               style={{ position: 'absolute', top: this.state.top2, zIndex: this.state.index2, backgroundColor: (this.state.index2 == 1) ? 'rgba(232, 232, 232, 0.43)' : 'white' }}
-              {...this._panResponder.panHandlers}>
+              >
               <NewsItem2
                 navigation={this.props.navigation}
                 onPress={() => this.toDetail(this.state.dataSlot2)}

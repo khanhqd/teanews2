@@ -18,7 +18,8 @@ import {
   CHANGE_MENUBAR_COLOR,
   ADD_BOOKMARK,
   REPLACE_BOOKMARK,
-  ADD_SEARCH_KEYWORD
+  ADD_SEARCH_KEYWORD,
+  CHANGE_LOADING_STATE
 } from './types';
 
 
@@ -133,6 +134,12 @@ export const replaceBookmark = (data) => {
 export const addSearchKeyword = (item) => {
   return {
     type: ADD_SEARCH_KEYWORD ,
+    payload: item
+  }
+}
+export const changeLoadingState = (item) => {
+  return {
+    type: CHANGE_LOADING_STATE,
     payload: item
   }
 }

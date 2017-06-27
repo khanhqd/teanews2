@@ -48,13 +48,19 @@ class NewsDetail extends Component {
     let listLength = this.props.listData.length;
     var foo;
     this._panResponder = PanResponder.create({
-      onMoveShouldSetResponderCapture: (event, gestureState) => true,
+      // onMoveShouldSetResponderCapture: (event, gestureState) => true,
       onStartShouldSetPanResponder: (event, gestureState) => {
-        return (event.nativeEvent.locationX > width - 50)
+        if (event.nativeEvent.locationX > width - 80) {
+          if (this.props.loadingDetailState) {
+            Toast.show('Đang load dữ liệu, vui lòng đợi trong giây lát')
+          } else {
+            return true
+          }
+        }
       },
       onPanResponderGrant: (event, gestureState) => {},
       onPanResponderMove: (event, gestureState) => {
-        if ((gestureState.x0 > width - 50)&&(gestureState.dx < 0)) {
+        if (gestureState.dx < 0) {
             switch (this.state.index0) {
               case 2:
                   if (this.props.dataSlot0 + 1 < listLength) {
@@ -84,10 +90,11 @@ class NewsDetail extends Component {
       onPanResponderRelease: (event, gestureState) => {
         // if (this.state.canScrollPage) {
           // this.setState({ canScrollPage: false })
+          console.log(gestureState.vx)
         if (this.state.dx < 0) {
           switch (this.state.index0) {
             case 2:
-                if ((this.state.dx < -width / 4) || (gestureState.vx < -1.1)) {
+                if ((this.state.dx < -width / 4) || (gestureState.vx < -0.3)) {
                   if (this.props.dataSlot0 + 1 < listLength) {
                     this.setState({ index2: 3, index1: 2, index0: 1 }, () => {
                       setTimeout(() => { this.props.dispatch(selectedPost0(this.props.dataSlot0 + 3)) }, 210)
@@ -106,7 +113,7 @@ class NewsDetail extends Component {
                 }
               break;
             case 3:
-                if ((this.state.dx < -width / 4) || (gestureState.vx < -1.1)) {
+                if ((this.state.dx < -width / 4) || (gestureState.vx < -0.3)) {
                   if (this.props.dataSlot0 + 2 < listLength) {
                     this.setState({ index0: 2, index2: 1, index1: 3}, () => {
                       setTimeout(() => { this.props.dispatch(selectedPost2(this.props.dataSlot2 + 3)) }, 210)
@@ -125,7 +132,7 @@ class NewsDetail extends Component {
                 }
               break;
             case 1:
-                if ((this.state.dx < -width / 4) || (gestureState.vx < -1.1)) {
+                if ((this.state.dx < -width / 4) || (gestureState.vx < -0.3)) {
                   if (this.props.dataSlot0 < listLength) {
                     this.setState({ index1: 1, index0: 3, index2: 2 }, () => {
                       setTimeout(() => { this.props.dispatch(selectedPost1(this.props.dataSlot1 + 3)) }, 210)
@@ -246,21 +253,19 @@ class NewsDetail extends Component {
             </View>
           </View>
 
-          <View style={{ flex: 1 }}>
+          <View style={{ flex: 1 }} {...this._panResponder.panHandlers}>
 
             <Animated.View
-              ref={(view) => topView = view}
               style={{ position: 'absolute', left: this.state.left0, zIndex: this.state.index0, backgroundColor: 'white', flex: 1 }}
-              {...this._panResponder.panHandlers}>
+              >
               <NewsItem
                 navigation = {this.props.navigation}
                 row={this.props.listData[this.props.dataSlot0]} />
             </Animated.View>
 
             <Animated.View
-              ref={(view) => topView = view}
               style={{ position: 'absolute', left: this.state.left1, zIndex: this.state.index1, backgroundColor: 'white', flex: 1 }}
-              {...this._panResponder.panHandlers}>
+              >
               <NewsItem
                 navigation = {this.props.navigation}
                 row={this.props.listData[this.props.dataSlot1]} />
@@ -268,9 +273,8 @@ class NewsDetail extends Component {
 
 
             <Animated.View
-              ref={(view) => topView = view}
               style={{ position: 'absolute', left: this.state.left2, zIndex: this.state.index2, backgroundColor: 'white', flex: 1 }}
-              {...this._panResponder.panHandlers}>
+              >
               <NewsItem
                 navigation = {this.props.navigation}
                 row={this.props.listData[this.props.dataSlot2]} />
@@ -334,7 +338,8 @@ const mapStateToProps = state => {
     dataSlot2: state.loadListDataReducer.selectedPost2,
     openMenu: state.readerModalReducer.modalState,
     menuBarColor : state.readerModalReducer.menuBarColor,
-    listBookmark: state.bookmarkReducer.list
+    listBookmark: state.bookmarkReducer.list,
+    loadingDetailState: state.loadListDataReducer.loading
   }
 }
 export default connect(mapStateToProps)(NewsDetail);

@@ -26,7 +26,8 @@ var Toast = require('react-native-toast');
 // import RNHTMLtoPDF from 'react-native-html-to-pdf';
 
 import { connect } from 'react-redux';
-import { changeFontSize, changeModalState, changeBackgroundColor, changeTextColor, changeNightMode, changeMenuBarColor } from '../actions';
+import { changeFontSize, changeModalState, changeBackgroundColor,
+  changeTextColor, changeNightMode, changeMenuBarColor, changeLoadingState } from '../actions';
 var WEBVIEW_REF = 'webview';
 
 import HTMLView from './react-native-htmlview';
@@ -53,7 +54,8 @@ class NewsItem extends Component {
     sourceReal: '',
     source: '',
     arr: [],
-    logo: ''
+    logo: '',
+    reRender: false
   };
   componentWillMount() {
     if (this.props.row) {
@@ -62,7 +64,7 @@ class NewsItem extends Component {
   }
   componentWillReceiveProps(props) {
     if ((props.row != this.props.row) && (props.row)) {
-      this.setState({ loading: true }, () => { this.fetchContent(this.props.row) })
+      this.setState({ loading: true, reRender: true }, () => { this.fetchContent(this.props.row) })
     }
   }
   componentDidMount() {
@@ -129,8 +131,9 @@ class NewsItem extends Component {
     });
   }
   fetchContent(row) {
+    this.props.dispatch(changeLoadingState(true))
     let sourceReal;
-    this.setState({ loading: true });
+    this.setState({ loading: true, reRender: false });
     setTimeout(() => this.setState({ loading: false }), 4000);
     let url = row.url
     let other = []
@@ -160,12 +163,12 @@ class NewsItem extends Component {
       })
   }
   updateWebview(row) {
+    this.props.dispatch(changeLoadingState(false))
     if (row.url.includes("vnexpress")) {
       this.setState({
         source: "Vnexpress.net",
         loading: false,
         logo: require('../../img/vnExpress.png'),
-
       })
     } else {
       this.setState({
@@ -212,7 +215,7 @@ class NewsItem extends Component {
         this.setState({ pullToCloseColor: "black" })
       }
     } else {
-      this.setState({ pullToCloseDist: e.nativeEvent.contentOffset.y })
+      this.setState({ pullToCloseDist: e.nativeEvent.contentOffset.y - 20 })
     }
   }
   switcherPressed() {
@@ -358,42 +361,44 @@ class NewsItem extends Component {
         }
         {this.loading()}
 
-        <ScrollView
-        onScroll={this.onScroll}
-        scrollEventThrottle={30}
-        onTouchStart={()=>console.log('TOUCH START')}
-        onTouchEnd={()=>{
-          if (this.state.pullToCloseDist > 70) {
-            this.props.navigation.goBack();
-          }
-        }}
-        style={{ width: width, height: height-50, backgroundColor: this.props.postBackground, marginBottom: 50 }}
-        >
-          <View style={styles.sourceContainer}>
-            <View style={{flexDirection: 'row'}}>
-              {(this.state.logo != '') &&
-                <Image source={this.state.logo} style={{ height: 20, width: 20 }} />
-              }
-              <Text style={{ textAlign: 'center', marginLeft: 10 }}>{this.state.source}</Text>
+        {!this.state.reRender &&
+          <ScrollView
+          onScroll={this.onScroll}
+          scrollEventThrottle={30}
+          onTouchStart={()=>console.log('TOUCH START')}
+          onTouchEnd={()=>{
+            if (this.state.pullToCloseDist > 80) {
+              this.props.navigation.goBack();
+            }
+          }}
+          style={{ width: width, height: height-50, backgroundColor: this.props.postBackground, marginBottom: 50 }}
+          >
+            <View style={styles.sourceContainer}>
+              <View style={{flexDirection: 'row'}}>
+                {(this.state.logo != '') &&
+                  <Image source={this.state.logo} style={{ height: 20, width: 20 }} />
+                }
+                <Text style={{ textAlign: 'center', marginLeft: 10 }}>{this.state.source}</Text>
+              </View>
+              <Text style={{ marginRight: 20 , textAlign: 'center' }}>{time}</Text>
             </View>
-            <Text style={{ marginRight: 20 , textAlign: 'center' }}>{time}</Text>
-          </View>
-          <Text style={{ fontFamily: 'Lora-Regular', margin: 10, color: this.props.textColor, fontSize: this.props.fontSize + 10, fontWeight: 'bold', marginTop: 0}}>{this.props.row.title}</Text>
-          <View style={[styles.cateContainer, { backgroundColor: this.props.row.cateColor }]}>
-            <Text style={styles.textCate}>{this.props.row.cate}</Text>
-          </View>
+            <Text style={{ fontFamily: 'Lora-Regular', margin: 10, color: this.props.textColor, fontSize: this.props.fontSize + 10, fontWeight: 'bold', marginTop: 0}}>{this.props.row.title}</Text>
+            <View style={[styles.cateContainer, { backgroundColor: this.props.row.cateColor }]}>
+              <Text style={styles.textCate}>{this.props.row.cate}</Text>
+            </View>
 
-          <HTMLView
-            value={this.state.bodyHTML}
-            stylesheet={styles2}
-          />
+            <HTMLView
+              value={this.state.bodyHTML}
+              stylesheet={styles2}
+            />
 
-          <View style={{ borderRadius: 10, borderColor: this.state.pullToCloseColor, borderWidth: 1, width: 100, height: 40, alignSelf: 'center', alignItems: 'center', justifyContent: 'center'}}>
-            <Text style={{ color: this.state.pullToCloseColor }}> Pull To Close
-            </Text>
-          </View>
+            <View style={{ borderRadius: 10, borderColor: this.state.pullToCloseColor, borderWidth: 1, width: 100, height: 40, alignSelf: 'center', alignItems: 'center', justifyContent: 'center'}}>
+              <Text style={{ color: this.state.pullToCloseColor }}> Pull To Close
+              </Text>
+            </View>
 
-        </ScrollView>
+          </ScrollView>
+        }
       </View>
 
     )
