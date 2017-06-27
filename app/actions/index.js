@@ -19,7 +19,8 @@ import {
   ADD_BOOKMARK,
   REPLACE_BOOKMARK,
   ADD_SEARCH_KEYWORD,
-  CHANGE_LOADING_STATE
+  CHANGE_LOADING_STATE,
+  CHANGE_LINEHEIGHT,
 } from './types';
 
 
@@ -140,6 +141,12 @@ export const addSearchKeyword = (item) => {
 export const changeLoadingState = (item) => {
   return {
     type: CHANGE_LOADING_STATE,
+    payload: item
+  }
+}
+export const changeLineHeight = (item) => {
+  return {
+    type: CHANGE_LINEHEIGHT,
     payload: item
   }
 }

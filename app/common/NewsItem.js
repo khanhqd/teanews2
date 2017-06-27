@@ -27,7 +27,7 @@ var Toast = require('react-native-toast');
 
 import { connect } from 'react-redux';
 import { changeFontSize, changeModalState, changeBackgroundColor,
-  changeTextColor, changeNightMode, changeMenuBarColor, changeLoadingState } from '../actions';
+  changeTextColor, changeNightMode, changeMenuBarColor, changeLoadingState, changeLineHeight } from '../actions';
 var WEBVIEW_REF = 'webview';
 
 import HTMLView from './react-native-htmlview';
@@ -144,6 +144,7 @@ class NewsItem extends Component {
         $("[data-component-type=video]").replaceWith("<strong>Bài viết chứa video, vui lòng mở link bằng trình duyệt để xem video</strong>");
         // $("table").replaceWith("<strong>Bài viết có chứa biểu đồ, vui lòng mở link bằng trình duyệt để xem tốt nhất</strong>");
         sourceReal = $(".span-website").text();
+        $("em,i,span").replaceWith(function() { return $(this).contents(); });
         $(".VCSortableInPreviewMode,.image,iframe,.block_filter_live,.detail_top_live.width_common,.block_breakumb_left,#menu-box,.bi-related,head,#result_other_news,#social_like,noscript,#myvne_taskbar,.block_more_info,#wrapper_header,#header_web,#wrapper_footer,.breakumb_timer.width_common,.banner_980x60,.right,#box_comment,.nativeade,#box_tinkhac_detail,#box_tinlienquan,.block_tag.width_common.space_bottom_20,#ads_endpage,.block_timer_share,.title_news,.div-fbook.width_common.title_div_fbook,.xemthem_new_ver.width_common,.relative_new,#topbar,#topbar-scroll,.text_xemthem,#box_col_left,.form-control.change_gmt,.tt_2,.back_tt,.box_tinkhac.width_common,#sticky_info_st,.col_fillter.box_sticky_left,.start.have_cap2,.cap2,.list_news_dot_3x3,.minutes,#live-updates-wrapper,.block_share.right,.block_goithutoasoan,.xemthem_new_ver.width_common,meta,link,.menu_main,.top_3,.number_bgs,.filter_right,#headmass,.box_category.width_common,.banner_468.width_common,.adsbyeclick,.block_col_160.right,#ArticleBanner2,#ad_wrapper_protection,#WIDGET").remove();
         if (url.includes("http://tinmoi24.vn/") == false) {
           this.setState({ bodyHTML: $('.main_content_detail.width_common').html() }, () => {
@@ -251,19 +252,37 @@ class NewsItem extends Component {
       p: {
         fontSize: this.props.fontSize,
         color: this.props.textColor,
+        lineHeight: this.props.lineHeight
       },
       td: {
         fontSize: 15,
-        color: this.props.textColor
+        color: this.props.textColor,
+        lineHeight: this.props.lineHeight
       },
       strong: {
         color: this.props.textColor,
         fontSize: this.props.fontSize,
         fontWeight: '600',
+        lineHeight: this.props.lineHeight
       },
       ul: {
         padding: 0,
-      }
+      },
+      span: {
+        fontSize: this.props.fontSize,
+        color: this.props.textColor,
+        lineHeight: this.props.lineHeight
+      },
+      i: {
+        fontSize: this.props.fontSize,
+        color: this.props.textColor,
+        lineHeight: this.props.lineHeight
+      },
+      div: {
+        fontSize: this.props.fontSize,
+        color: this.props.textColor,
+        lineHeight: this.props.lineHeight
+      },
     };
     let date = new Date(this.props.row.date);
     let time = isNaN(date) ? this.props.row.date : date.toLocaleDateString();
@@ -280,6 +299,7 @@ class NewsItem extends Component {
                   onPress={() => {
                     if (this.props.fontSize < 30) {
                       this.props.dispatch(changeFontSize(this.props.fontSize + 2));
+                      this.props.dispatch(changeLineHeight(this.props.lineHeight + 2));
                       setTimeout(() => {
                         this.props.dispatch(changeModalState(!this.props.openMenu))
                       }, 100)
@@ -300,6 +320,7 @@ class NewsItem extends Component {
                   onPress={() => {
                     if (this.props.fontSize > 7) {
                       this.props.dispatch(changeFontSize(this.props.fontSize - 2));
+                      this.props.dispatch(changeLineHeight(this.props.lineHeight - 2));
                       setTimeout(() => {
                         this.props.dispatch(changeModalState(!this.props.openMenu))
                       }, 100)
@@ -528,7 +549,8 @@ const mapStateToProps = state => {
     textColor: state.readerModalReducer.textColor,
     disableScroll: state.readerModalReducer.disableScroll,
     nightMode: state.readerModalReducer.nightMode,
-    menuBarColor: state.readerModalReducer.menuBarColor
+    menuBarColor: state.readerModalReducer.menuBarColor,
+    lineHeight: state.readerModalReducer.lineHeight
   }
 }
 export default connect(mapStateToProps)(NewsItem);

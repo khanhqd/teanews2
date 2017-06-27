@@ -29,7 +29,7 @@ const Img = props => {
   );
 };
 
-export default function htmlToElement(rawHtml, opts, done) {
+export default function htmlToElement(lineHeight, rawHtml, opts, done) {
   function domToElement(dom, parent) {
     if (!dom) return null;
 
@@ -44,7 +44,7 @@ export default function htmlToElement(rawHtml, opts, done) {
           return null
         } else {
           return (
-            <Text key={index} style={[parent ? opts.styles[parent.name] : null,{marginLeft: 10, marginRight: 5, lineHeight: 25}]} selectable={true}>
+            <Text key={index} style={[parent ? opts.styles[parent.name] : null,{marginLeft: 10, marginRight: 5, lineHeight: lineHeight}]} selectable={true}>
                {"    " +entities.decodeHTML(node.data).trim()}
             </Text>
           );

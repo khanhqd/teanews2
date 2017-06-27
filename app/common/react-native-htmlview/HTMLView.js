@@ -69,7 +69,7 @@ class HtmlView extends Component {
       customRenderer: this.props.renderNode,
     };
 
-    htmlToElement(value, opts, (err, element) => {
+    htmlToElement(this.props.lineHeight, value, opts, (err, element) => {
       if (err) {
         this.props.onError(err);
       }
@@ -110,6 +110,7 @@ const mapStateToProps = state => {
   return {
     fontSize: state.readerModalReducer.fontSize,
     textColor: state.readerModalReducer.textColor,
+    lineHeight: state.readerModalReducer.lineHeight
   }
 }
 export default connect(mapStateToProps)(HtmlView);

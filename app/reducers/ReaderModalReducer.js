@@ -1,5 +1,5 @@
 import * as types from '../actions/types';
-const INITIAL_STATE = { modalState: false, fontSize: 14, postBackground: 'white', textColor: 'black', nightMode: false ,menuBarColor :'rgba(0, 0, 0, 0.39)'};
+const INITIAL_STATE = { lineHeight: 25, modalState: false, fontSize: 14, postBackground: 'white', textColor: 'black', nightMode: false ,menuBarColor :'rgba(0, 0, 0, 0.39)'};
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -55,6 +55,12 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         menuBarColor: action.payload
+      }
+      break;
+    case types.CHANGE_LINEHEIGHT:
+      return {
+        ...state,
+        lineHeight: action.payload
       }
       break;
     default:
