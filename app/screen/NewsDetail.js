@@ -47,6 +47,7 @@ class NewsDetail extends Component {
   componentWillMount() {
     let listLength = this.props.listData.length;
     var foo;
+    var dx;
     this._panResponder = PanResponder.create({
       onMoveShouldSetPanResponder: (
         event: { nativeEvent: { pageY: number, pageX: number } },
@@ -54,22 +55,26 @@ class NewsDetail extends Component {
       ) => {
         const currentDragDistance = gesture.dx;
         const currentDragPosition = event.nativeEvent.pageX;
-        // const axisLength = isVertical
-        //   ? layout.height.__getValue()
-        //   : layout.width.__getValue();
-        // const axisHasBeenMeasured = !!axisLength;
-        // Measure the distance from the touch to the edge of the screen
-        const screenEdgeDistance = currentDragPosition - currentDragDistance;
-        // Compare to the gesture distance relavant to card or modal
-        const gestureResponseDistance = width - 130;
-        if (screenEdgeDistance < gestureResponseDistance) {
-          // Reject touches that started in the middle of the screen
-          return false;
+        if (this.props.loadingDetailState) {
+          Toast.show('Dữ liệu trang tiếp đang load trong giây lát')
+        } else {
+          // const axisLength = isVertical
+          //   ? layout.height.__getValue()
+          //   : layout.width.__getValue();
+          // const axisHasBeenMeasured = !!axisLength;
+          // Measure the distance from the touch to the edge of the screen
+          const screenEdgeDistance = currentDragPosition - currentDragDistance;
+          // Compare to the gesture distance relavant to card or modal
+          const gestureResponseDistance = width - 130;
+          if (screenEdgeDistance < gestureResponseDistance) {
+            // Reject touches that started in the middle of the screen
+            return false;
+          }
+          const hasDraggedEnough = Math.abs(currentDragDistance) > 20;
+          const shouldSetResponder = hasDraggedEnough;
+          // && axisHasBeenMeasured && !isOnFirstCard;
+          return shouldSetResponder;
         }
-        const hasDraggedEnough = Math.abs(currentDragDistance) > 20;
-        const shouldSetResponder = hasDraggedEnough;
-        // && axisHasBeenMeasured && !isOnFirstCard;
-        return shouldSetResponder;
       },
       // onStartShouldSetPanResponder: (event, gestureState) => {
       //   if (event.nativeEvent.locationX > width - 80) {
@@ -100,10 +105,7 @@ class NewsDetail extends Component {
                   }
                 break;
             }
-          this.setState({
-            dx: gestureState.dx,
-            // canScrollPage: true
-          })
+          dx = gestureState.dx;
         }
         // else {
         //   this.setState({ canScrollPage: false })
@@ -112,10 +114,10 @@ class NewsDetail extends Component {
       onPanResponderRelease: (event, gestureState) => {
         // if (this.state.canScrollPage) {
           // this.setState({ canScrollPage: false })
-        if (this.state.dx < 0) {
+        if (dx < 0) {
           switch (this.state.index0) {
             case 2:
-                if ((this.state.dx < -width / 4) || (gestureState.vx < -0.9)) {
+                if ((dx < -width / 4) || (gestureState.vx < -0.9)) {
                   if (this.props.dataSlot0 + 1 < listLength) {
                     this.setState({ index2: 3, index1: 2, index0: 1 }, () => {
                       setTimeout(() => { this.props.dispatch(selectedPost0(this.props.dataSlot0 + 3)) }, 210)
@@ -134,7 +136,7 @@ class NewsDetail extends Component {
                 }
               break;
             case 3:
-                if ((this.state.dx < -width / 4) || (gestureState.vx < -0.9)) {
+                if ((dx < -width / 4) || (gestureState.vx < -0.9)) {
                   if (this.props.dataSlot0 + 2 < listLength) {
                     this.setState({ index0: 2, index2: 1, index1: 3}, () => {
                       setTimeout(() => { this.props.dispatch(selectedPost2(this.props.dataSlot2 + 3)) }, 210)
@@ -153,7 +155,7 @@ class NewsDetail extends Component {
                 }
               break;
             case 1:
-                if ((this.state.dx < -width / 4) || (gestureState.vx < -0.9)) {
+                if ((dx < -width / 4) || (gestureState.vx < -0.9)) {
                   if (this.props.dataSlot0 < listLength) {
                     this.setState({ index1: 1, index0: 3, index2: 2 }, () => {
                       setTimeout(() => { this.props.dispatch(selectedPost1(this.props.dataSlot1 + 3)) }, 210)
