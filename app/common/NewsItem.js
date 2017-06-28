@@ -26,8 +26,10 @@ var Toast = require('react-native-toast');
 // import RNHTMLtoPDF from 'react-native-html-to-pdf';
 
 import { connect } from 'react-redux';
-import { changeFontSize, changeModalState, changeBackgroundColor,
-  changeTextColor, changeNightMode, changeMenuBarColor, changeLoadingState, changeLineHeight } from '../actions';
+import {
+  changeFontSize, changeModalState, changeBackgroundColor,
+  changeTextColor, changeNightMode, changeMenuBarColor, changeLoadingState, changeLineHeight
+} from '../actions';
 var WEBVIEW_REF = 'webview';
 
 import HTMLView from './react-native-htmlview';
@@ -141,18 +143,24 @@ class NewsItem extends Component {
       .then((response) => response.text())
       .then((responseData) => {
         $ = cheerio.load(responseData);
+        $("a").parent(".Normal").remove();
+        $("em").parent(".Normal").remove();
+        $("em,i,span,a, strong").replaceWith(function () { return $(this).contents(); });
+        //$("strong").replaceWith(function () { return `<p style="font-Size:18">${$(this).contents()}</p>` });
         $("[data-component-type=video]").replaceWith("<strong>Bài viết chứa video, vui lòng mở link bằng trình duyệt để xem video</strong>");
-        // $("table").replaceWith("<strong>Bài viết có chứa biểu đồ, vui lòng mở link bằng trình duyệt để xem tốt nhất</strong>");
+        $("video").replaceWith("<strong>Bài viết chứa video, vui lòng mở link bằng trình duyệt để xem video</strong>");
         sourceReal = $(".span-website").text();
-        $("em,i,span").replaceWith(function() { return $(this).contents(); });
-        $(".VCSortableInPreviewMode,.image,iframe,.block_filter_live,.detail_top_live.width_common,.block_breakumb_left,#menu-box,.bi-related,head,#result_other_news,#social_like,noscript,#myvne_taskbar,.block_more_info,#wrapper_header,#header_web,#wrapper_footer,.breakumb_timer.width_common,.banner_980x60,.right,#box_comment,.nativeade,#box_tinkhac_detail,#box_tinlienquan,.block_tag.width_common.space_bottom_20,#ads_endpage,.block_timer_share,.title_news,.div-fbook.width_common.title_div_fbook,.xemthem_new_ver.width_common,.relative_new,#topbar,#topbar-scroll,.text_xemthem,#box_col_left,.form-control.change_gmt,.tt_2,.back_tt,.box_tinkhac.width_common,#sticky_info_st,.col_fillter.box_sticky_left,.start.have_cap2,.cap2,.list_news_dot_3x3,.minutes,#live-updates-wrapper,.block_share.right,.block_goithutoasoan,.xemthem_new_ver.width_common,meta,link,.menu_main,.top_3,.number_bgs,.filter_right,#headmass,.box_category.width_common,.banner_468.width_common,.adsbyeclick,.block_col_160.right,#ArticleBanner2,#ad_wrapper_protection,#WIDGET").remove();
+        $(".see-now,.author_mail.width_common,.tbl_insert,.VCSortableInPreviewMode,.image,iframe,.block_filter_live,.detail_top_live.width_common,.block_breakumb_left,#menu-box,.bi-related,head,#result_other_news,#social_like,noscript,#myvne_taskbar,.block_more_info,#wrapper_header,#header_web,#wrapper_footer,.breakumb_timer.width_common,.banner_980x60,.right,#box_comment,.nativeade,#box_tinkhac_detail,#box_tinlienquan,.block_tag.width_common.space_bottom_20,#ads_endpage,.block_timer_share,.title_news,.div-fbook.width_common.title_div_fbook,.xemthem_new_ver.width_common,.relative_new,#topbar,#topbar-scroll,.text_xemthem,#box_col_left,.form-control.change_gmt,.tt_2,.back_tt,.box_tinkhac.width_common,#sticky_info_st,.col_fillter.box_sticky_left,.start.have_cap2,.cap2,.list_news_dot_3x3,.minutes,#live-updates-wrapper,.block_share.right,.block_goithutoasoan,.xemthem_new_ver.width_common,meta,link,.menu_main,.top_3,.number_bgs,.filter_right,#headmass,.box_category.width_common,.banner_468.width_common,.adsbyeclick,.block_col_160.right,#ArticleBanner2,#ad_wrapper_protection,#WIDGET").remove();
         if (url.includes("http://tinmoi24.vn/") == false) {
           this.setState({ bodyHTML: $('.main_content_detail.width_common').html() }, () => {
             this.updateWebview(row)
           })
         }
         else {
-          $("a").parent().remove();
+          let text = $(".newbody p").last().text()
+          if (text.includes(">>> Đọc thêm")) {
+            $(".newbody p").last().remove();
+          }
           this.setState({
             bodyHTML: $('.newbody').html(),
             sourceReal: sourceReal
@@ -203,14 +211,14 @@ class NewsItem extends Component {
   }
 
   onScroll = (e) => {
-    var scrollHeight = e.nativeEvent.contentOffset.y+height-50;
+    var scrollHeight = e.nativeEvent.contentOffset.y + height - 50;
     var contentHeight = e.nativeEvent.contentSize.height;
     var num = scrollHeight - contentHeight;
     if (contentHeight > height) {
       this.setState({ pullToCloseDist: num })
       if (num <= 10) {
         this.setState({ pullToCloseColor: "white" })
-      } else if ((num > 10)&&(num < 100)) {
+      } else if ((num > 10) && (num < 100)) {
         this.setState({ pullToCloseColor: "rgba(0,0,0,0." + Math.floor(num) + ")" })
       } else {
         this.setState({ pullToCloseColor: "black" })
@@ -288,7 +296,7 @@ class NewsItem extends Component {
     let time = isNaN(date) ? this.props.row.date : date.toLocaleDateString();
     return (
       <View>
-        <View style={{height: 20, width: width, backgroundColor: 'black'}}>
+        <View style={{ height: 20, width: width, backgroundColor: 'black' }}>
         </View>
         {this.props.openMenu &&
           <TouchableOpacity style={styles.modalContainer} onPress={() => this.props.dispatch(changeModalState(!this.props.openMenu))}>
@@ -384,26 +392,26 @@ class NewsItem extends Component {
 
         {!this.state.reRender &&
           <ScrollView
-          onScroll={this.onScroll}
-          scrollEventThrottle={30}
-          onTouchStart={()=>console.log('TOUCH START')}
-          onTouchEnd={()=>{
-            if (this.state.pullToCloseDist > 80) {
-              this.props.navigation.goBack();
-            }
-          }}
-          style={{ width: width, height: height-50, backgroundColor: this.props.postBackground, marginBottom: 50 }}
+            onScroll={this.onScroll}
+            scrollEventThrottle={30}
+            onTouchStart={() => console.log('TOUCH START')}
+            onTouchEnd={() => {
+              if (this.state.pullToCloseDist > 80) {
+                this.props.navigation.goBack();
+              }
+            }}
+            style={{ width: width, height: height - 50, backgroundColor: this.props.postBackground, marginBottom: 50 }}
           >
             <View style={styles.sourceContainer}>
-              <View style={{flexDirection: 'row'}}>
+              <View style={{ flexDirection: 'row' }}>
                 {(this.state.logo != '') &&
                   <Image source={this.state.logo} style={{ height: 20, width: 20 }} />
                 }
                 <Text style={{ textAlign: 'center', marginLeft: 10 }}>{this.state.source}</Text>
               </View>
-              <Text style={{ marginRight: 20 , textAlign: 'center' }}>{time}</Text>
+              <Text style={{ marginRight: 20, textAlign: 'center' }}>{time}</Text>
             </View>
-            <Text style={{ fontFamily: 'Lora-Regular', margin: 10, color: this.props.textColor, fontSize: this.props.fontSize + 10, fontWeight: 'bold', marginTop: 0}}>{this.props.row.title}</Text>
+            <Text style={{ fontFamily: 'Lora-Regular', margin: 10, color: this.props.textColor, fontSize: this.props.fontSize + 10, fontWeight: 'bold', marginTop: 0 }}>{this.props.row.title}</Text>
             <View style={[styles.cateContainer, { backgroundColor: this.props.row.cateColor }]}>
               <Text style={styles.textCate}>{this.props.row.cate}</Text>
             </View>
@@ -413,7 +421,7 @@ class NewsItem extends Component {
               stylesheet={styles2}
             />
 
-            <View style={{ borderRadius: 10, borderColor: this.state.pullToCloseColor, borderWidth: 1, width: 100, height: 40, alignSelf: 'center', alignItems: 'center', justifyContent: 'center'}}>
+            <View style={{ borderRadius: 10, borderColor: this.state.pullToCloseColor, borderWidth: 1, width: 100, height: 40, alignSelf: 'center', alignItems: 'center', justifyContent: 'center' }}>
               <Text style={{ color: this.state.pullToCloseColor }}> Pull To Close
               </Text>
             </View>
