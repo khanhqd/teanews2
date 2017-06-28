@@ -27,7 +27,7 @@ class NewsList extends Component {
           <View style={styles.menuBar}>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <TouchableOpacity onPress={() => { this.props.navigation.navigate('DrawerOpen') }}>
-                <Image source={require('../../img/LeftMenu/ic_list_w.png')} style={{ height: 30, width: 30, marginLeft: 15, tintColor: 'black' }} />
+                <Image source={require('../../img/ic_list_w.png')} style={{ height: 30, width: 30, marginLeft: 15, tintColor: 'black' }} />
               </TouchableOpacity>
               <Text style={{ textAlign: 'center', fontSize: 20, marginLeft: 20, color:'black', fontWeight: 'bold'}}>TEANEWS</Text>
             </View>
@@ -67,8 +67,8 @@ class NewsList extends Component {
               onPress={() => this.toDetail(this.props.dataIndex + 1)}
               style={{ flex: 1, marginRight: 5 }}>
               <View style={{ backgroundColor: this.props.data[1].cateColor, flex: 1, justifyContent: 'space-between', padding: 10 }}>
-                <View style={[styles.category, { backgroundColor: this.props.data[0].cateColor, borderColor: 'white', borderWidth: 1 }]}>
-                  <Text style={styles.categoryText}>{this.props.data[0].cate}
+                <View style={[styles.category, { backgroundColor: this.props.data[1].cateColor, borderColor: 'white', borderWidth: 1 }]}>
+                  <Text style={styles.categoryText}>{this.props.data[1].cate}
                   </Text>
                 </View>
                 <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }} numberOfLines={5} ellipsizeMode="tail">{this.props.data[1].title}

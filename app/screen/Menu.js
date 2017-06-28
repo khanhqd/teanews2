@@ -22,23 +22,23 @@ class SideMenu extends Component {
                     <Text style={{ marginLeft: 15, fontFamily: 'AlNile-Bold' }}>TEANEWS</Text>
                 </View>
                 <View style={styles.item}>
-                    <Image source={require('../../img/LeftMenu/ic_today@4x.png')} />
+                    <Image source={require('../../img/ic_today.png')} />
                     <Text style={{ marginLeft: 15 }}>Today</Text>
                 </View>
                 <TouchableOpacity style={styles.item} onPress={()=>{this.props.navigation.navigate('Bookmark_Screen')}}>
-                    <Image source={require('../../img/LeftMenu/ic_bookmark@4x.png')} />
+                    <Image source={require('../../img/ic_bookmark.png')} />
                     <Text style={{ marginLeft: 15 }}>Bookmark</Text>
                 </TouchableOpacity >
                 <View style={styles.item}>
-                    <Image source={require('../../img/LeftMenu/ic_bookmark@4x.png')} />
+                    <Image source={require('../../img/ic_bookmark.png')} />
                     <Text style={{ marginLeft: 15 }}>Recent</Text>
                 </View  >
                     <View style={styles.item} onTouchStart ={()=> {this.props.navigation.navigate('Category_Screen')}}>
-                        <Image source={require('../../img/LeftMenu/ic_chuyenmuc@4x.png')} />
+                        <Image source={require('../../img/ic_chuyenmuc.png')} />
                         <Text style={{ marginLeft: 15 }}>Chuyên mục</Text>
                     </View >
                 <View style={styles.item}>
-                    <Image source={require('../../img/LeftMenu/ic_quanlyCM@4x.png')} />
+                    <Image source={require('../../img/ic_quanlyCM.png')} />
                     <Text style={{ marginLeft: 15 }}>Quản lý CM</Text>
                 </View >
                 <View style={styles.item} onTouchStart ={()=> {
@@ -55,15 +55,15 @@ class SideMenu extends Component {
                       }}
                     ])
                 }}>
-                    <Image source={require('../../img/LeftMenu/ic_delCache@4x.png')} />
+                    <Image source={require('../../img/ic_delCache.png')} />
                     <Text style={{ marginLeft: 15 }}>Xoá cache</Text>
                 </View >
                 <View style={styles.item}>
-                    <Image source={require('../../img/LeftMenu/ic_setting@4x.png')} />
+                    <Image source={require('../../img/ic_setting.png')} />
                     <Text style={{ marginLeft: 15 }}>Setting</Text>
                 </View >
                 <View style={styles.item}>
-                    <Image source={require('../../img/LeftMenu/ic_logout@4x.png')} />
+                    <Image source={require('../../img/ic_logout.png')} />
                     <Text style={{ marginLeft: 15 }}>Logout</Text>
                 </View >
             </View >
