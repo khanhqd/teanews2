@@ -52,7 +52,7 @@ class NewsDetail extends Component {
       onStartShouldSetPanResponder: (event, gestureState) => {
         if (event.nativeEvent.locationX > width - 80) {
           if (this.props.loadingDetailState) {
-            Toast.show('Đang load dữ liệu, vui lòng đợi trong giây lát')
+            Toast.showLongBottom('Dữ liệu đang load trong giây lát')
           } else {
             return true
           }
