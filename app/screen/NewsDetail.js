@@ -38,12 +38,23 @@ class NewsDetail extends Component {
       index1: 3,
       index2: 1,
       dx: 0,
-      listRecent: []
+      listRecent: [],
+      tutorialStep: 1
+
     };
+    this._get("firstLogin");
   };
   _set = async (key, value) => {
     try { await AsyncStorage.setItem(key, value); }
     catch (error) { console.log(error.message) }
+  };
+  _get = async (key) => {
+    try {
+      var value = await AsyncStorage.getItem(key);
+      if (value !== null) {
+          this.setState({tutorialStep: 0})
+        }
+    } catch (error) { alert(error) }
   };
   componentWillMount() {
     let listLength = this.props.listData.length;
@@ -222,6 +233,9 @@ class NewsDetail extends Component {
       }
     });
   }
+  componentDidMount() {
+    this._set('firstLogin', 'false');
+  }
   saveBookmark() {
     var postInfo;
     var selected = false;
@@ -280,46 +294,142 @@ class NewsDetail extends Component {
       .then(this._showResult)
       .catch((error) => this.setState({ result: 'error: ' + error.message }));
   }
+  renderTutorial() {
+    switch (this.state.tutorialStep) {
+      case 1:
+        return (
+          <View style={{width: width, height: height, position: 'absolute', zIndex: 6}}>
+            <View style={{height: 20, width: width, backgroundColor: 'rgba(0, 0, 0, 0.33)'}}>
+            </View>
+            <View style={{flex: 1, flexDirection: 'row'}}>
+              <Animatable.View iterationCount="infinite" direction="alternate" animation="fadeIn" style={{width: 70, backgroundColor: 'rgba(0, 0, 0, 0.33)'}}>
+              </Animatable.View>
+              <View style={{flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.33)', justifyContent: 'center'}}>
+                <Animatable.View animation="fadeInRight" style={{width: 200, height: 110, backgroundColor: 'white', marginLeft: 10, borderRadius: 10, justifyContent: 'center', alignItems: 'center', padding: 5}}>
+                  <Text style={{fontWeight: 'bold'}}>Hướng dẫn
+                  </Text>
+                  <Text style={{marginTop: 5}}>Vuốt cạnh trái sang phải để về trang chủ!
+                  </Text>
+                  <View style={{width: 200, flexDirection: 'row', margin: 10, height: 40, flex:1, alignItems: 'center'}}>
+                    <TouchableOpacity onPress={() => this.setState({ tutorialStep: 0})} style={styles.loginButton}>
+                      <View style={{ borderColor: '#4a90e2', height: 30, width: 80, borderRadius: 5, justifyContent: 'center', alignItems: 'center', borderWidth: 1,marginLeft: 10 }}>
+                         <Text style={{color: '#4a90e2', fontWeight: '500', fontSize: 15}}>Kết thúc</Text>
+                      </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.setState({ tutorialStep: this.state.tutorialStep + 1})} style={styles.loginButton}>
+                      <View style={{ backgroundColor: '#4a90e2', height: 30, width: 80, borderRadius: 5, justifyContent: 'center', alignItems: 'center', marginLeft: 20 }}>
+                         <Text style={{color: 'white', fontWeight: '500', fontSize: 15}}>Tiếp</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                </Animatable.View>
+              </View>
+            </View>
+            <View style={{height: 50, width: width, backgroundColor: 'rgba(0, 0, 0, 0.33)'}}>
+            </View>
+          </View>
+        )
+        break;
+      case 2:
+        return (
+          <View style={{width: width, height: height, position: 'absolute', zIndex: 6}}>
+            <View style={{flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.33)', alignItems: 'center'}}>
+
+              <Animatable.View animation="fadeInDown" style={{width: 200, height: 120, backgroundColor: 'white', marginLeft: 10, borderRadius: 10, justifyContent: 'center', alignItems: 'center', padding: 5, position: 'absolute', bottom: 10}}>
+                <Text style={{fontWeight: 'bold'}}>Hướng dẫn
+                </Text>
+                <Text style={{marginTop: 5}}>Thanh menu với các chức năng chia sẻ, lưu, chỉnh sửa font chữ, chế độ đọc ...
+                </Text>
+                <View style={{width: 200, flexDirection: 'row', margin: 10, height: 40, flex:1, alignItems: 'center'}}>
+                  <TouchableOpacity onPress={() => this.setState({ tutorialStep: 0})} style={styles.loginButton}>
+                    <View style={{ borderColor: '#4a90e2', height: 30, width: 80, borderRadius: 5, justifyContent: 'center', alignItems: 'center', borderWidth: 1,marginLeft: 10 }}>
+                       <Text style={{color: '#4a90e2', fontWeight: '500', fontSize: 15}}>Kết thúc</Text>
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => this.setState({ tutorialStep: this.state.tutorialStep + 1})} style={styles.loginButton}>
+                    <View style={{ backgroundColor: '#4a90e2', height: 30, width: 80, borderRadius: 5, justifyContent: 'center', alignItems: 'center', marginLeft: 20 }}>
+                       <Text style={{color: 'white', fontWeight: '500', fontSize: 15}}>Tiếp</Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              </Animatable.View>
+
+            </View>
+            <Animatable.View iterationCount="infinite" direction="alternate" animation="fadeIn" style={{height: 50, width: width, backgroundColor: 'rgba(0, 0, 0, 0.33)'}}>
+            </Animatable.View>
+          </View>
+        )
+        break;
+      case 3:
+        return (
+          <View style={{width: width, height: height, position: 'absolute', zIndex: 6}}>
+            <View style={{height: 20, width: width, backgroundColor: 'rgba(0, 0, 0, 0.33)'}}>
+            </View>
+            <View style={{flex: 1, flexDirection: 'row'}}>
+              <View style={{flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.33)', justifyContent: 'center'}}>
+                <Animatable.View animation="fadeInLeft" style={{width: 200, height: 110, backgroundColor: 'white', marginLeft: 10, borderRadius: 10, justifyContent: 'center', alignItems: 'center', padding: 5, position: 'absolute', right: 5}}>
+                  <Text style={{fontWeight: 'bold'}}>Hướng dẫn
+                  </Text>
+                  <Text style={{marginTop: 5}}>Vuốt màn hình sang trái để chuyển trang tiếp theo!
+                  </Text>
+                  <View style={{width: 200, flexDirection: 'row', margin: 10, height: 40, flex:1, alignItems: 'center'}}>
+                    <TouchableOpacity onPress={() => this.setState({ tutorialStep: this.state.tutorialStep + 1})} style={styles.loginButton}>
+                      <View style={{ backgroundColor: '#4a90e2', height: 30, width: 80, borderRadius: 5, justifyContent: 'center', marginLeft: 60, alignItems: 'center'}}>
+                         <Text style={{color: 'white', fontWeight: '500', fontSize: 15}}>Kết thúc</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                </Animatable.View>
+              </View>
+              <Animatable.View iterationCount="infinite" direction="alternate" animation="fadeIn" style={{width: 120, backgroundColor: 'rgba(0, 0, 0, 0.33)'}}>
+              </Animatable.View>
+            </View>
+            <View style={{height: 50, width: width, backgroundColor: 'rgba(0, 0, 0, 0.33)'}}>
+            </View>
+          </View>
+        )
+        break;
+      default:
+        return null
+    }
+  }
   render() {
     if (this.props.listData != 0) {
       return (
         <View style={{ flex: 1 }}>
-          <StatusBar
-            barStyle="light-content"
-          />
+          {this.renderTutorial()}
           <View style={styles.navBar}>
-            <TouchableHighlight
+            <TouchableOpacity
               onPress={() => this.props.navigation.goBack()}
               style={[styles.navBarButton, { marginLeft: 0 }]}>
               <Image
                 style={styles.iconNavBar}
                 source={require('../../img/ic_back.png')} />
-            </TouchableHighlight>
+            </TouchableOpacity>
             <View style={{ flexDirection: 'row', alignSelf: 'flex-end' }}>
-              <TouchableHighlight
+              <TouchableOpacity
                 onPress={() => this.shareLink()}
                 style={styles.navBarButton}>
                 <Image
                   style={styles.iconNavBar}
                   source={require('../../img/ic_share.png')} />
-              </TouchableHighlight>
-              <TouchableHighlight
+              </TouchableOpacity>
+              <TouchableOpacity
                 onPress={() => this.saveBookmark()}
                 style={styles.navBarButton}>
                 <Image
                   style={styles.iconNavBar}
                   source={require('../../img/ic_bookmark.png')} />
-              </TouchableHighlight>
-              <TouchableHighlight
+              </TouchableOpacity>
+              <TouchableOpacity
                 onPress={() => this.props.dispatch(changeModalState(!this.props.openMenu))}
                 style={styles.navBarButton}>
                 <Image
                   style={styles.iconNavBar}
                   source={require('../../img/ic_more-vertical.png')} />
-              </TouchableHighlight>
+              </TouchableOpacity>
             </View>
           </View>
-
           <View style={{ flex: 1 }} {...this._panResponder.panHandlers}>
 
             <Animated.View

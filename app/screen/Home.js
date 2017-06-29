@@ -10,7 +10,8 @@ import {
   Platform,
   PanResponder,
   Animated,
-  AsyncStorage
+  AsyncStorage,
+  StatusBar
 } from 'react-native';
 var { height, width } = Dimensions.get('window');
 import { Button1 } from '../common';
@@ -125,6 +126,17 @@ class Home extends Component {
   componentWillReceiveProps(props) {
     if (props.reload) {
       this._get('listCate')
+      this.setState({
+        top0: new Animated.Value(0),
+        top1: new Animated.Value(0),
+        top2: new Animated.Value(-height),
+        index0: 2,
+        index1: 1,
+        index2: 3,
+        dataSlot0: 0,
+        dataSlot1: 1,
+        dataSlot2: -1
+      })
       this.props.dispatch(reload(false))
     }
   }
@@ -322,8 +334,6 @@ class Home extends Component {
     setTimeout(() => {
       if (this.props.listCate.length == 0) {
         this.props.navigation.navigate('Category_Screen')
-      } else {
-        this.props.navigation.navigate('Category_Screen')
       }
     }, 200)
   }
@@ -460,7 +470,11 @@ class Home extends Component {
             </View>
           </TouchableOpacity>
         </View>*/}
-
+        <StatusBar
+          barStyle="light-content"
+        />
+        <View style={{ height: 20, width: width, backgroundColor: 'black', position: 'absolute', zIndex: 5}}>
+        </View>
         {!this.state.loading ?
           <View {...this._panResponder.panHandlers}>
 

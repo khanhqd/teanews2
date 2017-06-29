@@ -107,7 +107,7 @@ class NewsList extends Component {
               </View>
             </View>
           </TouchableOpacity>
-          <View style={{ width: width - 20, height: height / 2 - 80, margin: 10, marginTop: 0, flexDirection: 'row' }}>
+          <View style={{ width: width - 20, height: height / 2 - 90, margin: 10, marginTop: 0, flexDirection: 'row' }}>
             <TouchableOpacity
               onPress={() => this.toDetail(this.props.dataIndex + 1, this.props.data[1].title, this.props.data[1].thumb, this.props.data[1].des)}
               style={{ flex: 1, marginRight: 5 }}>
@@ -175,7 +175,7 @@ const styles = {
     borderRadius: 4
   },
   menuBar: {
-    marginTop: 20,
+    marginTop: 30,
     height: 30,
     width: width,
     flexDirection: 'row',
