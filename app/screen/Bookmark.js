@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     },
     cateContainer: {
       borderRadius: 3,
-      width: 70,
+      width: 80,
     },
     textCate: {
       color: "white",

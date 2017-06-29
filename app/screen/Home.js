@@ -48,7 +48,8 @@ class Home extends Component {
       dy: 0,
       listCate: [],
       loading: true,
-      bigData: []
+      bigData: [],
+      listRecent: []
     }
     topViewStyle = {
       style: {
@@ -56,7 +57,7 @@ class Home extends Component {
       }
     }
 
-    firebaseApp.database().ref("search").child("keyword").on('child_added',(data) => {
+    firebaseApp.database().ref("search").child("keyword").on('child_added', (data) => {
       this.props.dispatch(addSearchKeyword(data.val().key))
     })
 
@@ -72,8 +73,8 @@ class Home extends Component {
       if (value !== null) {
         switch (key) {
           case 'listBookmark':
-              this.props.dispatch(replaceBookmark(JSON.parse(value)))
-              break;
+            this.props.dispatch(replaceBookmark(JSON.parse(value)))
+            break;
           case 'listCate':
             this.props.dispatch(replaceListCate(JSON.parse(value)))
             this.setState({ listCate: JSON.parse(value) }, () => {
@@ -128,6 +129,15 @@ class Home extends Component {
     }
   }
   componentWillMount() {
+    AsyncStorage.getItem('listRecent', (err, result) => {
+      let array = JSON.parse(result)
+      if (array !== null) {
+        this.setState({
+          listRecent: array
+        }, () => {
+        })
+      }
+    })
     this._panResponder = PanResponder.create({
       onStartShouldSetPanResponder: (event, gestureState) => true,
       // onMoveShouldSetPanResponder: (event, gestureState) => true,
@@ -309,13 +319,13 @@ class Home extends Component {
     });
   }
   componentDidMount() {
-    setTimeout(()=>{
-      if(this.props.listCate.length == 0) {
+    setTimeout(() => {
+      if (this.props.listCate.length == 0) {
         this.props.navigation.navigate('Category_Screen')
       } else {
         this.props.navigation.navigate('Category_Screen')
       }
-    },200)
+    }, 200)
   }
   fetchData(linkRSS, cate, cateColor, i, callback) {
     let data = this.state["data" + i]
@@ -396,7 +406,16 @@ class Home extends Component {
     }
 
   }
-  toDetail(postId) {
+  toDetail(postId, data) {
+    let listRecent = this.state.listRecent
+    if (listRecent.length < 10) {
+      listRecent.unshift(data)
+    }
+    else {
+      listRecent.pop();
+      listRecent.unshift(data)
+    }
+    AsyncStorage.setItem('listRecent', JSON.stringify(listRecent))
     this.props.dispatch(selectedPost0(postId))
     if (postId + 1 < this.state.bigData.length) {
       this.props.dispatch(selectedPost1(postId + 1))
@@ -409,7 +428,7 @@ class Home extends Component {
   renderLoading() {
     if (this.props.listCate.length == 0) {
       return (
-        <TouchableOpacity style={{flex:1}} onPress={() => { this.props.navigation.navigate('Category_Screen')  }}>
+        <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.props.navigation.navigate('Category_Screen') }}>
           <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}><Text>   Hãy chọn Category --></Text></View>
         </TouchableOpacity>
       )
@@ -447,16 +466,16 @@ class Home extends Component {
 
             <Animated.View
               style={{ position: 'absolute', top: this.state.top0, zIndex: this.state.index0, backgroundColor: (this.state.index0 == 1) ? 'rgba(232, 232, 232, 0.43)' : 'white' }}
-              >
+            >
               <NewsItem2
                 navigation={this.props.navigation}
-                onPress={() => this.toDetail(this.state.dataSlot0)}
+                onPress={() => this.toDetail(this.state.dataSlot0, this.state.bigData[this.state.dataSlot0])}
                 data={this.state.bigData[this.state.dataSlot0]} />
             </Animated.View>
 
             <Animated.View
               style={{ position: 'absolute', top: this.state.top1, zIndex: this.state.index1, backgroundColor: (this.state.index1 == 1) ? 'rgba(232, 232, 232, 0.43)' : 'white' }}
-              >
+            >
               <NewsList
                 navigation={this.props.navigation}
                 data={this.state.bigData.slice(this.state.dataSlot1, this.state.dataSlot1 + numberOfItem)}
@@ -465,10 +484,10 @@ class Home extends Component {
 
             <Animated.View
               style={{ position: 'absolute', top: this.state.top2, zIndex: this.state.index2, backgroundColor: (this.state.index2 == 1) ? 'rgba(232, 232, 232, 0.43)' : 'white' }}
-              >
+            >
               <NewsItem2
                 navigation={this.props.navigation}
-                onPress={() => this.toDetail(this.state.dataSlot2)}
+                onPress={() => this.toDetail(this.state.dataSlot2, this.state.bigData[this.state.dataSlot2])}
                 data={this.state.bigData[this.state.dataSlot2]} />
             </Animated.View>
           </View>

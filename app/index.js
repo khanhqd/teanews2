@@ -19,6 +19,8 @@ import { StackNavigator, DrawerNavigator } from 'react-navigation';
 import ListNewsOffline from './screen/ListNewsOffline';
 import * as Animatable from 'react-native-animatable';
 import SideMenu from './screen/Menu.js';
+import Recent from './screen/Recent.js';
+import RecentReading from './screen/RecentReading.js';
 const { width, height } = Dimensions.get("window");
 // import * as firebase from 'firebase';
 // const firebaseConfig = {
@@ -71,6 +73,20 @@ export const TeaNews = StackNavigator({
   },
   BookmarkReading_Screen: {
     screen: BookmarkReading,
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: true,
+    }
+  },
+  Recent_Screen: {
+    screen: Recent,
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: true,
+    }
+  },
+  RecentReading_Screen: {
+    screen: RecentReading,
     navigationOptions: {
       header: null,
       gesturesEnabled: true,
