@@ -324,8 +324,6 @@ class Home extends Component {
     setTimeout(()=>{
       if(this.props.listCate.length == 0) {
         this.props.navigation.navigate('Category_Screen')
-      } else {
-        this.props.navigation.navigate('Category_Screen')
       }
     },200)
   }

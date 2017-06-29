@@ -299,7 +299,7 @@ class NewsItem extends Component {
         <View style={{ height: 20, width: width, backgroundColor: 'black' }}>
         </View>
         {this.props.openMenu &&
-          <TouchableOpacity style={styles.modalContainer} onPress={() => this.props.dispatch(changeModalState(!this.props.openMenu))}>
+          <View style={styles.modalContainer} onTouchStart={() => this.props.dispatch(changeModalState(!this.props.openMenu))}>
             <Animatable.View animation="slideInUp" duration={300} style={[styles.menuModal, { backgroundColor: this.props.postBackground }]}>
               <View style={{ flexDirection: 'row', flex: 1 }}>
                 <TouchableHighlight
@@ -377,7 +377,7 @@ class NewsItem extends Component {
                   Toast.show('Đã sao chép link');
                   this.props.dispatch(changeModalState(!this.props.openMenu))
                 }}
-                style={[styles.modalItem, { borderBottomLeftRadius: 10, borderBottomRightRadius: 10, borderBottomWidth: 0 }]}
+                style={[styles.modalItem, { borderBottomWidth: 0 }]}
               >
                 <View>
                   <Text style={[styles.modalText, { color: this.props.textColor }]}>Sao chép link
@@ -386,7 +386,7 @@ class NewsItem extends Component {
               </TouchableHighlight>
 
             </Animatable.View>
-          </TouchableOpacity>
+          </View>
         }
         {this.loading()}
 
@@ -533,8 +533,8 @@ const styles = {
   menuModal: {
     elevation: 5,
     shadowOpacity: 0.3,
-    borderRadius: 30,
     height: 200,
+    width: width,
     borderColor: 'white',
     borderWidth: 1
   },
@@ -544,7 +544,8 @@ const styles = {
     position: 'absolute',
     zIndex: 3,
     backgroundColor: 'rgba(0, 0, 0, 0.39)',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
+    paddingBottom: 55,
     alignItems: 'center'
   }
 }
