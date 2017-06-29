@@ -125,6 +125,17 @@ class Home extends Component {
   componentWillReceiveProps(props) {
     if (props.reload) {
       this._get('listCate')
+      this.setState({
+        top0: new Animated.Value(0),
+        top1: new Animated.Value(0),
+        top2: new Animated.Value(-height),
+        index0: 2,
+        index1: 1,
+        index2: 3,
+        dataSlot0: 0,
+        dataSlot1: 1,
+        dataSlot2: -1
+      })
       this.props.dispatch(reload(false))
     }
   }
