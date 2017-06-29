@@ -240,42 +240,38 @@ class NewsDetail extends Component {
     if (this.props.listData != 0) {
       return (
         <View style={{ flex: 1 }}>
-          <StatusBar
-            barStyle="light-content"
-          />
           <View style={styles.navBar}>
-            <TouchableHighlight
+            <TouchableOpacity
               onPress={() => this.props.navigation.goBack()}
               style={[styles.navBarButton, { marginLeft: 0 }]}>
               <Image
                 style={styles.iconNavBar}
                 source={require('../../img/ic_back.png')} />
-            </TouchableHighlight>
+            </TouchableOpacity>
             <View style={{ flexDirection: 'row', alignSelf: 'flex-end' }}>
-              <TouchableHighlight
+              <TouchableOpacity
                 onPress={() => this.shareLink()}
                 style={styles.navBarButton}>
                 <Image
                   style={styles.iconNavBar}
                   source={require('../../img/ic_share.png')} />
-              </TouchableHighlight>
-              <TouchableHighlight
+              </TouchableOpacity>
+              <TouchableOpacity
                 onPress={() => this.saveBookmark()}
                 style={styles.navBarButton}>
                 <Image
                   style={styles.iconNavBar}
                   source={require('../../img/ic_bookmark.png')} />
-              </TouchableHighlight>
-              <TouchableHighlight
+              </TouchableOpacity>
+              <TouchableOpacity
                 onPress={() => this.props.dispatch(changeModalState(!this.props.openMenu))}
                 style={styles.navBarButton}>
                 <Image
                   style={styles.iconNavBar}
                   source={require('../../img/ic_more-vertical.png')} />
-              </TouchableHighlight>
+              </TouchableOpacity>
             </View>
           </View>
-
           <View style={{ flex: 1 }} {...this._panResponder.panHandlers}>
 
             <Animated.View

@@ -10,7 +10,8 @@ import {
   Platform,
   PanResponder,
   Animated,
-  AsyncStorage
+  AsyncStorage,
+  StatusBar
 } from 'react-native';
 var { height, width } = Dimensions.get('window');
 import { Button1 } from '../common';
@@ -441,7 +442,11 @@ class Home extends Component {
             </View>
           </TouchableOpacity>
         </View>*/}
-
+        <StatusBar
+          barStyle="light-content"
+        />
+        <View style={{ height: 20, width: width, backgroundColor: 'black', position: 'absolute', zIndex: 5}}>
+        </View>
         {!this.state.loading ?
           <View {...this._panResponder.panHandlers}>
 
