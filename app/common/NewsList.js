@@ -1,12 +1,57 @@
 import React, { Component } from 'react';
-import { View, Text, Dimensions, Platform, TouchableOpacity, Image } from 'react-native';
+import { View, Text, Dimensions, Platform, TouchableOpacity, Image, AsyncStorage } from 'react-native';
 var { height, width } = Dimensions.get('window');
 import NewsListItem from './NewsListItem';
 import { loadListData, selectedPost0, selectedPost1, selectedPost2 } from '../actions';
 import { connect } from 'react-redux';
 
 class NewsList extends Component {
-  toDetail(postId) {
+  constructor(props) {
+    super(props)
+    this.state = {
+      listRecent: []
+    }
+  }
+  componentWillMount() {
+    AsyncStorage.getItem('listRecent', (err, result) => {
+      let array = JSON.parse(result)
+      if (array !== null) {
+        this.setState({
+          listRecent: array
+        }, () => {
+          console.log(this.state.listRecent)
+        })
+      }
+    })
+  }
+  toDetail(postId, title, thumb, des) {
+    var url=''
+    let listData = this.props.listData
+    for (let i = 0; i < listData.length; i++) {
+      if (title == listData[i].title) {
+       url = listData[i].url
+      }
+    }
+    let listRecent = this.state.listRecent
+    if (listRecent.length < 10) {
+      listRecent.unshift({
+        title: title,
+        thumb: thumb,
+        des: des,
+        url:url
+      })
+    }
+    else {
+      listRecent.pop();
+      listRecent.unshift({
+        title: title,
+        thumb: thumb,
+        des: des,
+        url:url
+      })
+    }
+    console.log(listRecent)
+    AsyncStorage.setItem('listRecent', JSON.stringify(listRecent))
     this.props.dispatch(selectedPost0(postId))
     this.props.dispatch(selectedPost1(postId + 1))
     this.props.dispatch(selectedPost2(postId - 1))
@@ -25,18 +70,18 @@ class NewsList extends Component {
       return (
         <View style={[{ height: height, backgroundColor: this.props.postBackground }, this.props.style]}>
           <View style={styles.menuBar}>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <TouchableOpacity onPress={() => { this.props.navigation.navigate('DrawerOpen') }}>
                 <Image source={require('../../img/ic_list_w.png')} style={{ height: 30, width: 30, marginLeft: 15, tintColor: 'black' }} />
               </TouchableOpacity>
-              <Text style={{ textAlign: 'center', fontSize: 20, marginLeft: 20, color:'black', fontWeight: 'bold'}}>TEANEWS</Text>
+              <Text style={{ textAlign: 'center', fontSize: 20, marginLeft: 20, color: 'black', fontWeight: 'bold' }}>TEANEWS</Text>
             </View>
             <TouchableOpacity onPress={() => { this.props.navigation.navigate('Search_Screen') }}>
-              <Image source={require('../../img/LeftMenu/ic_search_w@4x.png')} style={{ height: 30, width: 30, tintColor: 'black'}} />
+              <Image source={require('../../img/LeftMenu/ic_search_w@4x.png')} style={{ height: 30, width: 30, tintColor: 'black' }} />
             </TouchableOpacity>
           </View>
           <TouchableOpacity
-            onPress={() => this.toDetail(this.props.dataIndex)}
+            onPress={() => this.toDetail(this.props.dataIndex, this.props.data[0].title, this.props.data[0].thumb, this.props.data[0].des)}
             style={{ width: width - 20, height: width - 40, margin: 10 }}>
             <View style={{ flex: 1 }}>
               <Image
@@ -64,7 +109,7 @@ class NewsList extends Component {
           </TouchableOpacity>
           <View style={{ width: width - 20, height: height / 2 - 90, margin: 10, marginTop: 0, flexDirection: 'row' }}>
             <TouchableOpacity
-              onPress={() => this.toDetail(this.props.dataIndex + 1)}
+              onPress={() => this.toDetail(this.props.dataIndex + 1, this.props.data[1].title, this.props.data[1].thumb, this.props.data[1].des)}
               style={{ flex: 1, marginRight: 5 }}>
               <View style={{ backgroundColor: this.props.data[1].cateColor, flex: 1, justifyContent: 'space-between', padding: 10 }}>
                 <View style={[styles.category, { backgroundColor: this.props.data[1].cateColor, borderColor: 'white', borderWidth: 1 }]}>
@@ -78,7 +123,7 @@ class NewsList extends Component {
               </View>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => this.toDetail(this.props.dataIndex + 2)}
+              onPress={() => this.toDetail(this.props.dataIndex + 2, this.props.data[2].title, this.props.data[2].thumb, this.props.data[2].des)}
               style={{ flex: 1, marginLeft: 5, backgroundColor: 'yellow' }}>
               <View style={{ flex: 1 }}>
                 <Image
@@ -111,6 +156,7 @@ const mapStateToProps = state => {
   return {
     postBackground: state.readerModalReducer.postBackground,
     textColor: state.readerModalReducer.textColor,
+    listData: state.loadListDataReducer.list,
   }
 }
 const styles = {
@@ -135,7 +181,7 @@ const styles = {
     flexDirection: 'row',
     backgroundColor: 'transparent',
     justifyContent: 'space-between',
-    alignItems:'center',
+    alignItems: 'center',
     paddingRight: 20
   },
 }

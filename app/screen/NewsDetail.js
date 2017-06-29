@@ -38,13 +38,15 @@ class NewsDetail extends Component {
       index1: 3,
       index2: 1,
       dx: 0,
+      listRecent: [],
       tutorialStep: 1
+
     };
     this._get("firstLogin");
   };
   _set = async (key, value) => {
-      try { await AsyncStorage.setItem(key, value); }
-      catch (error) { console.log(error.message) }
+    try { await AsyncStorage.setItem(key, value); }
+    catch (error) { console.log(error.message) }
   };
   _get = async (key) => {
     try {
@@ -58,6 +60,14 @@ class NewsDetail extends Component {
     let listLength = this.props.listData.length;
     var foo;
     var dx;
+    // AsyncStorage.getItem('listRecent', (err, result) => {
+    //   let array = JSON.parse(result)
+    //   if (array !== null) {
+    //     this.setState({
+    //       listRecent: array
+    //     })
+    //   }
+    // })
     this._panResponder = PanResponder.create({
       onMoveShouldSetPanResponder: (
         event: { nativeEvent: { pageY: number, pageX: number } },
@@ -95,26 +105,27 @@ class NewsDetail extends Component {
       //     }
       //   }
       // },
-      onPanResponderGrant: (event, gestureState) => {},
+
+      onPanResponderGrant: (event, gestureState) => { },
       onPanResponderMove: (event, gestureState) => {
         if (gestureState.dx < 0) {
-            switch (this.state.index0) {
-              case 2:
-                  if (this.props.dataSlot0 + 1 < listLength) {
-                    this.state.left1.setValue(width + gestureState.dx)
-                  }
-                break;
-              case 3:
-                  if (this.props.dataSlot0 + 2 < listLength) {
-                    this.state.left0.setValue(width + gestureState.dx)
-                  }
-                break;
-              case 1:
-                  if (this.props.dataSlot0 < listLength) {
-                    this.state.left2.setValue(width + gestureState.dx)
-                  }
-                break;
-            }
+          switch (this.state.index0) {
+            case 2:
+              if (this.props.dataSlot0 + 1 < listLength) {
+                this.state.left1.setValue(width + gestureState.dx)
+              }
+              break;
+            case 3:
+              if (this.props.dataSlot0 + 2 < listLength) {
+                this.state.left0.setValue(width + gestureState.dx)
+              }
+              break;
+            case 1:
+              if (this.props.dataSlot0 < listLength) {
+                this.state.left2.setValue(width + gestureState.dx)
+              }
+              break;
+          }
           dx = gestureState.dx;
         }
         // else {
@@ -123,66 +134,100 @@ class NewsDetail extends Component {
       },
       onPanResponderRelease: (event, gestureState) => {
         // if (this.state.canScrollPage) {
-          // this.setState({ canScrollPage: false })
+        // this.setState({ canScrollPage: false })
         if (dx < 0) {
           switch (this.state.index0) {
             case 2:
-                if ((dx < -width / 4) || (gestureState.vx < -0.9)) {
-                  if (this.props.dataSlot0 + 1 < listLength) {
-                    this.setState({ index2: 3, index1: 2, index0: 1 }, () => {
-                      setTimeout(() => { this.props.dispatch(selectedPost0(this.props.dataSlot0 + 3)) }, 210)
-                    })
-                    Animated.timing(
-                      this.state.left1,
-                      { toValue: 0, duration: 200 }
-                    ).start();
-                    this.state.left2.setValue(width)
-                  }
-                } else {
+              if ((dx < -width / 4) || (gestureState.vx < -0.9)) {
+                let listRecent = this.state.listRecent
+                if (this.props.dataSlot0 + 1 < listLength) {
+                  this.setState({ index2: 3, index1: 2, index0: 1 }, () => {
+
+                    console.log('lưu')
+                    if (listRecent.length < 10) {
+                      listRecent.unshift(this.props.listData[this.props.dataSlot1])
+                    }
+                    else {
+                      listRecent.pop();
+                      listRecent.unshift(this.props.listData[this.props.dataSlot1])
+                    }
+                    AsyncStorage.setItem('listRecent', JSON.stringify(listRecent))
+                    console.log(listRecent)
+                    setTimeout(() => { this.props.dispatch(selectedPost0(this.props.dataSlot0 + 3)) }, 210)
+                  })
                   Animated.timing(
                     this.state.left1,
-                    { toValue: width, duration: 200 }
+                    { toValue: 0, duration: 200 }
                   ).start();
+                  this.state.left2.setValue(width)
                 }
+              } else {
+                Animated.timing(
+                  this.state.left1,
+                  { toValue: width, duration: 200 }
+                ).start();
+              }
               break;
             case 3:
-                if ((dx < -width / 4) || (gestureState.vx < -0.9)) {
-                  if (this.props.dataSlot0 + 2 < listLength) {
-                    this.setState({ index0: 2, index2: 1, index1: 3}, () => {
-                      setTimeout(() => { this.props.dispatch(selectedPost2(this.props.dataSlot2 + 3)) }, 210)
-                    })
-                    Animated.timing(
-                      this.state.left0,
-                      { toValue: 0, duration: 200 }
-                    ).start();
-                    this.state.left1.setValue(width)
-                  }
-                } else {
+              if ((dx < -width / 4) || (gestureState.vx < -0.9)) {
+                let listRecent = this.state.listRecent
+                if (this.props.dataSlot0 + 2 < listLength) {
+                  this.setState({ index0: 2, index2: 1, index1: 3 }, () => {
+                    console.log('lưu')
+                    if (listRecent.length < 10) {
+                      listRecent.unshift(this.props.listData[this.props.dataSlot0])
+                    }
+                    else {
+                      listRecent.pop();
+                      listRecent.unshift(this.props.listData[this.props.dataSlot0])
+                    }
+                    console.log(listRecent)
+                    AsyncStorage.setItem('listRecent', JSON.stringify(listRecent))
+                    setTimeout(() => { this.props.dispatch(selectedPost2(this.props.dataSlot2 + 3)) }, 210)
+                  })
                   Animated.timing(
                     this.state.left0,
-                    { toValue: width, duration: 200 }
+                    { toValue: 0, duration: 200 }
                   ).start();
+                  this.state.left1.setValue(width)
                 }
+              } else {
+                Animated.timing(
+                  this.state.left0,
+                  { toValue: width, duration: 200 }
+                ).start();
+              }
               break;
             case 1:
-                if ((dx < -width / 4) || (gestureState.vx < -0.9)) {
-                  if (this.props.dataSlot0 < listLength) {
-                    this.setState({ index1: 1, index0: 3, index2: 2 }, () => {
-                      setTimeout(() => { this.props.dispatch(selectedPost1(this.props.dataSlot1 + 3)) }, 210)
-                    })
-                    Animated.timing(
-                      this.state.left2,
-                      { toValue: 0, duration: 200 }
-                    ).start();
-                    this.state.left0.setValue(width)
-                  }
-                } else {
+              if ((dx < -width / 4) || (gestureState.vx < -0.9)) {
+                let listRecent = this.state.listRecent
+                if (this.props.dataSlot0 < listLength) {
+                  this.setState({ index1: 1, index0: 3, index2: 2 }, () => {
+                    console.log('lưu')
+                    if (listRecent.length < 10) {
+                      listRecent.unshift(this.props.listData[this.props.dataSlot2])
+                    }
+                    else {
+                      listRecent.pop();
+                      listRecent.unshift(this.props.listData[this.props.dataSlot2])
+                    }
+                    console.log(listRecent)
+                    AsyncStorage.setItem('listRecent', JSON.stringify(listRecent))
+                    setTimeout(() => { this.props.dispatch(selectedPost1(this.props.dataSlot1 + 3)) }, 210)
+                  })
                   Animated.timing(
                     this.state.left2,
-                    { toValue: width, duration: 200 }
+                    { toValue: 0, duration: 200 }
                   ).start();
+                  this.state.left0.setValue(width)
                 }
-            break;
+              } else {
+                Animated.timing(
+                  this.state.left2,
+                  { toValue: width, duration: 200 }
+                ).start();
+              }
+              break;
           }
         }
       }
@@ -192,39 +237,39 @@ class NewsDetail extends Component {
     this._set('firstLogin', 'false');
   }
   saveBookmark() {
-        var postInfo;
-        var selected = false;
-        if (this.state.index0 == 2) {
-          postInfo = this.props.listData[this.props.dataSlot0];
-        } else if (this.state.index1 == 2) {
-          postInfo = this.props.listData[this.props.dataSlot1];
-        } else {
-          postInfo = this.props.listData[this.props.dataSlot2];
+    var postInfo;
+    var selected = false;
+    if (this.state.index0 == 2) {
+      postInfo = this.props.listData[this.props.dataSlot0];
+    } else if (this.state.index1 == 2) {
+      postInfo = this.props.listData[this.props.dataSlot1];
+    } else {
+      postInfo = this.props.listData[this.props.dataSlot2];
+    }
+    // this._set('listBookmark', JSON.stringify(this.props.listBookmark));
+    let listBookmark = this.props.listBookmark;
+    for (var i = 0; i < listBookmark.length; i++) {
+      if (listBookmark[i].title == postInfo.title) {
+        selected = true;
+        break;
+      }
+    }
+    if (selected == true) {
+      //delete from Async
+      for (var i = listBookmark.length - 1; i >= 0; i--) {
+        if (listBookmark[i].title == postInfo.title) {
+          listBookmark.splice(i, 1);
+          Toast.show('Đã bỏ lưu')
         }
-        // this._set('listBookmark', JSON.stringify(this.props.listBookmark));
-        let listBookmark = this.props.listBookmark;
-        for(var i=0; i<listBookmark.length; i++) {
-          if (listBookmark[i].title == postInfo.title) {
-            selected = true;
-            break;
-          }
-        }
-        if(selected == true) {
-            //delete from Async
-            for (var i = listBookmark.length - 1; i>=0; i--) {
-              if (listBookmark[i].title == postInfo.title) {
-                listBookmark.splice(i,1);
-                Toast.show('Đã bỏ lưu')
-              }
-            }
-            this.props.dispatch(replaceBookmark(listBookmark))
-            this._set('listBookmark', JSON.stringify(listBookmark))
-        } else {
-            // listBookmark.push(postInfo);
-            this._set('listBookmark', JSON.stringify(listBookmark))
-            this.props.dispatch(addBookmark(postInfo))
-            Toast.show('Đã lưu')
-        }
+      }
+      this.props.dispatch(replaceBookmark(listBookmark))
+      this._set('listBookmark', JSON.stringify(listBookmark))
+    } else {
+      // listBookmark.push(postInfo);
+      this._set('listBookmark', JSON.stringify(listBookmark))
+      this.props.dispatch(addBookmark(postInfo))
+      Toast.show('Đã lưu')
+    }
   }
   shareLink() {
     var page;
@@ -389,26 +434,26 @@ class NewsDetail extends Component {
 
             <Animated.View
               style={{ position: 'absolute', left: this.state.left0, zIndex: this.state.index0, backgroundColor: 'white', flex: 1 }}
-              >
+            >
               <NewsItem
-                navigation = {this.props.navigation}
+                navigation={this.props.navigation}
                 row={this.props.listData[this.props.dataSlot0]} />
             </Animated.View>
 
             <Animated.View
               style={{ position: 'absolute', left: this.state.left1, zIndex: this.state.index1, backgroundColor: 'white', flex: 1 }}
-              >
+            >
               <NewsItem
-                navigation = {this.props.navigation}
+                navigation={this.props.navigation}
                 row={this.props.listData[this.props.dataSlot1]} />
             </Animated.View>
 
 
             <Animated.View
               style={{ position: 'absolute', left: this.state.left2, zIndex: this.state.index2, backgroundColor: 'white', flex: 1 }}
-              >
+            >
               <NewsItem
-                navigation = {this.props.navigation}
+                navigation={this.props.navigation}
                 row={this.props.listData[this.props.dataSlot2]} />
             </Animated.View>
 
@@ -469,7 +514,7 @@ const mapStateToProps = state => {
     dataSlot1: state.loadListDataReducer.selectedPost1,
     dataSlot2: state.loadListDataReducer.selectedPost2,
     openMenu: state.readerModalReducer.modalState,
-    menuBarColor : state.readerModalReducer.menuBarColor,
+    menuBarColor: state.readerModalReducer.menuBarColor,
     listBookmark: state.bookmarkReducer.list,
     loadingDetailState: state.loadListDataReducer.loading
   }

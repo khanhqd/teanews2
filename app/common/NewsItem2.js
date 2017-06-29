@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Dimensions, Platform, TouchableOpacity, Image } from 'react-native';
+import { View, Text, Dimensions, Platform, TouchableOpacity, Image, AsyncStorage } from 'react-native';
 var { height, width } = Dimensions.get('window');
 import { connect } from 'react-redux';
 import Triangle from 'react-native-triangle';
@@ -72,11 +72,11 @@ class NewsItem2 extends Component {
           }
           <View style={{ flex: 1 / 3, width: width }} >
             <Text style={{ fontSize: 14, marginLeft: 10 }}>{source} - {date.toLocaleString()}</Text>
-            <Text numberOfLines={3} ellipsizeMode="tail" style={{ marginLeft: 10, marginRight:5, fontSize: 18, marginTop: 10, fontFamily:'Lora-Bold' }}>{this.props.data.title}</Text>
+            <Text numberOfLines={3} ellipsizeMode="tail" style={{ marginLeft: 10, marginRight: 5, fontSize: 18, marginTop: 10, fontFamily: 'Lora-Bold' }}>{this.props.data.title}</Text>
             <Text
               numberOfLines={3}
               ellipsizeMode="tail"
-              style={{ marginLeft: 10, marginTop: 5, fontSize: 15, marginRight: 5 , lineHeight: 25, color:'#5c5757' }}
+              style={{ marginLeft: 10, marginTop: 5, fontSize: 15, marginRight: 5, lineHeight: 25, color: '#5c5757' }}
             >{this.props.data.des}</Text>
           </View>
         </TouchableOpacity>
@@ -130,7 +130,7 @@ const styles = {
     position: 'absolute',
     paddingRight: 20,
     top: 20,
-    alignItems:'center'
+    alignItems: 'center'
   }
 }
 const mapStateToProps = state => {
