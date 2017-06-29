@@ -130,7 +130,7 @@ class NewsList extends Component {
                   resizeMode="cover"
                   style={{ position: 'absolute', width: '100%', height: '100%' }}
                   source={{ uri: this.props.data[2].thumb }} />
-                <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)', flex: 1, justifyContent: 'space-between', padding: 10 }}>
+                <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)', flex: 1, justifyContent: 'space-between', padding: 10 }}>
                   <View style={[styles.category, { borderColor: 'white', borderWidth: 1 }]}>
                     <Text style={styles.categoryText}>{this.props.data[2].cate}
                     </Text>
