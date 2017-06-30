@@ -244,21 +244,21 @@ class NewsItem extends Component {
   render() {
     const styles2 = {
       h1: {
-        fontSize: this.props.fontSize,
+        fontSize: this.props.fontSize+(height/width),
         color: this.props.textColor,
       },
       h2: {
-        fontSize: this.props.fontSize,
+        fontSize: this.props.fontSize+(height/width),
         fontWeight: '500',
         color: this.props.textColor,
       },
       h3: {
         fontWeight: '400',
-        fontSize: this.props.fontSize,
+        fontSize: this.props.fontSize+(height/width),
         color: this.props.textColor,
       },
       p: {
-        fontSize: this.props.fontSize,
+        fontSize: this.props.fontSize+(height/width),
         color: this.props.textColor,
         lineHeight: this.props.lineHeight,
         
@@ -270,7 +270,7 @@ class NewsItem extends Component {
       },
       strong: {
         color: this.props.textColor,
-        fontSize: this.props.fontSize,
+        fontSize: this.props.fontSize+(height/width),
         fontWeight: '600',
         lineHeight: this.props.lineHeight
       },
@@ -278,17 +278,17 @@ class NewsItem extends Component {
         padding: 0,
       },
       span: {
-        fontSize: this.props.fontSize,
+        fontSize: this.props.fontSize+(height/width),
         color: this.props.textColor,
         lineHeight: this.props.lineHeight
       },
       i: {
-        fontSize: this.props.fontSize,
+        fontSize: this.props.fontSize+(height/width),
         color: this.props.textColor,
         lineHeight: this.props.lineHeight
       },
       div: {
-        fontSize: this.props.fontSize,
+        fontSize: this.props.fontSize+(height/width),
         color: this.props.textColor,
         lineHeight: this.props.lineHeight
       },

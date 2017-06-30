@@ -49,6 +49,7 @@ class NewsItem2 extends Component {
                   width={width}
                   height={50}
                   direction={"down-left"}
+                  color={this.props.postBackground}
                 >
                 </Triangle>
                 <View style={{
@@ -70,11 +71,11 @@ class NewsItem2 extends Component {
           }
           <View style={{ height: height - width, width: width }} >
             <Text style={{ fontSize: 13, marginLeft: 13, color: '#4a4a4a' }}>{source} - {date.toDateString()}</Text>
-            <Text numberOfLines={3} ellipsizeMode="tail" style={{ marginLeft: 10, marginRight: 9, fontSize: 30, marginTop: 10, fontFamily: 'Lora-Bold', lineHeight: 35 }}>{this.props.data.title}</Text>
+            <Text numberOfLines={3} ellipsizeMode="tail" style={{ marginLeft: 10, marginRight: 9, fontSize: 30, marginTop: 10, fontFamily: 'Lora-Bold', lineHeight: 35, color: this.props.textColor }}>{this.props.data.title}</Text>
             <Text
               numberOfLines={4}
               ellipsizeMode="tail"
-              style={{ marginLeft: 10, marginTop: 5, fontSize: 15, marginRight: 9, lineHeight: 25, color: '#000000', fontFamily: 'Lora-Bold' }}
+              style={{ marginLeft: 10, marginTop: 5, fontSize: 15, marginRight: 9, lineHeight: 25, color: this.props.textColor, fontFamily: 'Lora-Bold' }}
             >{this.props.data.des}</Text>
           </View>
         </TouchableOpacity>
