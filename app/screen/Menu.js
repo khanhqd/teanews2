@@ -74,10 +74,10 @@ class SideMenu extends Component {
 }
 const styles = StyleSheet.create({
     item: {
-        flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
-        margin: 30
+        height:50,
+        marginLeft:22
     }
 });
 
