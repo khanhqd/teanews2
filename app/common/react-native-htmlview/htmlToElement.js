@@ -44,8 +44,8 @@ export default function htmlToElement(lineHeight, rawHtml, opts, done) {
           return null
         } else {
           return (
-            <Text key={index} style={[parent ? opts.styles[parent.name] : null,{marginLeft: 15, marginRight: 5, lineHeight: lineHeight, textAlign:'left'}]} selectable={true}>
-               {entities.decodeHTML(node.data).trim()}
+            <Text key={index} style={[parent ? opts.styles[parent.name] : null,{marginLeft: 17, marginRight: 8, lineHeight: lineHeight, textAlign:'left'}]} selectable={true}>
+               {entities.decodeHTML(node.data).trim()} {'\n'}
             </Text>
           );
         }

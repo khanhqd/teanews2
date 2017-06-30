@@ -14,7 +14,8 @@ import {
   Animated,
   Easing,
   StyleSheet,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  ActivityIndicator
 } from 'react-native';
 var { height, width } = Dimensions.get('window');
 import _ from 'lodash';
@@ -28,7 +29,7 @@ var Toast = require('react-native-toast');
 import { connect } from 'react-redux';
 import {
   changeFontSize, changeModalState, changeBackgroundColor,
-  changeTextColor, changeNightMode, changeMenuBarColor, changeLoadingState, changeLineHeight
+  changeTextColor, changeNightMode, changeLoadingState, changeLineHeight
 } from '../actions';
 var WEBVIEW_REF = 'webview';
 
@@ -37,7 +38,6 @@ import HTMLView from './react-native-htmlview';
 class NewsItem extends Component {
   constructor(props) {
     super(props);
-    this.spinValue = new Animated.Value(0);
     this.onScroll = this.onScroll.bind(this);
   }
   state = {
@@ -69,32 +69,6 @@ class NewsItem extends Component {
       this.setState({ loading: true, reRender: true }, () => { this.fetchContent(this.props.row) })
     }
   }
-  componentDidMount() {
-    this.props.dispatch(changeMenuBarColor('rgba(0, 0, 0, 0)'))
-    let list = this.state.list
-    AsyncStorage.getItem(`listOffline`, (err, result) => {
-      if (result !== null) {
-        list = JSON.parse(result)
-        this.setState({
-          list: list
-        })
-        console.log(list)
-      }
-    })
-    this.spinLoading()
-  }
-  spinLoading() {
-    this.spinValue.setValue(0)
-    Animated.timing(
-      this.spinValue,
-      {
-        toValue: 1,
-        duration: 2500,
-        easing: Easing.ease,
-      }
-    ).start(() => this.spinLoading())
-  }
-
   _share() {
     Share.share({
       message: this.props.row.title,
@@ -189,22 +163,9 @@ class NewsItem extends Component {
   }
   loading() {
     if (this.state.loading) {
-      const spin = this.spinValue.interpolate({
-        inputRange: [0, 0.5, 1],
-        outputRange: ['0deg', '360deg', '720deg']
-      })
       return (
         <View style={{ justifyContent: 'center', alignItems: 'center', position: 'absolute', zIndex: 4, backgroundColor: this.props.postBackground, width: width, height: height }}>
-          <Animated.Image
-            source={require('../../img/load-icon.png')}
-            style={{
-              height: 40,
-              width: 40,
-              transform: [{ rotate: spin }]
-            }}
-          />
-          <Text style={{ color: this.props.textColor }}>Loading...
-          </Text>
+          <ActivityIndicator size="large" />
         </View>
       )
     }
@@ -395,9 +356,8 @@ class NewsItem extends Component {
           <ScrollView
             onScroll={this.onScroll}
             scrollEventThrottle={30}
-            onTouchStart={() => console.log('TOUCH START')}
             onTouchEnd={() => {
-              if (this.state.pullToCloseDist > 80) {
+              if (this.state.pullToCloseDist > 90) {
                 this.props.navigation.goBack();
               }
             }}
@@ -422,7 +382,7 @@ class NewsItem extends Component {
               stylesheet={styles2}
             />
 
-            <View style={{ borderRadius: 10, borderColor: this.state.pullToCloseColor, borderWidth: 1, width: 100, height: 40, alignSelf: 'center', alignItems: 'center', justifyContent: 'center' }}>
+            <View style={{ width: 100, height: 40, alignSelf: 'center', alignItems: 'center', justifyContent: 'center', marginTop: 30 }}>
               <Text style={{ color: this.state.pullToCloseColor }}> Pull To Close
               </Text>
             </View>

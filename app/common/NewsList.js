@@ -63,7 +63,7 @@ class NewsList extends Component {
                   </View>
                   <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold', marginBottom: 10 }}>{this.props.data[0].title}
                   </Text>
-                  <Text style={{ color: 'rgb(217, 217, 217)', fontSize: 13, marginBottom: 5, }}>{source[0]}
+                  <Text style={{ color: '#ffffff', fontSize: 13, marginBottom: 5, }}>{source[0]}
                   </Text>
                   <Text
                     numberOfLines={2}
@@ -85,7 +85,7 @@ class NewsList extends Component {
                 </View>
                 <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }} numberOfLines={5} ellipsizeMode="tail">{this.props.data[1].title}
                 </Text>
-                <Text style={{ color: 'rgb(217, 217, 217)', fontSize: 13 }}>{source[1]}
+                <Text style={{ color: '#ffffff', fontSize: 13 }}>{source[1]}
                 </Text>
               </View>
             </TouchableOpacity>
@@ -107,7 +107,7 @@ class NewsList extends Component {
                     ellipsizeMode="tail"
                     style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }}>{this.props.data[2].title}
                   </Text>
-                  <Text style={{ color: 'rgb(217, 217, 217)', fontSize: 13 }}>{source[2]}
+                  <Text style={{ color: '#ffffff', fontSize: 13 }}>{source[2]}
                   </Text>
                 </View>
               </View>

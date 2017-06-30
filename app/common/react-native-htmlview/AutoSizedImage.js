@@ -26,9 +26,15 @@ export default class AutoSizedImage extends React.Component {
     if (this.props.style.width || this.props.style.height) {
       return;
     }
-    Image.getSize(this.props.source.uri, (w, h) => {
-      this.setState({width: w, height: h});
-    });
+    setTimeout(()=>{
+      Image.getSize(this.props.source.uri, (w, h) => {
+        this.setState({width: w, height: h});
+      },() => {
+          Image.getSize(this.props.source.uri, (w, h) => {
+          this.setState({width: w, height: h});
+        });
+      });
+    },100)
   }
 
   render() {

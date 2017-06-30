@@ -137,7 +137,7 @@ class NewsDetail extends Component {
           let listBookmark = this.props.listBookmark;
           switch (this.state.index0) {
             case 2:
-              if ((dx < -width / 4) || (gestureState.vx < -0.9)) {
+              if (dx < -width / 4) {
                 if (this.props.dataSlot0 + 1 < listLength) {
                   this.setState({ index2: 3, index1: 2, index0: 1 }, () => {
 
@@ -149,15 +149,16 @@ class NewsDetail extends Component {
                       listRecent.unshift(this.props.listData[this.props.dataSlot1])
                     }
                     // this.props.dispatch(addRecent(this.props.listData[this.props.dataSlot1]))
-                    this.setState({ bookmarked: false })
+                    AsyncStorage.setItem('listRecent', JSON.stringify(listRecent))
+                    setTimeout(() => { this.props.dispatch(selectedPost0(this.props.dataSlot0 + 3)) }, 210)
+                  })
+                  this.setState({ bookmarked: false },()=>{
                     for (var i = 0; i < listBookmark.length; i++) {
                       if (listBookmark[i].title == this.props.listData[this.props.dataSlot1].title) {
                         this.setState({ bookmarked: true })
                         break;
                       }
                     }
-                    AsyncStorage.setItem('listRecent', JSON.stringify(listRecent))
-                    setTimeout(() => { this.props.dispatch(selectedPost0(this.props.dataSlot0 + 3)) }, 210)
                   })
                   Animated.timing(
                     this.state.left1,
@@ -173,7 +174,7 @@ class NewsDetail extends Component {
               }
               break;
             case 3:
-              if ((dx < -width / 4) || (gestureState.vx < -0.9)) {
+              if (dx < -width / 4) {
                 let listRecent = this.props.listRecent
                 if (this.props.dataSlot0 + 2 < listLength) {
                   this.setState({ index0: 2, index2: 1, index1: 3 }, () => {
@@ -186,15 +187,16 @@ class NewsDetail extends Component {
                       listRecent.unshift(this.props.listData[this.props.dataSlot0])
                     }
                     // this.props.dispatch(addRecent(this.props.listData[this.props.dataSlot0]))
-                    this.setState({ bookmarked: false })
+                    AsyncStorage.setItem('listRecent', JSON.stringify(listRecent))
+                    setTimeout(() => { this.props.dispatch(selectedPost2(this.props.dataSlot2 + 3)) }, 210)
+                  })
+                  this.setState({ bookmarked: false },()=>{
                     for (var i = 0; i < listBookmark.length; i++) {
-                      if (listBookmark[i].title == this.props.listData[this.props.dataSlot1].title) {
+                      if (listBookmark[i].title == this.props.listData[this.props.dataSlot0].title) {
                         this.setState({ bookmarked: true })
                         break;
                       }
                     }
-                    AsyncStorage.setItem('listRecent', JSON.stringify(listRecent))
-                    setTimeout(() => { this.props.dispatch(selectedPost2(this.props.dataSlot2 + 3)) }, 210)
                   })
                   Animated.timing(
                     this.state.left0,
@@ -210,7 +212,7 @@ class NewsDetail extends Component {
               }
               break;
             case 1:
-              if ((dx < -width / 4) || (gestureState.vx < -0.9)) {
+              if (dx < -width / 4) {
                 if (this.props.dataSlot0 < listLength) {
                   this.setState({ index1: 1, index0: 3, index2: 2 }, () => {
 
@@ -222,15 +224,16 @@ class NewsDetail extends Component {
                       listRecent.unshift(this.props.listData[this.props.dataSlot2])
                     }
                     // this.props.dispatch(addRecent(this.props.listData[this.props.dataSlot2]))
-                    this.setState({ bookmarked: false })
+                    AsyncStorage.setItem('listRecent', JSON.stringify(listRecent))
+                    setTimeout(() => { this.props.dispatch(selectedPost1(this.props.dataSlot1 + 3)) }, 210)
+                  })
+                  this.setState({ bookmarked: false },()=>{
                     for (var i = 0; i < listBookmark.length; i++) {
-                      if (listBookmark[i].title == this.props.listData[this.props.dataSlot1].title) {
+                      if (listBookmark[i].title == this.props.listData[this.props.dataSlot2].title) {
                         this.setState({ bookmarked: true })
                         break;
                       }
                     }
-                    AsyncStorage.setItem('listRecent', JSON.stringify(listRecent))
-                    setTimeout(() => { this.props.dispatch(selectedPost1(this.props.dataSlot1 + 3)) }, 210)
                   })
                   Animated.timing(
                     this.state.left2,
