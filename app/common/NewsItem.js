@@ -363,7 +363,7 @@ class NewsItem extends Component {
                 {(this.state.logo != '') &&
                   <Image source={this.state.logo} style={{ height: 20, width: 20 }} />
                 }
-                <Text style={{ textAlign: 'center', marginLeft: 10 , fontSize:13, color: '#9b9b9b' }}>{this.state.source}</Text>
+                <Text style={{ textAlign: 'center', marginLeft: 10, fontSize: 13, color: '#9b9b9b' }}>{this.state.source}</Text>
               </View>
               <Text style={{ marginRight: 20, textAlign: 'center', color: '#9b9b9b' }}>{time}</Text>
             </View>
