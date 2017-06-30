@@ -18,6 +18,7 @@ import {
   ActivityIndicator
 } from 'react-native';
 var { height, width } = Dimensions.get('window');
+
 import _ from 'lodash';
 import { RunsItem, Button1 } from '../common';
 const cheerio = require('cheerio-without-node-native');

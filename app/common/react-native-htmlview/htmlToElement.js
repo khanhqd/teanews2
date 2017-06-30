@@ -1,31 +1,22 @@
 import React from 'react';
 import {
-  Text, View
+  Text, View, Dimensions
 } from 'react-native';
 import htmlparser from 'htmlparser2-without-node-native';
 import entities from 'entities';
 
 import AutoSizedImage from './AutoSizedImage';
-
+import FitImage from 'react-native-fit-image';
 const LINE_BREAK = '\n';
 const PARAGRAPH_BREAK = '\n';
 const BULLET = '\u2022 ';
-
+const {height, width}= Dimensions.get('window')
 const Img = props => {
-  const width = Number(props.attribs['width']) || Number(props.attribs['data-width']) || 0;
-  const height = Number(props.attribs['height']) || Number(props.attribs['data-height']) || 0;
-
-  const imgStyle = {
-    width,
-    height,
-  };
   const source = {
     uri: props.attribs.src,
-    width,
-    height,
   };
   return (
-      <AutoSizedImage source={source} style={imgStyle} />
+      <FitImage source={source} resizeMode="cover" style={{ marginLeft:5 , marginRight:5}} />
   );
 };
 
