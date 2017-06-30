@@ -19,7 +19,7 @@ import NewsItem2 from '../common/NewsItem2';
 import NewsList from '../common/NewsList';
 const cheerio = require('cheerio-without-node-native');
 
-import { loadListData, selectedPost0, selectedPost1, selectedPost2, replaceBookmark } from '../actions';
+import { loadListData, selectedPost0, selectedPost1, selectedPost2, replaceBookmark, replaceRecent, addRecent } from '../actions';
 import { connect } from 'react-redux';
 import { replaceListCate, reload, addSearchKeyword } from '../actions';
 
@@ -64,6 +64,7 @@ class Home extends Component {
 
     this._get('listCate');
     this._get('listBookmark');
+    this._get("listRecent");
   }
   _updateStyle() {
     topView && topView.setNativeProps(topViewStyle)
@@ -75,6 +76,12 @@ class Home extends Component {
         switch (key) {
           case 'listBookmark':
             this.props.dispatch(replaceBookmark(JSON.parse(value)))
+            break;
+          case 'listRecent':
+            this.props.dispatch(replaceRecent(JSON.parse(value)));
+            this.setState({
+              listRecent: JSON.parse(value)
+            })
             break;
           case 'listCate':
             this.props.dispatch(replaceListCate(JSON.parse(value)))
@@ -141,15 +148,6 @@ class Home extends Component {
     }
   }
   componentWillMount() {
-    AsyncStorage.getItem('listRecent', (err, result) => {
-      let array = JSON.parse(result)
-      if (array !== null) {
-        this.setState({
-          listRecent: array
-        }, () => {
-        })
-      }
-    })
     this._panResponder = PanResponder.create({
       onStartShouldSetPanResponder: (event, gestureState) => true,
       // onMoveShouldSetPanResponder: (event, gestureState) => true,
@@ -414,17 +412,17 @@ class Home extends Component {
           }, () => callback())
         })
     }
-
   }
   toDetail(postId, data) {
-    let listRecent = this.state.listRecent
-    if (listRecent.length < 10) {
+    let listRecent = this.state.listRecent;
+    if (listRecent.length < 30) {
       listRecent.unshift(data)
     }
     else {
       listRecent.pop();
       listRecent.unshift(data)
     }
+    this.props.dispatch(addRecent(data));
     AsyncStorage.setItem('listRecent', JSON.stringify(listRecent))
     this.props.dispatch(selectedPost0(postId))
     if (postId + 1 < this.state.bigData.length) {

@@ -22,7 +22,7 @@ import NewsItem from '../common/NewsItem';
 const cheerio = require('cheerio-without-node-native');
 
 import { connect } from 'react-redux';
-import { changeModalState, addBookmark, replaceBookmark } from '../actions';
+import { changeModalState, addBookmark, replaceBookmark, addRecent } from '../actions';
 import { selectedPost2, selectedPost1, selectedPost0, disableScrollWebview } from '../actions';
 var Toast = require('react-native-toast');
 
@@ -38,11 +38,16 @@ class NewsDetail extends Component {
       index1: 3,
       index2: 1,
       dx: 0,
-      listRecent: [],
-      tutorialStep: 1
-
+      tutorialStep: 1,
+      bookmarked: false
     };
     this._get("firstLogin");
+    for (let i = 0; i < this.props.listBookmark.length; i++) {
+      if (this.props.listBookmark[i].title == this.props.listData[this.props.dataSlot0].title) {
+        this.setState({ bookmarked: true })
+        break;
+      }
+    }
   };
   _set = async (key, value) => {
     try { await AsyncStorage.setItem(key, value); }
@@ -60,14 +65,6 @@ class NewsDetail extends Component {
     let listLength = this.props.listData.length;
     var foo;
     var dx;
-    // AsyncStorage.getItem('listRecent', (err, result) => {
-    //   let array = JSON.parse(result)
-    //   if (array !== null) {
-    //     this.setState({
-    //       listRecent: array
-    //     })
-    //   }
-    // })
     this._panResponder = PanResponder.create({
       onMoveShouldSetPanResponder: (
         event: { nativeEvent: { pageY: number, pageX: number } },
@@ -136,23 +133,30 @@ class NewsDetail extends Component {
         // if (this.state.canScrollPage) {
         // this.setState({ canScrollPage: false })
         if (dx < 0) {
+          let listRecent = this.props.listRecent;
+          let listBookmark = this.props.listBookmark;
           switch (this.state.index0) {
             case 2:
               if ((dx < -width / 4) || (gestureState.vx < -0.9)) {
-                let listRecent = this.state.listRecent
                 if (this.props.dataSlot0 + 1 < listLength) {
                   this.setState({ index2: 3, index1: 2, index0: 1 }, () => {
 
-                    console.log('lưu')
-                    if (listRecent.length < 10) {
+                    if (listRecent.length < 30) {
                       listRecent.unshift(this.props.listData[this.props.dataSlot1])
                     }
                     else {
                       listRecent.pop();
                       listRecent.unshift(this.props.listData[this.props.dataSlot1])
                     }
+                    // this.props.dispatch(addRecent(this.props.listData[this.props.dataSlot1]))
+                    this.setState({ bookmarked: false })
+                    for (var i = 0; i < listBookmark.length; i++) {
+                      if (listBookmark[i].title == this.props.listData[this.props.dataSlot1].title) {
+                        this.setState({ bookmarked: true })
+                        break;
+                      }
+                    }
                     AsyncStorage.setItem('listRecent', JSON.stringify(listRecent))
-                    console.log(listRecent)
                     setTimeout(() => { this.props.dispatch(selectedPost0(this.props.dataSlot0 + 3)) }, 210)
                   })
                   Animated.timing(
@@ -170,18 +174,25 @@ class NewsDetail extends Component {
               break;
             case 3:
               if ((dx < -width / 4) || (gestureState.vx < -0.9)) {
-                let listRecent = this.state.listRecent
+                let listRecent = this.props.listRecent
                 if (this.props.dataSlot0 + 2 < listLength) {
                   this.setState({ index0: 2, index2: 1, index1: 3 }, () => {
-                    console.log('lưu')
-                    if (listRecent.length < 10) {
+
+                    if (listRecent.length < 30) {
                       listRecent.unshift(this.props.listData[this.props.dataSlot0])
                     }
                     else {
                       listRecent.pop();
                       listRecent.unshift(this.props.listData[this.props.dataSlot0])
                     }
-                    console.log(listRecent)
+                    // this.props.dispatch(addRecent(this.props.listData[this.props.dataSlot0]))
+                    this.setState({ bookmarked: false })
+                    for (var i = 0; i < listBookmark.length; i++) {
+                      if (listBookmark[i].title == this.props.listData[this.props.dataSlot1].title) {
+                        this.setState({ bookmarked: true })
+                        break;
+                      }
+                    }
                     AsyncStorage.setItem('listRecent', JSON.stringify(listRecent))
                     setTimeout(() => { this.props.dispatch(selectedPost2(this.props.dataSlot2 + 3)) }, 210)
                   })
@@ -200,18 +211,24 @@ class NewsDetail extends Component {
               break;
             case 1:
               if ((dx < -width / 4) || (gestureState.vx < -0.9)) {
-                let listRecent = this.state.listRecent
                 if (this.props.dataSlot0 < listLength) {
                   this.setState({ index1: 1, index0: 3, index2: 2 }, () => {
-                    console.log('lưu')
-                    if (listRecent.length < 10) {
+
+                    if (listRecent.length < 30) {
                       listRecent.unshift(this.props.listData[this.props.dataSlot2])
                     }
                     else {
                       listRecent.pop();
                       listRecent.unshift(this.props.listData[this.props.dataSlot2])
                     }
-                    console.log(listRecent)
+                    // this.props.dispatch(addRecent(this.props.listData[this.props.dataSlot2]))
+                    this.setState({ bookmarked: false })
+                    for (var i = 0; i < listBookmark.length; i++) {
+                      if (listBookmark[i].title == this.props.listData[this.props.dataSlot1].title) {
+                        this.setState({ bookmarked: true })
+                        break;
+                      }
+                    }
                     AsyncStorage.setItem('listRecent', JSON.stringify(listRecent))
                     setTimeout(() => { this.props.dispatch(selectedPost1(this.props.dataSlot1 + 3)) }, 210)
                   })
@@ -238,7 +255,7 @@ class NewsDetail extends Component {
   }
   saveBookmark() {
     var postInfo;
-    var selected = false;
+    var selected = this.state.bookmarked;
     if (this.state.index0 == 2) {
       postInfo = this.props.listData[this.props.dataSlot0];
     } else if (this.state.index1 == 2) {
@@ -262,10 +279,12 @@ class NewsDetail extends Component {
           Toast.show('Đã bỏ lưu')
         }
       }
+      this.setState({ bookmarked: false })
       this.props.dispatch(replaceBookmark(listBookmark))
       this._set('listBookmark', JSON.stringify(listBookmark))
     } else {
       // listBookmark.push(postInfo);
+      this.setState({ bookmarked: true })
       this._set('listBookmark', JSON.stringify(listBookmark))
       this.props.dispatch(addBookmark(postInfo))
       Toast.show('Đã lưu')
@@ -393,6 +412,21 @@ class NewsDetail extends Component {
         return null
     }
   }
+  renderIconBookmark() {
+    if (this.state.bookmarked) {
+      return (
+        <Image
+          style={styles.iconNavBar}
+          source={require('../../img/ic_bookmark_on.png')} />
+      )
+    } else {
+      return (
+        <Image
+          style={styles.iconNavBar}
+          source={require('../../img/ic_bookmark.png')} />
+      )
+    }
+  }
   render() {
     if (this.props.listData != 0) {
       return (
@@ -417,9 +451,7 @@ class NewsDetail extends Component {
               <TouchableOpacity
                 onPress={() => this.saveBookmark()}
                 style={styles.navBarButton}>
-                <Image
-                  style={styles.iconNavBar}
-                  source={require('../../img/ic_bookmark.png')} />
+                {this.renderIconBookmark()}
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => this.props.dispatch(changeModalState(!this.props.openMenu))}
@@ -516,7 +548,8 @@ const mapStateToProps = state => {
     openMenu: state.readerModalReducer.modalState,
     menuBarColor: state.readerModalReducer.menuBarColor,
     listBookmark: state.bookmarkReducer.list,
-    loadingDetailState: state.loadListDataReducer.loading
+    loadingDetailState: state.loadListDataReducer.loading,
+    listRecent: state.bookmarkReducer.listRecent
   }
 }
 export default connect(mapStateToProps)(NewsDetail);

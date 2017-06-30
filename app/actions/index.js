@@ -21,6 +21,8 @@ import {
   ADD_SEARCH_KEYWORD,
   CHANGE_LOADING_STATE,
   CHANGE_LINEHEIGHT,
+  ADD_RECENT,
+  REPLACE_RECENT,
 } from './types';
 
 
@@ -129,6 +131,18 @@ export const addBookmark = (data) => {
 export const replaceBookmark = (data) => {
   return {
     type: REPLACE_BOOKMARK,
+    payload: data
+  }
+}
+export const addRecent = (data) => {
+  return {
+    type: ADD_RECENT,
+    payload: data
+  }
+}
+export const replaceRecent = (data) => {
+  return {
+    type: REPLACE_RECENT,
     payload: data
   }
 }

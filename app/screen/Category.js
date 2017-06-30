@@ -35,7 +35,7 @@ const Item = [
         name: 'Kinh doanh',
         link: 'http://vnexpress.net/rss/kinh-doanh.rss',
         source: "vnexpress.net",
-        color: 'rgb(245, 228, 113)'
+        color: 'rgb(245, 180, 113)'
     },
     {
         name: 'Pháp luật',

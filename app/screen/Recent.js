@@ -14,7 +14,7 @@ const { height, width } = Dimensions.get('window')
 import { connect } from 'react-redux';
 
 import { SwipeActionView } from 'react-native-action-view';
-import { replaceBookmark } from '../actions';
+import { replaceRecent } from '../actions';
 
 class Recent extends Component {
     constructor() {
@@ -25,13 +25,9 @@ class Recent extends Component {
         }
     }
     componentWillMount() {
-        AsyncStorage.getItem("listRecent", (err, result) => {
-            let data = JSON.parse(result)
-            this.setState({
-                data: data,
-                dataSource: this.state.dataSource.cloneWithRows(data)
-            })
-        })
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(this.props.listRecent)
+      });
     }
     _set = async (key, value) => {
         try { await AsyncStorage.setItem(key, value); }
@@ -69,10 +65,11 @@ class Recent extends Component {
     //     })
     // }
     removeRecent(row, sectionID, rowID) {
-        listRecent = this.state.data;
+        listRecent = this.props.listRecent;
         listRecent.splice(rowID, 1);
+        this.props.dispatch(replaceRecent(listRecent));
         setTimeout(() => {
-            AsyncStorage.setItem("key" , JSON.stringify(listRecent))
+            AsyncStorage.setItem("listRecent" , JSON.stringify(listRecent))
             //this._set('listRecent', JSON.stringify(listRecent))
             this.setState({
                 dataSource: new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 }).cloneWithRows(listRecent)
@@ -172,6 +169,7 @@ const mapStateToProps = state => {
     return {
         postBackground: state.readerModalReducer.postBackground,
         textColor: state.readerModalReducer.textColor,
+        listRecent: state.bookmarkReducer.listRecent
     }
 }
 export default connect(mapStateToProps)(Recent);

@@ -32,7 +32,7 @@ class NewsItem2 extends Component {
           activeOpacity={1}
           style={[{ height: height, backgroundColor: this.props.postBackground }, this.props.style]}>
           {!this.state.loading &&
-            <Image resizeMode='cover' source={{ uri: this.props.data.thumb }} defaultSource={require('../../img/background.jpg')} onProgress={(e)=>console.log(e.nativeEvent.loaded)} style={{ flex: 2 / 3 }}>
+            <Image resizeMode='cover' source={{ uri: this.props.data.thumb }} defaultSource={require('../../img/background.jpg')} style={{ flex: 2 / 3 }}>
               <View style={{backgroundColor: 'rgba(0, 0, 0, 0.5)' , flex:1}}>
                 <View style={styles.menuBar}>
                   <View style={{flexDirection: 'row', alignItems: 'center'}}>

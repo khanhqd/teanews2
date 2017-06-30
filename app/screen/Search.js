@@ -112,17 +112,26 @@ class Search extends Component {
               />
 
               <View style={styles.menuBar}>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <View style={{flexDirection: 'row', alignItems: 'center', borderColor: 'black',
+                width: '80%',
+                justifyContent: 'space-between',
+                borderWidth: 1,
+                marginLeft: 10,
+                borderRadius: 15}}>
                   <TextInput
                   autoCorrect={false}
                   style={styles.searchBox}
                   placeholder="Tìm kiếm"
                   onChangeText={(value)=>this.setState({ input: value })}/>
+                  <TouchableOpacity onPress={() => { this.searchBegin() }}>
+                    <Image source={require('../../img/ic_search_w.png')} style={{ height: 30, width: 30, tintColor: 'black', marginRight: 10}} />
+                  </TouchableOpacity>
                 </View>
 
-                <TouchableOpacity onPress={() => { this.searchBegin() }}>
-                  <Image source={require('../../img/ic_search_w.png')} style={{ height: 30, width: 30, tintColor: 'black'}} />
-                </TouchableOpacity>
+                <View style={{flex: 1, alignItems: 'center'}} onTouchStart={()=>{this.props.navigation.goBack()}}>
+                  <Text style={{fontSize: 17, color: 'rgb(0, 171, 255)'}}>Cancel
+                  </Text>
+                </View>
               </View>
 
               {(this.state.result.length == 0) ?
@@ -178,18 +187,13 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       backgroundColor: 'transparent',
       justifyContent: 'space-between',
-      paddingRight: 20,
       marginTop: 10,
       alignItems:'center'
     },
     searchBox: {
-      width: '90%',
-      paddingLeft: 10,
-      borderColor: 'black',
-      borderWidth: 1,
-      borderRadius: 15,
+      width: '80%',
       height: 35,
-      marginLeft: 10
+      paddingLeft: 15
     },
 })
 const mapStateToProps = state => {

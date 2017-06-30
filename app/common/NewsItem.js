@@ -299,7 +299,7 @@ class NewsItem extends Component {
         <View style={{ height: 20, width: width, backgroundColor: 'black' }}>
         </View>
         {this.props.openMenu &&
-          <View style={styles.modalContainer} onTouchStart={() => this.props.dispatch(changeModalState(!this.props.openMenu))}>
+          <TouchableOpacity style={styles.modalContainer} onPress={() => this.props.dispatch(changeModalState(!this.props.openMenu))}>
             <Animatable.View animation="slideInUp" duration={300} style={[styles.menuModal, { backgroundColor: this.props.postBackground }]}>
               <View style={{ flexDirection: 'row', flex: 1 }}>
                 <TouchableHighlight
@@ -386,7 +386,7 @@ class NewsItem extends Component {
               </TouchableHighlight>
 
             </Animatable.View>
-          </View>
+          </TouchableOpacity>
         }
         {this.loading()}
 
@@ -542,7 +542,7 @@ const styles = {
     width: width,
     height: height,
     position: 'absolute',
-    zIndex: 3,
+    zIndex: 4,
     backgroundColor: 'rgba(0, 0, 0, 0.39)',
     justifyContent: 'flex-end',
     paddingBottom: 55,
