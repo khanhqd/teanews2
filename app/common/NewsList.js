@@ -39,12 +39,12 @@ class NewsList extends Component {
           <View style={styles.menuBar}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <TouchableOpacity onPress={() => { this.props.navigation.navigate('DrawerOpen') }}>
-                <Image source={require('../../img/ic_list_w.png')} style={{ height: 30, width: 30, marginLeft: 15, tintColor: 'black' }} />
+                <Image source={require('../../img/ic_list_w.png')} style={{ height: 24, width: 24, marginLeft: 15, tintColor: 'black' }} />
               </TouchableOpacity>
               <Text style={{ textAlign: 'center', fontSize: 20, marginLeft: 20, color: 'black', fontWeight: 'bold' }}>TEANEWS</Text>
             </View>
             <TouchableOpacity onPress={() => { this.props.navigation.navigate('Search_Screen') }}>
-              <Image source={require('../../img/ic_search_b.png')} style={{ height: 30, width: 30, tintColor: 'black' }} />
+              <Image source={require('../../img/ic_search_b.png')} style={{ height: 24, width: 24, tintColor: 'black' }} />
             </TouchableOpacity>
           </View>
           <TouchableOpacity

@@ -364,6 +364,7 @@ class Home extends Component {
                 cate: cate,
                 cateColor: cateColor,
               })
+              //console.log(data)
             }
           })
           this.setState({
