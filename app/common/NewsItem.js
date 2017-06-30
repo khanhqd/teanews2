@@ -186,7 +186,7 @@ class NewsItem extends Component {
         this.setState({ pullToCloseColor: "black" })
       }
     } else {
-      this.setState({ pullToCloseDist: e.nativeEvent.contentOffset.y - 20 })
+      this.setState({ pullToCloseDist: e.nativeEvent.contentOffset.y })
     }
   }
   switcherPressed() {
