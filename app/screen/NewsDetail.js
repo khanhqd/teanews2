@@ -534,8 +534,8 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   iconNavBar: {
-    height: 25,
-    width: 25,
+    height: 24,
+    width: 24,
     tintColor: 'black'
   }
 });

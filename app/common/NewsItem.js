@@ -261,7 +261,7 @@ class NewsItem extends Component {
         fontSize: this.props.fontSize,
         color: this.props.textColor,
         lineHeight: this.props.lineHeight,
-        
+
       },
       td: {
         fontSize: 15,
@@ -408,11 +408,11 @@ class NewsItem extends Component {
                 {(this.state.logo != '') &&
                   <Image source={this.state.logo} style={{ height: 20, width: 20 }} />
                 }
-                <Text style={{ textAlign: 'center', marginLeft: 10 , fontSize:13 }}>{this.state.source}</Text>
+                <Text style={{ textAlign: 'center', marginLeft: 10 , fontSize:13, color: '#9b9b9b' }}>{this.state.source}</Text>
               </View>
-              <Text style={{ marginRight: 20, textAlign: 'center' }}>{time}</Text>
+              <Text style={{ marginRight: 20, textAlign: 'center', color: '#9b9b9b' }}>{time}</Text>
             </View>
-            <Text style={{ fontFamily: 'Lora-Regular', margin: 10, color: this.props.textColor, fontSize: this.props.fontSize + 15, fontWeight: 'bold', marginTop: 0 }}>{this.props.row.title}</Text>
+            <Text style={{ fontFamily: 'Lora-Regular', margin: 10, color: this.props.textColor, fontSize: 30, fontWeight: 'bold', marginTop: 0 }}>{this.props.row.title}</Text>
             <View style={[styles.cateContainer, { backgroundColor: this.props.row.cateColor }]}>
               <Text style={styles.textCate}>{this.props.row.cate}</Text>
             </View>

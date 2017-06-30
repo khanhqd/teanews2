@@ -124,7 +124,7 @@ class Search extends Component {
                   placeholder="Tìm kiếm"
                   onChangeText={(value)=>this.setState({ input: value })}/>
                   <TouchableOpacity onPress={() => { this.searchBegin() }}>
-                    <Image source={require('../../img/ic_search_w.png')} style={{ height: 30, width: 30, tintColor: 'black', marginRight: 10}} />
+                    <Image source={require('../../img/ic_search_w.png')} style={{ height: 24, width: 24, tintColor: 'black', marginRight: 10}} />
                   </TouchableOpacity>
                 </View>
 
