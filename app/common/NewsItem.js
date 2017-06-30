@@ -198,28 +198,26 @@ class NewsItem extends Component {
       this.props.dispatch(changeBackgroundColor('white'));
       this.props.dispatch(changeNightMode(false));
     }
-    setTimeout(() => {
-      this.props.dispatch(changeModalState(!this.props.openMenu))
-    }, 100)
+    setTimeout(()=>{this.fetchContent(this.props.row)},100)
   }
   render() {
     const styles2 = {
       h1: {
-        fontSize: this.props.fontSize+(height/width),
+        fontSize: this.props.fontSize,
         color: this.props.textColor,
       },
       h2: {
-        fontSize: this.props.fontSize+(height/width),
+        fontSize: this.props.fontSize,
         fontWeight: '500',
         color: this.props.textColor,
       },
       h3: {
         fontWeight: '400',
-        fontSize: this.props.fontSize+(height/width),
+        fontSize: this.props.fontSize,
         color: this.props.textColor,
       },
       p: {
-        fontSize: this.props.fontSize+(height/width),
+        fontSize: this.props.fontSize,
         color: this.props.textColor,
         lineHeight: this.props.lineHeight,
 
@@ -231,7 +229,7 @@ class NewsItem extends Component {
       },
       strong: {
         color: this.props.textColor,
-        fontSize: this.props.fontSize+(height/width),
+        fontSize: this.props.fontSize,
         fontWeight: '600',
         lineHeight: this.props.lineHeight
       },
@@ -239,17 +237,17 @@ class NewsItem extends Component {
         padding: 0,
       },
       span: {
-        fontSize: this.props.fontSize+(height/width),
+        fontSize: this.props.fontSize,
         color: this.props.textColor,
         lineHeight: this.props.lineHeight
       },
       i: {
-        fontSize: this.props.fontSize+(height/width),
+        fontSize: this.props.fontSize,
         color: this.props.textColor,
         lineHeight: this.props.lineHeight
       },
       div: {
-        fontSize: this.props.fontSize+(height/width),
+        fontSize: this.props.fontSize,
         color: this.props.textColor,
         lineHeight: this.props.lineHeight
       },
@@ -267,33 +265,10 @@ class NewsItem extends Component {
                 <TouchableHighlight
                   underlayColor="white"
                   onPress={() => {
-                    if (this.props.fontSize < 30) {
-                      this.props.dispatch(changeFontSize(this.props.fontSize + 2));
-                      this.props.dispatch(changeLineHeight(this.props.lineHeight + 2));
-                      setTimeout(() => {
-                        this.props.dispatch(changeModalState(!this.props.openMenu))
-                      }, 100)
-                    } else {
-                      Toast.show('Cỡ chữ đã tăng tối đa');
-                    }
-                    if (Platform.OS === 'android') {
-                      setTimeout(() => this.reloadWebview(), 200)
-                    }
-                  }}
-                  style={[styles.modalItem, { borderRightWidth: 1, borderTopLeftRadius: 10 }]}>
-                  <View style={{ alignItems: 'center' }}>
-                    <Text style={{ fontSize: 20, fontWeight: 'bold', color: this.props.textColor }}>A</Text>
-                  </View>
-                </TouchableHighlight>
-                <TouchableHighlight
-                  underlayColor="white"
-                  onPress={() => {
                     if (this.props.fontSize > 7) {
                       this.props.dispatch(changeFontSize(this.props.fontSize - 2));
                       this.props.dispatch(changeLineHeight(this.props.lineHeight - 2));
-                      setTimeout(() => {
-                        this.props.dispatch(changeModalState(!this.props.openMenu))
-                      }, 100)
+                      setTimeout(()=>{this.fetchContent(this.props.row)},100)
                     } else {
                       Toast.show('Cỡ chữ đã thu nhỏ tối đa');
                     }
@@ -301,11 +276,31 @@ class NewsItem extends Component {
                       setTimeout(() => this.reloadWebview(), 200)
                     }
                   }}
-                  style={[styles.modalItem, { borderTopRightRadius: 10 }]}>
+                  style={[styles.modalItem, { borderRightWidth: 1, borderTopLeftRadius: 10 }]}>
                   <View style={{ alignItems: 'center' }}>
                     <Text style={{ color: this.props.textColor }}>A</Text>
                   </View>
                 </TouchableHighlight>
+                <TouchableHighlight
+                  underlayColor="white"
+                  onPress={() => {
+                    if (this.props.fontSize < 30) {
+                      this.props.dispatch(changeFontSize(this.props.fontSize + 2));
+                      this.props.dispatch(changeLineHeight(this.props.lineHeight + 2));
+                      setTimeout(()=>{this.fetchContent(this.props.row)},100)
+                    } else {
+                      Toast.show('Cỡ chữ đã tăng tối đa');
+                    }
+                    if (Platform.OS === 'android') {
+                      setTimeout(() => this.reloadWebview(), 200)
+                    }
+                  }}
+                  style={[styles.modalItem, { borderTopRightRadius: 10 }]}>
+                  <View style={{ alignItems: 'center' }}>
+                    <Text style={{ fontSize: 20, fontWeight: 'bold', color: this.props.textColor }}>A</Text>
+                  </View>
+                </TouchableHighlight>
+
               </View>
               <TouchableHighlight
                 underlayColor="white"
@@ -372,7 +367,7 @@ class NewsItem extends Component {
               </View>
               <Text style={{ marginRight: 20, textAlign: 'center', color: '#9b9b9b' }}>{time}</Text>
             </View>
-            <Text style={{ fontFamily: 'Lora-Regular', margin: 10, color: this.props.textColor, fontSize: 30, fontWeight: 'bold', marginTop: 0 }}>{this.props.row.title}</Text>
+            <Text style={{ fontFamily: 'Lora-Regular', margin: 10, marginLeft: 15, color: this.props.textColor, fontSize: 30, fontWeight: 'bold', marginTop: 0 }}>{this.props.row.title}</Text>
             <View style={[styles.cateContainer, { backgroundColor: this.props.row.cateColor }]}>
               <Text style={styles.textCate}>{this.props.row.cate}</Text>
             </View>
@@ -424,7 +419,7 @@ class NewsItem extends Component {
 // }
 const styles = {
   cateContainer: {
-    marginLeft: 10,
+    marginLeft: 15,
     borderRadius: 3,
     width: 70,
     marginBottom: 10,
@@ -438,7 +433,7 @@ const styles = {
   },
   sourceContainer: {
     marginTop: 10,
-    marginLeft: 10,
+    marginLeft: 15,
     height: 30,
     flexDirection: 'row',
     justifyContent: 'space-between'

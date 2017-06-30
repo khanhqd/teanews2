@@ -75,7 +75,7 @@ class NewsItem2 extends Component {
             <Text
               numberOfLines={4}
               ellipsizeMode="tail"
-              style={{ marginLeft: 10, marginTop: 5, fontSize: 15, marginRight: 9, lineHeight: 25, color: this.props.textColor, fontFamily: 'Lora-Bold' }}
+              style={{ marginLeft: 10, marginTop: 5, fontSize: 15, marginRight: 9, lineHeight: 25, color: this.props.textColor, fontFamily: 'Lora-Regular' }}
             >{this.props.data.des}</Text>
           </View>
         </TouchableOpacity>
