@@ -18,14 +18,23 @@ class NewsItem2 extends Component {
       this.setState({ loading: true }, () => this.setState({ loading: false }))
     }
   }
+  msToTime(duration) {
+    var milliseconds = parseInt((duration % 1000) / 100)
+      , seconds = parseInt((duration / 1000) % 60)
+      , minutes = parseInt((duration / (1000 * 60)) % 60)
+      , hours = parseInt((duration / (1000 * 60 * 60)) % 24);
+
+    hours = (hours < 10) ? "0" + hours : hours;
+    minutes = (minutes < 10) ? "0" + minutes : minutes;
+    //seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+    return hours + ":" + minutes 
+  }
   render() {
     if (this.props.data) {
-      var date = new Date(this.props.data.date);
-      if (this.props.data.url.includes("vnexpress")) {
-        source = "Vnexpress.net";
-      } else {
-        source = "Tinmoi24.vn"
-      }
+      let date = new Date(this.props.data.date);
+      let convertToDate = date.toDateString();
+      let time = this.msToTime(this.props.data.date);
       return (
         <TouchableOpacity
           onPress={this.props.onPress}
@@ -37,7 +46,7 @@ class NewsItem2 extends Component {
                 <View style={styles.menuBar}>
                   <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <TouchableOpacity onPress={() => { this.props.navigation.navigate('DrawerOpen') }}>
-                      <Image source={require('../../img/LeftMenu/ic_list_w.png')} style={{ height: 24, width: 24, marginLeft: 15 }} />
+                      <Image source={require('../../img/ic_list_w.png')} style={{ height: 24, width: 24, marginLeft: 15 }} />
                     </TouchableOpacity>
                     <Text style={{ textAlign: 'center', fontSize: 20, marginLeft: 20, color: 'white', fontWeight: 'bold' }}>TEANEWS</Text>
                   </View>
@@ -70,7 +79,7 @@ class NewsItem2 extends Component {
             </Image>
           }
           <View style={{ height: height - width, width: width }} >
-            <Text style={{ fontSize: 13, marginLeft: 13, color: '#4a4a4a' }}>{date.toDateString()}</Text>
+            <Text style={{ fontSize: 13, marginLeft: 13, color: '#4a4a4a' }}>{convertToDate}-{time}</Text>
             <Text numberOfLines={3} ellipsizeMode="tail" style={{ marginLeft: 10, marginRight: 9, fontSize: 30, marginTop: 10, fontFamily: 'Lora-Bold', lineHeight: 35, color: this.props.textColor }}>{this.props.data.title}</Text>
             <Text
               numberOfLines={4}

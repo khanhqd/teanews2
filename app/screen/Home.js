@@ -383,7 +383,9 @@ class Home extends Component {
           //date
           let date = $(this).find('.time').text().toString().replace(/\s+ /g, "").replace(/(\r\n|\n|\r)/gm, "")
           let decodeDate = $.parseHTML(date);
+          // title
           let decodeTitle = $.parseHTML(title);
+          let editTitle = decodeTitle[0].data.replace(/[$\\@\\\#%\^\&\*\(\)\[\]\+\_\{\}\`\~\=\.\|]/g ,"");
           let decodeSummary = $.parseHTML(summary);
           //time
           let time = decodeDate[0].data
@@ -397,7 +399,7 @@ class Home extends Component {
           let newSource = decodeSource[0].data
           if (decodeSummary !== null) {
             data.push({
-              title: decodeTitle[0].data,
+              title: editTitle,
               thumb: thumb,
               des: decodeSummary[0].data,
               url: $(this).find('figure').find('a').attr('href').replace(/\s+ /g, ""),

@@ -8,6 +8,5 @@ export default combineReducers({
   loadListDataReducer: LoadListDataReducer,
   readerModalReducer: ReaderModalReducer,
   listCateReducer: ListCateReducer,
-  listCateReducer: ListCateReducer,
   bookmarkReducer: BookmarkReducer
 })

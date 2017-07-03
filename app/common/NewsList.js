@@ -24,29 +24,61 @@ class NewsList extends Component {
     this.props.dispatch(selectedPost2(postId - 1))
     this.props.navigation.navigate('Detail_Screen')
   }
-  render() {
-    var source = [];
-    for (var i = 0; i < 3; i++) {
-      if (this.props.data[i].url.includes("vnexpress")) {
-        source[i] = "Vnexpress.net";
-      } else {
-        source[i] = "Tinmoi24.vn"
-      }
+  renderStatusBar() {
+    if (this.props.postBackground == 'white') {
+      return (
+        <View style={styles.menuBar}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <TouchableOpacity onPress={() => { this.props.navigation.navigate('DrawerOpen') }}>
+              <Image source={require('../../img/ic_list_b.png')} style={{ height: 24, width: 24, marginLeft: 15 }} />
+            </TouchableOpacity>
+            <Text style={{ textAlign: 'center', fontSize: 20, marginLeft: 20, color: this.props.textColor, fontWeight: 'bold' }}>TEANEWS</Text>
+          </View>
+          <TouchableOpacity onPress={() => { this.props.navigation.navigate('Search_Screen') }}>
+            <Image source={require('../../img/ic_search_b.png')} style={{ height: 24, width: 24 }} />
+          </TouchableOpacity>
+        </View>
+      )
     }
+    else {
+      return (
+        <View style={styles.menuBar}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <TouchableOpacity onPress={() => { this.props.navigation.navigate('DrawerOpen') }}>
+              <Image source={require('../../img/ic_night_list_b.png')} style={{ height: 24, width: 24, marginLeft: 15, tintColor: this.props.textColor }} />
+            </TouchableOpacity>
+            <Text style={{ textAlign: 'center', fontSize: 20, marginLeft: 20, color: this.props.textColor, fontWeight: 'bold' }}>TEANEWS</Text>
+          </View>
+          <TouchableOpacity onPress={() => { this.props.navigation.navigate('Search_Screen') }}>
+            <Image source={require('../../img/ic_search_b.png')} style={{ height: 24, width: 24, tintColor: this.props.textColor }} />
+          </TouchableOpacity>
+        </View>
+      )
+    }
+  }
+  msToTime(duration) {
+    var milliseconds = parseInt((duration % 1000) / 100)
+      , seconds = parseInt((duration / 1000) % 60)
+      , minutes = parseInt((duration / (1000 * 60)) % 60)
+      , hours = parseInt((duration / (1000 * 60 * 60)) % 24);
+
+    hours = (hours < 10) ? "0" + hours : hours;
+    minutes = (minutes < 10) ? "0" + minutes : minutes;
+    //seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+    return hours + ":" + minutes
+  }
+  render() {
     if (this.props.data) {
+      let date = new Date(this.props.data[0].date).toDateString()
+      let time = this.msToTime(this.props.data[0].date)
+      let date1 = new Date(this.props.data[1].date).toDateString()
+      let time1 = this.msToTime(this.props.data[0].date)
+      let date2 = new Date(this.props.data[2].date).toDateString()
+      let time2= this.msToTime(this.props.data[0].date)
       return (
         <View style={[{ height: height, backgroundColor: this.props.postBackground }, this.props.style]}>
-          <View style={styles.menuBar}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <TouchableOpacity onPress={() => { this.props.navigation.navigate('DrawerOpen') }}>
-                <Image source={require('../../img/ic_list_w.png')} style={{ height: 24, width: 24, marginLeft: 15, tintColor: this.props.textColor }} />
-              </TouchableOpacity>
-              <Text style={{ textAlign: 'center', fontSize: 20, marginLeft: 20, color: this.props.textColor, fontWeight: 'bold' }}>TEANEWS</Text>
-            </View>
-            <TouchableOpacity onPress={() => { this.props.navigation.navigate('Search_Screen') }}>
-              <Image source={require('../../img/ic_search_b.png')} style={{ height: 24, width: 24, tintColor: this.props.textColor }} />
-            </TouchableOpacity>
-          </View>
+          {this.renderStatusBar()}
           <TouchableOpacity
             onPress={() => this.toDetail(this.props.dataIndex)}
             style={{ width: width - 20, height: width - 40, margin: 10 }}>
@@ -61,8 +93,8 @@ class NewsList extends Component {
                     <Text style={styles.categoryText}>{this.props.data[0].cate}
                     </Text>
                   </View>
-                  {/*<Text style={styles.categoryText}>{this.props.data[0].source}
-                  </Text>*/}
+                  <Text style={styles.categoryText}>{date}-{time}
+                  </Text>
                   <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold', marginBottom: 10 }}>{this.props.data[0].title}
                   </Text>
                   <Text
@@ -85,8 +117,8 @@ class NewsList extends Component {
                 </View>
                 <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }} numberOfLines={5} ellipsizeMode="tail">{this.props.data[1].title}
                 </Text>
-                {/*<Text style={styles.categoryText}>{this.props.data[1].source}
-                </Text>*/}
+                <Text style={styles.categoryText}>{date1}-{time1}
+                </Text>
 
               </View>
             </TouchableOpacity>
@@ -108,8 +140,8 @@ class NewsList extends Component {
                     ellipsizeMode="tail"
                     style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }}>{this.props.data[2].title}
                   </Text>
-                  {/*<Text style={styles.categoryText}>{this.props.data[2].source}
-                  </Text>*/}
+                  <Text style={styles.categoryText}>{date2}-{time2}
+                  </Text>
 
                 </View>
               </View>

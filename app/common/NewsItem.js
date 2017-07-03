@@ -59,8 +59,6 @@ class NewsItem extends Component {
     arr: [],
     logo: '',
     reRender: false,
-    height: '',
-    width: ''
   };
   componentWillMount() {
     if (this.props.row) {
@@ -109,24 +107,6 @@ class NewsItem extends Component {
       }
     });
   }
-  bodau(source) {
-    source = source.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ằ|Ẵ/g, "A");
-    source = source.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, "E");
-    source = source.replace(/Ì|Í|Ị|Ỉ|Ĩ/g, "I");
-    source = source.replace(/Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ/g, "O");
-    source = source.replace(/Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ/g, "U");
-    source = source.replace(/Ỳ|Ý|Ỵ|Ỷ|Ỹ/g, "Y");
-    source = source.replace(/Đ/g, "D");
-    source = source.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ằ|ẵ/g, "a");
-    source = source.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
-    source = source.replace(/ì|í|ị|ỉ|ĩ/g, "i");
-    source = source.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
-    source = source.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
-    source = source.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
-    source = source.replace(/đ/g, "d");
-    source = source.replace(/\s+/g, "");
-    return source;
-  }
   fetchContent(row) {
     this.props.dispatch(changeLoadingState(true))
     let sourceReal;
@@ -140,13 +120,13 @@ class NewsItem extends Component {
         $ = cheerio.load(responseData);
         $("a").parent(".Normal").remove();
         $("em").parent(".Normal").remove();
-        $("em,i,span,a, strong").replaceWith(function () { return $(this).contents(); });
+        $("span,em,i,a, strong ").replaceWith(function () { return $(this).contents(); });
         //$("strong").replaceWith(function () { return `<p style="font-Size:18">${$(this).contents()}</p>` });
         $("[data-component-type=video]").replaceWith("<strong>Bài viết chứa video, vui lòng mở link bằng trình duyệt để xem video</strong>");
         $("video").replaceWith("<strong>Bài viết chứa video, vui lòng mở link bằng trình duyệt để xem video</strong>");
-        // $(".see-now,.author_mail.width_common,.tbl_insert,.VCSortableInPreviewMode,.image,iframe,.block_filter_live,.detail_top_live.width_common,.block_breakumb_left,#menu-box,.bi-related,head,#result_other_news,#social_like,noscript,#myvne_taskbar,.block_more_info,#wrapper_header,#header_web,#wrapper_footer,.breakumb_timer.width_common,.banner_980x60,.right,#box_comment,.nativeade,#box_tinkhac_detail,#box_tinlienquan,.block_tag.width_common.space_bottom_20,#ads_endpage,.block_timer_share,.title_news,.div-fbook.width_common.title_div_fbook,.xemthem_new_ver.width_common,.relative_new,#topbar,#topbar-scroll,.text_xemthem,#box_col_left,.form-control.change_gmt,.tt_2,.back_tt,.box_tinkhac.width_common,#sticky_info_st,.col_fillter.box_sticky_left,.start.have_cap2,.cap2,.list_news_dot_3x3,.minutes,#live-updates-wrapper,.block_share.right,.block_goithutoasoan,.xemthem_new_ver.width_common,meta,link,.menu_main,.top_3,.number_bgs,.filter_right,#headmass,.box_category.width_common,.banner_468.width_common,.adsbyeclick,.block_col_160.right,#ArticleBanner2,#ad_wrapper_protection,#WIDGET").remove();
+        $(".see-now,.author_mail.width_common,.tbl_insert").remove();
         let text = $(".newbody p").last().text()
-        if (text.includes(">>> Đọc thêm")) {
+        if (text.includes(">>> Đọc thêm") || text.includes("Bấm xem")) {
           $(".newbody p").last().remove();
         }
         this.setState({
@@ -168,8 +148,6 @@ class NewsItem extends Component {
           source: source,
           loading: false,
           logo: require(`../../img/logo/VnExpress.png`),
-          height: 20,
-          width: 20
         })
         break;
       }
@@ -177,9 +155,7 @@ class NewsItem extends Component {
         this.setState({
           source: source,
           loading: false,
-          logo: require(`../../img/logo/24h.png`),
-          height: 30,
-          width: 60
+          logo: require(`../../img/logo/24h.png`)
         })
         break;
       }
@@ -188,8 +164,6 @@ class NewsItem extends Component {
           source: source,
           loading: false,
           logo: require(`../../img/logo/Baomoi.png`),
-          height: 20,
-          width: 20
         })
         break;
       }
@@ -198,8 +172,6 @@ class NewsItem extends Component {
           source: source,
           loading: false,
           logo: require(`../../img/logo/thethao247.png`),
-          height: 30,
-          width: 60
         })
         break;
       }
@@ -208,19 +180,14 @@ class NewsItem extends Component {
           source: source,
           loading: false,
           logo: require(`../../img/logo/Bongda24h.png`),
-          height: 40,
-          width: 60
         })
         break;
       }
-
       case 'Bóng đá Plus': {
         this.setState({
           source: source,
           loading: false,
           logo: require(`../../img/logo/BongdaPlus.png`),
-          height: 30,
-          width: 60
         })
         break;
       }
@@ -229,8 +196,6 @@ class NewsItem extends Component {
           source: source,
           loading: false,
           logo: require(`../../img/logo/DanViet.png`),
-          height: 30,
-          width: 60
         })
         break;
       }
@@ -239,8 +204,6 @@ class NewsItem extends Component {
           source: source,
           loading: false,
           logo: require(`../../img/logo/NguoiDuaTin.png`),
-          height: 30,
-          width: 60
         })
         break;
       }
@@ -248,9 +211,6 @@ class NewsItem extends Component {
         this.setState({
           source: source,
           loading: false,
-          logo: require(`../../img/logo/tienphong.png`),
-          height: 30,
-          width: 60
         })
         break;
       }
@@ -259,8 +219,6 @@ class NewsItem extends Component {
           source: source,
           loading: false,
           logo: require(`../../img/logo/thethaovanhoa.png`),
-          height: 30,
-          width: 60
         })
         break;
       }
@@ -269,8 +227,6 @@ class NewsItem extends Component {
           source: source,
           loading: false,
           logo: require(`../../img/logo/anninhthudo.png`),
-          height: 40,
-          width: 60
         })
         break;
       }
@@ -279,8 +235,6 @@ class NewsItem extends Component {
           source: source,
           loading: false,
           logo: require(`../../img/logo/laodong.png`),
-          height: 40,
-          width: 60
         })
         break;
       }
@@ -289,8 +243,6 @@ class NewsItem extends Component {
           source: source,
           loading: false,
           logo: require(`../../img/logo/afamily.png`),
-          height: 40,
-          width: 60
         })
         break;
       }
@@ -299,8 +251,6 @@ class NewsItem extends Component {
           source: source,
           loading: false,
           logo: require(`../../img/logo/dantri.png`),
-          height: 40,
-          width: 60
         })
         break;
       }
@@ -309,8 +259,6 @@ class NewsItem extends Component {
           source: source,
           loading: false,
           logo: require(`../../img/logo/laodong.png`),
-          height: 40,
-          width: 60
         })
         break;
       }
@@ -319,8 +267,6 @@ class NewsItem extends Component {
           source: source,
           loading: false,
           logo: require(`../../img/logo/phunutoday.png`),
-          height: 40,
-          width: 60
         })
         break;
       }
@@ -329,8 +275,6 @@ class NewsItem extends Component {
           source: source,
           loading: false,
           logo: require(`../../img/logo/infonet.jpg`),
-          height: 40,
-          width: 60
         })
         break;
       }
@@ -339,8 +283,6 @@ class NewsItem extends Component {
           source: source,
           loading: false,
           logo: require(`../../img/logo/kienthuc.png`),
-          height: 40,
-          width: 60
         })
         break;
       }
@@ -349,8 +291,6 @@ class NewsItem extends Component {
           source: source,
           loading: false,
           logo: require(`../../img/logo/motthegioi.png`),
-          height: 40,
-          width: 60
         })
         break;
       }
@@ -359,8 +299,6 @@ class NewsItem extends Component {
           source: source,
           loading: false,
           logo: require(`../../img/logo/baodatviet.png`),
-          height: 40,
-          width: 60
         })
         break;
       }
@@ -369,8 +307,6 @@ class NewsItem extends Component {
           source: source,
           loading: false,
           logo: require(`../../img/logo/blogtamsu.png`),
-          height: 40,
-          width: 60
         })
         break;
       }
@@ -379,8 +315,6 @@ class NewsItem extends Component {
           source: source,
           loading: false,
           logo: require(`../../img/logo/ngoisaologo.png`),
-          height: 40,
-          width: 60
         })
         break;
       }
@@ -389,8 +323,6 @@ class NewsItem extends Component {
           source: source,
           loading: false,
           logo: require(`../../img/logo/vietnamnet.png`),
-          height: 40,
-          width: 60
         })
         break;
       }
@@ -399,8 +331,6 @@ class NewsItem extends Component {
           source: source,
           loading: false,
           logo: require(`../../img/logo/saostar.png`),
-          height: 40,
-          width: 60
         })
         break;
       }
@@ -409,8 +339,6 @@ class NewsItem extends Component {
           source: source,
           loading: false,
           logo: require(`../../img/logo/vtc.png`),
-          height: 40,
-          width: 60
         })
         break;
       }
@@ -419,8 +347,6 @@ class NewsItem extends Component {
           source: source,
           loading: false,
           logo: require(`../../img/logo/tuoitre.png`),
-          height: 40,
-          width: 60
         })
         break;
       }
@@ -439,8 +365,6 @@ class NewsItem extends Component {
           source: source,
           loading: false,
           logo: require(`../../img/logo/BaoGiaothong.png`),
-          height: 40,
-          width: 60
         })
         break;
       }
@@ -449,8 +373,70 @@ class NewsItem extends Component {
           source: source,
           loading: false,
           logo: require(`../../img/logo/kenh14.png`),
-          height: 40,
-          width: 60
+        })
+        break;
+      }
+      case 'CafeBiz': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/cafebiz.png`),
+        })
+        break;
+      }
+      case 'ICTNews': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/ictnews.png`),
+        })
+        break;
+      }
+      case 'ICTNews': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/ictnews.png`),
+        })
+        break;
+      }
+      case 'Báo Phụ Nữ': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/phunu.png`),
+        })
+        break;
+      }
+      case 'PcWorld': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/PCWorld.png`),
+        })
+        break;
+      }
+      case 'VnReview': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/vnreview.png`),
+        })
+        break;
+      }
+      case 'Pháp Luật HCM': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/PLO.png`),
+        })
+        break;
+      }
+      case 'Công an nhân dân': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/cand.png`),
         })
         break;
       }
@@ -459,8 +445,6 @@ class NewsItem extends Component {
           source: source,
           loading: false,
           logo: require(`../../img/tinmoi24h.png`),
-          height: 20,
-          width: 20
         })
         break;
       }
@@ -504,6 +488,18 @@ class NewsItem extends Component {
       this.props.dispatch(changeNightMode(false));
     }
     setTimeout(() => { this.fetchContent(this.props.row) }, 100)
+  }
+  msToTime(duration) {
+    var milliseconds = parseInt((duration % 1000) / 100)
+      , seconds = parseInt((duration / 1000) % 60)
+      , minutes = parseInt((duration / (1000 * 60)) % 60)
+      , hours = parseInt((duration / (1000 * 60 * 60)) % 24);
+
+    hours = (hours < 10) ? "0" + hours : hours;
+    minutes = (minutes < 10) ? "0" + minutes : minutes;
+    seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+    return hours + ":" + minutes + ":" + seconds;
   }
   render() {
     const styles2 = {
@@ -556,9 +552,15 @@ class NewsItem extends Component {
         color: this.props.textColor,
         lineHeight: this.props.lineHeight
       },
+      font: {
+        fontSize: this.props.fontSize,
+        color: this.props.textColor,
+        lineHeight: this.props.lineHeight
+      },
     };
     let date = new Date(this.props.row.date);
-    let time = isNaN(date) ? this.props.row.date : date.toLocaleDateString();
+    let convertToDate = date.toDateString();
+    let time = this.msToTime(this.props.row.date);
     return (
       <View>
         <View style={{ height: 20, width: width, backgroundColor: 'black' }}>
@@ -670,7 +672,7 @@ class NewsItem extends Component {
                 }
                 <Text style={{ textAlign: 'center', marginLeft: 10, fontSize: 13, color: '#9b9b9b' }}>{this.state.source}</Text>
               </View>
-              <Text style={{ marginRight: 20, textAlign: 'center', color: '#9b9b9b' }}>{time}</Text>
+              <Text style={{ marginRight: 20, textAlign: 'center', color: '#9b9b9b' }}>{convertToDate}-{time}</Text>
             </View>
             <Text style={{ fontFamily: 'Lora-Regular', margin: 10, marginLeft: 15, color: this.props.textColor, fontSize: 30, fontWeight: 'bold', marginTop: 0 }}>{this.props.row.title}</Text>
             <View style={[styles.cateContainer, { backgroundColor: this.props.row.cateColor }]}>
@@ -726,7 +728,7 @@ const styles = {
   cateContainer: {
     marginLeft: 15,
     borderRadius: 3,
-    width: 70,
+    width: 80,
     marginBottom: 10,
   },
   textCate: {

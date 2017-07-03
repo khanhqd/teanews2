@@ -14,7 +14,7 @@ import {
   Animated,
   StatusBar,
   Share,
-  AsyncStorage
+  AsyncStorage,
 } from 'react-native';
 var { height, width } = Dimensions.get('window');
 import * as Animatable from 'react-native-animatable';
@@ -30,7 +30,7 @@ import { firebaseApp } from '../app';
 
 class NewsDetail extends Component {
   static navigationOptions = {
-    mode:'modal'
+    mode: 'modal'
   }
   constructor(props) {
     super(props);
@@ -148,7 +148,7 @@ class NewsDetail extends Component {
             case 2:
               if (dx < -width / 4) {
                 if (this.props.dataSlot0 + 1 < listLength) {
-                  this.setState({ index2: 3, index1: 2, index0: 1,bookmarked: false }, () => {
+                  this.setState({ index2: 3, index1: 2, index0: 1, bookmarked: false }, () => {
                     setTimeout(() => {
                       this.props.dispatch(selectedPost0(this.props.dataSlot0 + 3));
                       if (listRecent.length < 30) {
@@ -159,10 +159,10 @@ class NewsDetail extends Component {
                         listRecent.unshift(this.props.listData[this.props.dataSlot1])
                       };
                       //tracking
-                      this.tracker.child(this.props.listData[this.props.dataSlot1].title.replace(/\./g,"")).transaction(function(view) {
+                      this.tracker.child(this.props.listData[this.props.dataSlot1].title.replace(/\./g, "")).transaction(function (view) {
                         return view + 1;
                       });
-                      this.tracker2.child(this.props.listData[this.props.dataSlot1].cate).transaction(function(view) {
+                      this.tracker2.child(this.props.listData[this.props.dataSlot1].cate).transaction(function (view) {
                         return view + 1;
                       })
 
@@ -193,7 +193,7 @@ class NewsDetail extends Component {
               if (dx < -width / 4) {
                 let listRecent = this.props.listRecent
                 if (this.props.dataSlot0 + 2 < listLength) {
-                  this.setState({ index0: 2, index2: 1, index1: 3,bookmarked: false }, () => {
+                  this.setState({ index0: 2, index2: 1, index1: 3, bookmarked: false }, () => {
                     setTimeout(() => {
                       this.props.dispatch(selectedPost2(this.props.dataSlot2 + 3));
                       if (listRecent.length < 30) {
@@ -204,10 +204,10 @@ class NewsDetail extends Component {
                         listRecent.unshift(this.props.listData[this.props.dataSlot0])
                       }
                       //tracking
-                      this.tracker.child(this.props.listData[this.props.dataSlot0].title.replace(/\./g,"")).transaction(function(view) {
+                      this.tracker.child(this.props.listData[this.props.dataSlot0].title.replace(/\./g, "")).transaction(function (view) {
                         return view + 1;
                       });
-                      this.tracker2.child(this.props.listData[this.props.dataSlot0].cate).transaction(function(view) {
+                      this.tracker2.child(this.props.listData[this.props.dataSlot0].cate).transaction(function (view) {
                         return view + 1;
                       })
 
@@ -218,7 +218,7 @@ class NewsDetail extends Component {
                           break;
                         }
                       }
-                     }, nextPageDuration)
+                    }, nextPageDuration)
                   })
                   Animated.timing(
                     this.state.left0,
@@ -236,7 +236,7 @@ class NewsDetail extends Component {
             case 1:
               if (dx < -width / 4) {
                 if (this.props.dataSlot0 < listLength) {
-                  this.setState({ index1: 1, index0: 3, index2: 2,bookmarked: false }, () => {
+                  this.setState({ index1: 1, index0: 3, index2: 2, bookmarked: false }, () => {
                     setTimeout(() => {
                       this.props.dispatch(selectedPost1(this.props.dataSlot1 + 3));
                       if (listRecent.length < 30) {
@@ -247,10 +247,10 @@ class NewsDetail extends Component {
                         listRecent.unshift(this.props.listData[this.props.dataSlot2])
                       }
                       //tracking
-                      this.tracker.child(this.props.listData[this.props.dataSlot2].title.replace(/\./g,"")).transaction(function(view) {
+                      this.tracker.child(this.props.listData[this.props.dataSlot2].title.replace(/\./g, "")).transaction(function (view) {
                         return view + 1;
                       });
-                      this.tracker2.child(this.props.listData[this.props.dataSlot2].cate).transaction(function(view) {
+                      this.tracker2.child(this.props.listData[this.props.dataSlot2].cate).transaction(function (view) {
                         return view + 1;
                       })
 
@@ -352,12 +352,12 @@ class NewsDetail extends Component {
           <View style={{ width: width, height: height, position: 'absolute', zIndex: 6 }}>
             <View style={{ height: 20, width: width, backgroundColor: 'rgba(0, 0, 0, 0.33)' }}>
             </View>
-            <View style={{flex: 1, flexDirection: 'row'}}>
-              <Animatable.View useNativeDriver iterationCount="infinite" direction="alternate" animation="fadeIn" style={{width: 70, backgroundColor: 'rgba(0, 0, 0, 0.33)'}}>
+            <View style={{ flex: 1, flexDirection: 'row' }}>
+              <Animatable.View useNativeDriver iterationCount="infinite" direction="alternate" animation="fadeIn" style={{ width: 70, backgroundColor: 'rgba(0, 0, 0, 0.33)' }}>
               </Animatable.View>
-              <View style={{flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.33)', justifyContent: 'center'}}>
-                <Animatable.View useNativeDriver animation="fadeInRight" style={{width: 200, height: 110, backgroundColor: 'white', marginLeft: 10, borderRadius: 10, justifyContent: 'center', alignItems: 'center', padding: 5}}>
-                  <Text style={{fontWeight: 'bold'}}>Hướng dẫn
+              <View style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.33)', justifyContent: 'center' }}>
+                <Animatable.View useNativeDriver animation="fadeInRight" style={{ width: 200, height: 110, backgroundColor: 'white', marginLeft: 10, borderRadius: 10, justifyContent: 'center', alignItems: 'center', padding: 5 }}>
+                  <Text style={{ fontWeight: 'bold' }}>Hướng dẫn
                   </Text>
                   <Text style={{ marginTop: 5 }}>Vuốt cạnh trái sang phải để về trang chủ!
                   </Text>
@@ -385,8 +385,8 @@ class NewsDetail extends Component {
         return (
           <View style={{ width: width, height: height, position: 'absolute', zIndex: 6 }}>
             <View style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.33)', alignItems: 'center' }}>
-              <Animatable.View useNativeDriver animation="fadeInDown" style={{width: 200, height: 120, backgroundColor: 'white', marginLeft: 10, borderRadius: 10, justifyContent: 'center', alignItems: 'center', padding: 5, position: 'absolute', bottom: 10}}>
-                <Text style={{fontWeight: 'bold'}}>Hướng dẫn
+              <Animatable.View useNativeDriver animation="fadeInDown" style={{ width: 200, height: 120, backgroundColor: 'white', marginLeft: 10, borderRadius: 10, justifyContent: 'center', alignItems: 'center', padding: 5, position: 'absolute', bottom: 10 }}>
+                <Text style={{ fontWeight: 'bold' }}>Hướng dẫn
                 </Text>
                 <Text style={{ marginTop: 5 }}>Thanh menu với các chức năng chia sẻ, lưu, chỉnh sửa font chữ, chế độ đọc ...
                 </Text>
@@ -405,7 +405,7 @@ class NewsDetail extends Component {
               </Animatable.View>
 
             </View>
-            <Animatable.View useNativeDriver iterationCount="infinite" direction="alternate" animation="fadeIn" style={{height: 50, width: width, backgroundColor: 'rgba(0, 0, 0, 0.33)'}}>
+            <Animatable.View useNativeDriver iterationCount="infinite" direction="alternate" animation="fadeIn" style={{ height: 50, width: width, backgroundColor: 'rgba(0, 0, 0, 0.33)' }}>
             </Animatable.View>
           </View>
         )
@@ -415,10 +415,10 @@ class NewsDetail extends Component {
           <View style={{ width: width, height: height, position: 'absolute', zIndex: 6 }}>
             <View style={{ height: 20, width: width, backgroundColor: 'rgba(0, 0, 0, 0.33)' }}>
             </View>
-            <View style={{flex: 1, flexDirection: 'row'}}>
-              <View style={{flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.33)', justifyContent: 'center'}}>
-                <Animatable.View useNativeDriver animation="fadeInLeft" style={{width: 200, height: 110, backgroundColor: 'white', marginLeft: 10, borderRadius: 10, justifyContent: 'center', alignItems: 'center', padding: 5, position: 'absolute', right: 5}}>
-                  <Text style={{fontWeight: 'bold'}}>Hướng dẫn
+            <View style={{ flex: 1, flexDirection: 'row' }}>
+              <View style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.33)', justifyContent: 'center' }}>
+                <Animatable.View useNativeDriver animation="fadeInLeft" style={{ width: 200, height: 110, backgroundColor: 'white', marginLeft: 10, borderRadius: 10, justifyContent: 'center', alignItems: 'center', padding: 5, position: 'absolute', right: 5 }}>
+                  <Text style={{ fontWeight: 'bold' }}>Hướng dẫn
                   </Text>
                   <Text style={{ marginTop: 5 }}>Vuốt màn hình sang trái để chuyển trang tiếp theo!
                   </Text>
@@ -431,7 +431,7 @@ class NewsDetail extends Component {
                   </View>
                 </Animatable.View>
               </View>
-              <Animatable.View useNativeDriver iterationCount="infinite" direction="alternate" animation="fadeIn" style={{width: 120, backgroundColor: 'rgba(0, 0, 0, 0.33)'}}>
+              <Animatable.View useNativeDriver iterationCount="infinite" direction="alternate" animation="fadeIn" style={{ width: 120, backgroundColor: 'rgba(0, 0, 0, 0.33)' }}>
               </Animatable.View>
             </View>
             <View style={{ height: 50, width: width, backgroundColor: 'rgba(0, 0, 0, 0.33)' }}>
@@ -444,18 +444,35 @@ class NewsDetail extends Component {
     }
   }
   renderIconBookmark() {
-    if (this.state.bookmarked) {
-      return (
-        <Image
-          style={styles.iconNavBar}
-          source={require('../../img/ic_bookmark_on.png')} />
-      )
-    } else {
-      return (
-        <Image
-          style={styles.iconNavBar}
-          source={require('../../img/ic_bookmark.png')} />
-      )
+    if (this.props.postBackground == 'white') {
+      if (this.state.bookmarked) {
+        return (
+          <Image
+            style={styles.iconNavBar}
+            source={require('../../img/ic_bookmark_on.png')} />
+        )
+      } else {
+        return (
+          <Image
+            style={styles.iconNavBar}
+            source={require('../../img/ic_bookmark.png')} />
+        )
+      }
+    }
+    else {
+      if (this.state.bookmarked) {
+        return (
+          <Image
+            style={styles.iconNavBar}
+            source={require('../../img/ic_night_bookmark_on.png')} />
+        )
+      } else {
+        return (
+          <Image
+            style={styles.iconNavBar}
+            source={require('../../img/ic_night_bookmark.png')} />
+        )
+      }
     }
   }
   render() {
@@ -463,21 +480,21 @@ class NewsDetail extends Component {
       return (
         <View style={{ flex: 1 }}>
           {this.renderTutorial()}
-          <View style={styles.navBar}>
+          <View style={[styles.navBar, { backgroundColor: this.props.postBackground }]}>
             <TouchableOpacity
               onPress={() => this.props.navigation.goBack()}
               style={[styles.navBarButton, { marginLeft: 0 }]}>
               <Image
-                style={styles.iconNavBar}
-                source={require('../../img/ic_back.png')} />
+                style={[styles.iconNavBar,{tintColor:this.props.textColor}]}
+                source={require('../../img/ic_night_back.png')} />
             </TouchableOpacity>
             <View style={{ flexDirection: 'row', alignSelf: 'flex-end' }}>
               <TouchableOpacity
                 onPress={() => this.shareLink()}
                 style={styles.navBarButton}>
                 <Image
-                  style={styles.iconNavBar}
-                  source={require('../../img/ic_share.png')} />
+                  style={[styles.iconNavBar,{tintColor:this.props.textColor}]}
+                  source={require('../../img/ic_night_share.png')} />
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => this.saveBookmark()}
@@ -488,8 +505,8 @@ class NewsDetail extends Component {
                 onPress={() => this.props.dispatch(changeModalState(!this.props.openMenu))}
                 style={styles.navBarButton}>
                 <Image
-                  style={styles.iconNavBar}
-                  source={require('../../img/ic_more-vertical.png')} />
+                  style={[styles.iconNavBar,{tintColor:this.props.textColor}]}
+                  source={require('../../img/ic_night_more-vertical.png')} />
               </TouchableOpacity>
             </View>
           </View>
@@ -541,7 +558,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     position: 'absolute',
     bottom: 0,
-    backgroundColor: 'white',
     zIndex: 3,
     paddingLeft: 10,
     paddingRight: 10,
@@ -551,7 +567,6 @@ const styles = StyleSheet.create({
     height: 50,
   },
   navBarButton: {
-    backgroundColor: 'white',
     width: 40,
     height: 40,
     justifyContent: 'flex-end',
@@ -567,7 +582,7 @@ const styles = StyleSheet.create({
   iconNavBar: {
     height: 24,
     width: 24,
-    tintColor: 'black'
+
   }
 });
 const mapStateToProps = state => {
@@ -580,7 +595,9 @@ const mapStateToProps = state => {
     menuBarColor: state.readerModalReducer.menuBarColor,
     listBookmark: state.bookmarkReducer.list,
     loadingDetailState: state.loadListDataReducer.loading,
-    listRecent: state.bookmarkReducer.listRecent
+    listRecent: state.bookmarkReducer.listRecent,
+    postBackground: state.readerModalReducer.postBackground,
+    textColor: state.readerModalReducer.textColor,
   }
 }
 export default connect(mapStateToProps)(NewsDetail);
