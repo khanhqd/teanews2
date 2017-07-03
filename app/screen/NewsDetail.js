@@ -26,6 +26,8 @@ import { changeModalState, addBookmark, replaceBookmark, addRecent } from '../ac
 import { selectedPost2, selectedPost1, selectedPost0, disableScrollWebview } from '../actions';
 var Toast = require('react-native-toast');
 
+import { firebaseApp } from '../app';
+
 class NewsDetail extends Component {
   constructor(props) {
     super(props);
@@ -48,6 +50,7 @@ class NewsDetail extends Component {
         break;
       }
     }
+    this.tracker = firebaseApp.database().ref('tracker/detail');
   };
   _set = async (key, value) => {
     try { await AsyncStorage.setItem(key, value); }
@@ -151,6 +154,11 @@ class NewsDetail extends Component {
                         listRecent.pop();
                         listRecent.unshift(this.props.listData[this.props.dataSlot1])
                       };
+                      //tracking
+                      this.tracker.child(this.props.listData[this.props.dataSlot1].title).transaction(function(view) {
+                        return view + 1;
+                      });
+
                       AsyncStorage.setItem('listRecent', JSON.stringify(listRecent))
                       for (var i = 0; i < listBookmark.length; i++) {
                         if (listBookmark[i].title == this.props.listData[this.props.dataSlot1].title) {
@@ -187,6 +195,10 @@ class NewsDetail extends Component {
                         listRecent.pop();
                         listRecent.unshift(this.props.listData[this.props.dataSlot0])
                       }
+                      //tracking
+                      this.tracker.child(this.props.listData[this.props.dataSlot0].title).transaction(function(view) {
+                        return view + 1;
+                      });
                       AsyncStorage.setItem('listRecent', JSON.stringify(listRecent));
                       for (var i = 0; i < listBookmark.length; i++) {
                         if (listBookmark[i].title == this.props.listData[this.props.dataSlot0].title) {
@@ -215,6 +227,7 @@ class NewsDetail extends Component {
                   this.setState({ index1: 1, index0: 3, index2: 2,bookmarked: false }, () => {
                     setTimeout(() => {
                       this.props.dispatch(selectedPost1(this.props.dataSlot1 + 3));
+
                       if (listRecent.length < 30) {
                         listRecent.unshift(this.props.listData[this.props.dataSlot2])
                       }
@@ -222,6 +235,10 @@ class NewsDetail extends Component {
                         listRecent.pop();
                         listRecent.unshift(this.props.listData[this.props.dataSlot2])
                       }
+                      //tracking
+                      this.tracker.child(this.props.listData[this.props.dataSlot2].title).transaction(function(view) {
+                        return view + 1;
+                      });
                       AsyncStorage.setItem('listRecent', JSON.stringify(listRecent))
                       for (var i = 0; i < listBookmark.length; i++) {
                         if (listBookmark[i].title == this.props.listData[this.props.dataSlot2].title) {

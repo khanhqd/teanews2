@@ -65,6 +65,8 @@ class Home extends Component {
     this._get('listCate');
     this._get('listBookmark');
     this._get("listRecent");
+
+    this.tracker = firebaseApp.database().ref('tracker/detail');
   }
   _updateStyle() {
     topView && topView.setNativeProps(topViewStyle)
@@ -432,6 +434,10 @@ class Home extends Component {
       listRecent.unshift(data)
     }
     this.props.dispatch(addRecent(data));
+    //tracking
+    this.tracker.child(data.title).transaction(function(view) {
+      return view + 1;
+    })
     AsyncStorage.setItem('listRecent', JSON.stringify(listRecent))
     this.props.dispatch(selectedPost0(postId))
     if (postId + 1 < this.state.bigData.length) {
