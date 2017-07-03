@@ -67,6 +67,7 @@ class Home extends Component {
     this._get("listRecent");
 
     this.tracker = firebaseApp.database().ref('tracker/detail');
+    this.tracker2 = firebaseApp.database().ref('tracker/categoryView');
   }
   _updateStyle() {
     topView && topView.setNativeProps(topViewStyle)
@@ -194,7 +195,7 @@ class Home extends Component {
       onPanResponderRelease: (event, gestureState) => {
         const axisDistance = height;
         const movedDistance = gestureState.moveY;
-        const defaultVelocity = axisDistance / 800;
+        const defaultVelocity = axisDistance / height;
         const gestureVelocity = gestureState.vy;
         const velocity = Math.max(gestureVelocity, defaultVelocity);
         const resetDuration = movedDistance / velocity;
@@ -403,7 +404,10 @@ class Home extends Component {
     }
     this.props.dispatch(addRecent(data));
     //tracking
-    this.tracker.child(data.title).transaction(function(view) {
+    this.tracker.child(data.title.replace(/\./g,"")).transaction(function(view) {
+      return view + 1;
+    })
+    this.tracker2.child(data.cate).transaction(function(view) {
       return view + 1;
     })
     AsyncStorage.setItem('listRecent', JSON.stringify(listRecent))

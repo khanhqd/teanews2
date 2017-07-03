@@ -20,13 +20,13 @@ const Item = [
         color: 'rgb(221, 85, 85)'
     },
     {
-        name: 'giải trí',
+        name: 'Giải trí',
         link: 'http://tinmoi24.vn/giai-tri/2',
         source: "tinmoi24.vn",
         color: 'rgb(105, 151, 200)'
     },
     {
-        name: 'thể thao',
+        name: 'Thể thao',
         link: 'http://tinmoi24.vn/the-thao/3',
         source: "tinmoi24.vn",
         color: 'rgb(105, 151, 200)'
@@ -35,7 +35,7 @@ const Item = [
         name: 'Kinh doanh',
         link: 'http://tinmoi24.vn/kinh-te/4',
         source: "tinmoi24.vn",
-        color: 'rgb(245, 228, 113)'
+        color: 'rgb(228, 158, 21)'
     },
     {
         name: 'Pháp luật',

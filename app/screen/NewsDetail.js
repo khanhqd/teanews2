@@ -54,6 +54,7 @@ class NewsDetail extends Component {
       }
     }
     this.tracker = firebaseApp.database().ref('tracker/detail');
+    this.tracker2 = firebaseApp.database().ref('tracker/categoryView');
   };
   _set = async (key, value) => {
     try { await AsyncStorage.setItem(key, value); }
@@ -135,7 +136,7 @@ class NewsDetail extends Component {
         if (dx < 0) {
           const axisDistance = width;
           const movedDistance = gestureState.moveX;
-          const defaultVelocity = axisDistance / 600;
+          const defaultVelocity = axisDistance / width;
           const gestureVelocity = gestureState.vx;
           const velocity = Math.max(gestureVelocity, defaultVelocity);
           const resetDuration = movedDistance / velocity;
@@ -158,9 +159,13 @@ class NewsDetail extends Component {
                         listRecent.unshift(this.props.listData[this.props.dataSlot1])
                       };
                       //tracking
-                      this.tracker.child(this.props.listData[this.props.dataSlot1].title).transaction(function(view) {
+                      this.tracker.child(this.props.listData[this.props.dataSlot1].title.replace(/\./g,"")).transaction(function(view) {
                         return view + 1;
                       });
+                      this.tracker2.child(this.props.listData[this.props.dataSlot1].cate).transaction(function(view) {
+                        return view + 1;
+                      })
+
                       AsyncStorage.setItem('listRecent', JSON.stringify(listRecent))
                       for (var i = 0; i < listBookmark.length; i++) {
                         if (listBookmark[i].title == this.props.listData[this.props.dataSlot1].title) {
@@ -199,9 +204,13 @@ class NewsDetail extends Component {
                         listRecent.unshift(this.props.listData[this.props.dataSlot0])
                       }
                       //tracking
-                      this.tracker.child(this.props.listData[this.props.dataSlot0].title).transaction(function(view) {
+                      this.tracker.child(this.props.listData[this.props.dataSlot0].title.replace(/\./g,"")).transaction(function(view) {
                         return view + 1;
                       });
+                      this.tracker2.child(this.props.listData[this.props.dataSlot0].cate).transaction(function(view) {
+                        return view + 1;
+                      })
+
                       AsyncStorage.setItem('listRecent', JSON.stringify(listRecent));
                       for (var i = 0; i < listBookmark.length; i++) {
                         if (listBookmark[i].title == this.props.listData[this.props.dataSlot0].title) {
@@ -238,9 +247,13 @@ class NewsDetail extends Component {
                         listRecent.unshift(this.props.listData[this.props.dataSlot2])
                       }
                       //tracking
-                      this.tracker.child(this.props.listData[this.props.dataSlot2].title).transaction(function(view) {
+                      this.tracker.child(this.props.listData[this.props.dataSlot2].title.replace(/\./g,"")).transaction(function(view) {
                         return view + 1;
                       });
+                      this.tracker2.child(this.props.listData[this.props.dataSlot2].cate).transaction(function(view) {
+                        return view + 1;
+                      })
+
                       AsyncStorage.setItem('listRecent', JSON.stringify(listRecent))
                       for (var i = 0; i < listBookmark.length; i++) {
                         if (listBookmark[i].title == this.props.listData[this.props.dataSlot2].title) {

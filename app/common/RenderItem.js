@@ -11,14 +11,17 @@ import {
 var Toast = require('react-native-toast');
 import { connect } from 'react-redux';
 import { addCate, replaceListCate } from '../actions';
-const {height, width} = Dimensions.get('window')
+const {height, width} = Dimensions.get('window');
+import { firebaseApp } from '../app';
+
 class RenderItem extends Component {
     constructor(props) {
       super(props);
       this.state={
         selected: false,
         loading: false
-      }
+      };
+      this.tracker = firebaseApp.database().ref('tracker/categorySelected')
     }
     componentWillMount() {
       let list = this.props.listCate;
@@ -44,6 +47,9 @@ class RenderItem extends Component {
               }
               this.props.dispatch(replaceListCate(list))
               this.setState({ selected: false, loading: false })
+              this.tracker.child(this.props.item.name).transaction(function(view) {
+                return view - 1
+              })
           } else {
             var cateInfo = {
               name: this.props.item.name,
@@ -55,6 +61,9 @@ class RenderItem extends Component {
             this.props.dispatch(replaceListCate(list))
             this.setState({ selected: true, loading: false })
             Toast.show('Đã lưu vào danh mục yêu thích')
+            this.tracker.child(this.props.item.name).transaction(function(view) {
+              return view + 1
+            })
           }
     }
   }
