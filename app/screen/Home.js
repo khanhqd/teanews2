@@ -210,14 +210,14 @@ class Home extends Component {
                   })
                   Animated.timing(
                     this.state.top2,
-                    { toValue: 0, duration: nextPageDuration, useNativeDriver: true }
+                    { toValue: 0, duration: nextPageDuration }
                   ).start();
                   this.state.top1.setValue(-height)
                 }
               } else {
                 Animated.timing(
                   this.state.top2,
-                  { toValue: -height, duration: resetDuration, useNativeDriver: true }
+                  { toValue: -height, duration: resetDuration }
                 ).start();
               }
             } else {
@@ -228,14 +228,14 @@ class Home extends Component {
                   })
                   Animated.timing(
                     this.state.top0,
-                    { toValue: -height, duration: nextPageDuration, useNativeDriver: true }
+                    { toValue: -height, duration: nextPageDuration }
                   ).start();
                   this.state.top2.setValue(0)
                 }
               } else {
                 Animated.timing(
                   this.state.top0,
-                  { toValue: 0, duration: resetDuration, useNativeDriver: true }
+                  { toValue: 0, duration: resetDuration }
                 ).start();
               }
             }
@@ -250,13 +250,13 @@ class Home extends Component {
                 })
                 Animated.timing(
                   this.state.top0,
-                  { toValue: 0, duration: nextPageDuration, useNativeDriver: true }
+                  { toValue: 0, duration: nextPageDuration }
                 ).start();
                 this.state.top2.setValue(-height)
               } else {
                 Animated.timing(
                   this.state.top0,
-                  { toValue: -height, duration: resetDuration, useNativeDriver: true }
+                  { toValue: -height, duration: resetDuration }
                 ).start();
               }
             } else {
@@ -267,14 +267,14 @@ class Home extends Component {
                   })
                   Animated.timing(
                     this.state.top1,
-                    { toValue: -height, duration: nextPageDuration, useNativeDriver: true }
+                    { toValue: -height, duration: nextPageDuration }
                   ).start();
                   this.state.top0.setValue(0)
                 }
               } else {
                 Animated.timing(
                   this.state.top1,
-                  { toValue: 0, duration: resetDuration, useNativeDriver: true }
+                  { toValue: 0, duration: resetDuration }
                 ).start();
               }
             }
@@ -289,13 +289,13 @@ class Home extends Component {
                 })
                 Animated.timing(
                   this.state.top1,
-                  { toValue: 0, duration: nextPageDuration, useNativeDriver: true }
+                  { toValue: 0, duration: nextPageDuration }
                 ).start();
                 this.state.top0.setValue(-height)
               } else {
                 Animated.timing(
                   this.state.top1,
-                  { toValue: -height, duration: resetDuration, useNativeDriver: true }
+                  { toValue: -height, duration: resetDuration }
                 ).start();
               }
             } else {
@@ -306,14 +306,14 @@ class Home extends Component {
                   })
                   Animated.timing(
                     this.state.top2,
-                    { toValue: -height, duration: nextPageDuration, useNativeDriver: true }
+                    { toValue: -height, duration: nextPageDuration }
                   ).start();
                   this.state.top1.setValue(0)
                 }
               } else {
                 Animated.timing(
                   this.state.top2,
-                  { toValue: 0, duration: resetDuration, useNativeDriver: true }
+                  { toValue: 0, duration: resetDuration }
                 ).start();
               }
             }
