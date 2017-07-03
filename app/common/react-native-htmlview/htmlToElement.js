@@ -16,7 +16,7 @@ const Img = props => {
     uri: props.attribs.src,
   };
   return (
-      <FitImage source={source} resizeMode="cover" style={{ marginLeft:5 , marginRight:5}} />
+      <FitImage source={source} resizeMode="cover" style={{ marginLeft:10 , marginRight:10, marginBottom: 15}} />
   );
 };
 
@@ -35,8 +35,8 @@ export default function htmlToElement(lineHeight, rawHtml, opts, done) {
           return null
         } else {
           return (
-            <Text key={index} style={[parent ? opts.styles[parent.name] : null,{marginLeft: 15, marginRight: 8, lineHeight: lineHeight, textAlign:'left'}]} selectable={true}>
-               {entities.decodeHTML(node.data).trim()} {'\n'}
+            <Text key={index} style={[parent ? opts.styles[parent.name] : null,{marginLeft: 15, marginRight: 8, lineHeight: lineHeight, textAlign:'left', marginBottom: 10}]} selectable={true}>
+               {entities.decodeHTML(node.data).trim()}
             </Text>
           );
         }

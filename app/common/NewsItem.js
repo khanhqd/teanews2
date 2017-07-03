@@ -490,7 +490,7 @@ class NewsItem extends Component {
         this.setState({ pullToCloseColor: "black" })
       }
     } else {
-      this.setState({ pullToCloseDist: e.nativeEvent.contentOffset.y - 20 })
+      this.setState({ pullToCloseDist: e.nativeEvent.contentOffset.y })
     }
   }
   switcherPressed() {
@@ -564,8 +564,8 @@ class NewsItem extends Component {
         <View style={{ height: 20, width: width, backgroundColor: 'black' }}>
         </View>
         {this.props.openMenu &&
-          <TouchableOpacity style={styles.modalContainer} onPress={() => this.props.dispatch(changeModalState(!this.props.openMenu))}>
-            <Animatable.View animation="slideInUp" duration={300} style={[styles.menuModal, { backgroundColor: this.props.postBackground }]}>
+          <TouchableOpacity activeOpacity={1} style={styles.modalContainer} onPress={() => this.props.dispatch(changeModalState(!this.props.openMenu))}>
+            <Animatable.View animation="slideInUp" useNativeDriver duration={300} style={[styles.menuModal, { backgroundColor: this.props.postBackground }]}>
               <View style={{ flexDirection: 'row', flex: 1 }}>
                 <TouchableHighlight
                   underlayColor="white"

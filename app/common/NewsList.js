@@ -68,7 +68,7 @@ class NewsList extends Component {
                   <Text
                     numberOfLines={2}
                     ellipsizeMode="tail"
-                    style={{ color: 'rgb(221, 221, 221)', fontSize: 13, marginBottom: 10 }}>{this.props.data[0].des}
+                    style={{ color: 'rgb(221, 221, 221)', fontSize: 15, marginBottom: 10 }}>{this.props.data[0].des}
                   </Text>
                 </View>
               </View>
@@ -87,6 +87,7 @@ class NewsList extends Component {
                 </Text>
                 {/*<Text style={styles.categoryText}>{this.props.data[1].source}
                 </Text>*/}
+
               </View>
             </TouchableOpacity>
             <TouchableOpacity
@@ -109,6 +110,7 @@ class NewsList extends Component {
                   </Text>
                   {/*<Text style={styles.categoryText}>{this.props.data[2].source}
                   </Text>*/}
+
                 </View>
               </View>
             </TouchableOpacity>

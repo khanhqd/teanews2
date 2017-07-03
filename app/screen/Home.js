@@ -65,6 +65,8 @@ class Home extends Component {
     this._get('listCate');
     this._get('listBookmark');
     this._get("listRecent");
+
+    this.tracker = firebaseApp.database().ref('tracker/detail');
   }
   _updateStyle() {
     topView && topView.setNativeProps(topViewStyle)
@@ -190,10 +192,18 @@ class Home extends Component {
         this.setState({ dy: gestureState.dy })
       },
       onPanResponderRelease: (event, gestureState) => {
+        const axisDistance = height;
+        const movedDistance = gestureState.moveY;
+        const defaultVelocity = axisDistance / 800;
+        const gestureVelocity = gestureState.vy;
+        const velocity = Math.max(gestureVelocity, defaultVelocity);
+        const resetDuration = movedDistance / velocity;
+        const nextPageDuration = (axisDistance - movedDistance) / velocity;
+
         switch (this.state.index0) {
           case 2:
             if (this.state.dy > 0) {
-              if ((this.state.dy > height / 3) || (gestureState.vy > 1.3)) {
+              if ((this.state.dy > height / 4) || (gestureState.vy > 0.5)) {
                 if (this.state.dataSlot0 > 0) {
                   this.setState({ index2: 2, index1: 3, index0: 1 }, () => {
                     if (this.state.dataSlot1 > numberOfItem + 1) {
@@ -202,39 +212,39 @@ class Home extends Component {
                   })
                   Animated.timing(
                     this.state.top2,
-                    { toValue: 0, duration: 300 }
+                    { toValue: 0, duration: nextPageDuration }
                   ).start();
                   this.state.top1.setValue(-height)
                 }
               } else {
                 Animated.timing(
                   this.state.top2,
-                  { toValue: -height, duration: 300 }
+                  { toValue: -height, duration: resetDuration }
                 ).start();
               }
             } else {
-              if ((this.state.dy < -height / 3) || (gestureState.vy < -1.3)) {
+              if ((this.state.dy < -height / 4) || (gestureState.vy < -0.5)) {
                 if (this.state.dataSlot0 + 1 < this.state.bigData.length) {
                   this.setState({ index2: 1, index1: 2, index0: 3 }, () => {
                     this.setState({ dataSlot2: this.state.dataSlot2 + numberOfItem + 2 })
                   })
                   Animated.timing(
                     this.state.top0,
-                    { toValue: -height, duration: 300 }
+                    { toValue: -height, duration: nextPageDuration }
                   ).start();
                   this.state.top2.setValue(0)
                 }
               } else {
                 Animated.timing(
                   this.state.top0,
-                  { toValue: 0, duration: 300 }
+                  { toValue: 0, duration: resetDuration }
                 ).start();
               }
             }
             break;
           case 3:
             if (this.state.dy > 0) {
-              if ((this.state.dy > height / 3) || (gestureState.vy > 1.3)) {
+              if ((this.state.dy > height / 4) || (gestureState.vy > 0.5)) {
                 this.setState({ index0: 2, index2: 3, index1: 1 }, () => {
                   if (this.state.dataSlot2 > numberOfItem + 1) {
                     this.setState({ dataSlot2: this.state.dataSlot2 - numberOfItem - 2 })
@@ -242,38 +252,38 @@ class Home extends Component {
                 })
                 Animated.timing(
                   this.state.top0,
-                  { toValue: 0, duration: 300 }
+                  { toValue: 0, duration: nextPageDuration }
                 ).start();
                 this.state.top2.setValue(-height)
               } else {
                 Animated.timing(
                   this.state.top0,
-                  { toValue: -height, duration: 300 }
+                  { toValue: -height, duration: resetDuration }
                 ).start();
               }
             } else {
-              if ((this.state.dy < -height / 3) || (gestureState.vy < -1.3)) {
+              if ((this.state.dy < -height / 4) || (gestureState.vy < -0.5)) {
                 if (this.state.dataSlot0 + numberOfItem + 1 < this.state.bigData.length) {
                   this.setState({ index0: 1, index2: 2, index1: 3 }, () => {
                     this.setState({ dataSlot0: this.state.dataSlot0 + numberOfItem + 2 })
                   })
                   Animated.timing(
                     this.state.top1,
-                    { toValue: -height, duration: 300 }
+                    { toValue: -height, duration: nextPageDuration }
                   ).start();
                   this.state.top0.setValue(0)
                 }
               } else {
                 Animated.timing(
                   this.state.top1,
-                  { toValue: 0, duration: 300 }
+                  { toValue: 0, duration: resetDuration }
                 ).start();
               }
             }
             break;
           case 1:
             if (this.state.dy > 0) {
-              if ((this.state.dy > height / 3) || (gestureState.vy > 1.3)) {
+              if ((this.state.dy > height / 4) || (gestureState.vy > 0.5)) {
                 this.setState({ index1: 2, index0: 3, index2: 1 }, () => {
                   if (this.state.dataSlot0 > numberOfItem + 1) {
                     this.setState({ dataSlot0: this.state.dataSlot0 - numberOfItem - 2 })
@@ -281,31 +291,31 @@ class Home extends Component {
                 })
                 Animated.timing(
                   this.state.top1,
-                  { toValue: 0, duration: 300 }
+                  { toValue: 0, duration: nextPageDuration }
                 ).start();
                 this.state.top0.setValue(-height)
               } else {
                 Animated.timing(
                   this.state.top1,
-                  { toValue: -height, duration: 300 }
+                  { toValue: -height, duration: resetDuration }
                 ).start();
               }
             } else {
-              if ((this.state.dy < -height / 3) || (gestureState.vy < -1.5)) {
+              if ((this.state.dy < -height / 3) || (gestureState.vy < -0.5)) {
                 if (this.state.dataSlot0 < this.state.bigData.length) {
                   this.setState({ index1: 1, index0: 2, index2: 3 }, () => {
                     this.setState({ dataSlot1: this.state.dataSlot1 + numberOfItem + 2 })
                   })
                   Animated.timing(
                     this.state.top2,
-                    { toValue: -height, duration: 300 }
+                    { toValue: -height, duration: nextPageDuration }
                   ).start();
                   this.state.top1.setValue(0)
                 }
               } else {
                 Animated.timing(
                   this.state.top2,
-                  { toValue: 0, duration: 300 }
+                  { toValue: 0, duration: resetDuration }
                 ).start();
               }
             }
@@ -392,6 +402,10 @@ class Home extends Component {
       listRecent.unshift(data)
     }
     this.props.dispatch(addRecent(data));
+    //tracking
+    this.tracker.child(data.title).transaction(function(view) {
+      return view + 1;
+    })
     AsyncStorage.setItem('listRecent', JSON.stringify(listRecent))
     this.props.dispatch(selectedPost0(postId))
     if (postId + 1 < this.state.bigData.length) {
