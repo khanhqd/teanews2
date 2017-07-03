@@ -75,11 +75,6 @@ class NewsDetail extends Component {
         if (this.props.loadingDetailState) {
           Toast.show('Dữ liệu trang tiếp đang load trong giây lát')
         } else {
-          // const axisLength = isVertical
-          //   ? layout.height.__getValue()
-          //   : layout.width.__getValue();
-          // const axisHasBeenMeasured = !!axisLength;
-          // Measure the distance from the touch to the edge of the screen
           const screenEdgeDistance = currentDragPosition - currentDragDistance;
           // Compare to the gesture distance relavant to card or modal
           const gestureResponseDistance = width - 130;
@@ -88,7 +83,7 @@ class NewsDetail extends Component {
             return false;
           }
           const hasDraggedEnough = Math.abs(currentDragDistance) > 20;
-          const shouldSetResponder = hasDraggedEnough;
+          const shouldSetResponder = hasDraggedEnough && (Math.abs(gesture.dx) > Math.abs(gesture.dy));
           // && axisHasBeenMeasured && !isOnFirstCard;
           return shouldSetResponder;
         }
@@ -102,8 +97,6 @@ class NewsDetail extends Component {
       //     }
       //   }
       // },
-
-      onPanResponderGrant: (event, gestureState) => { },
       onPanResponderMove: (event, gestureState) => {
         if (gestureState.dx < 0) {
           switch (this.state.index0) {
@@ -129,47 +122,54 @@ class NewsDetail extends Component {
         //   this.setState({ canScrollPage: false })
         // }
       },
+      onPanResponderTerminationRequest: (evt, gestureState) => true,
       onPanResponderRelease: (event, gestureState) => {
         // if (this.state.canScrollPage) {
         // this.setState({ canScrollPage: false })
         if (dx < 0) {
+          const axisDistance = width;
+          const movedDistance = gestureState.moveX;
+          const defaultVelocity = axisDistance / 600;
+          const gestureVelocity = gestureState.vx;
+          const velocity = Math.max(gestureVelocity, defaultVelocity);
+          const resetDuration = movedDistance / velocity;
+          const nextPageDuration = (axisDistance - movedDistance) / velocity;
+
           let listRecent = this.props.listRecent;
           let listBookmark = this.props.listBookmark;
           switch (this.state.index0) {
             case 2:
               if (dx < -width / 4) {
                 if (this.props.dataSlot0 + 1 < listLength) {
-                  this.setState({ index2: 3, index1: 2, index0: 1 }, () => {
-
-                    if (listRecent.length < 30) {
-                      listRecent.unshift(this.props.listData[this.props.dataSlot1])
-                    }
-                    else {
-                      listRecent.pop();
-                      listRecent.unshift(this.props.listData[this.props.dataSlot1])
-                    }
-                    // this.props.dispatch(addRecent(this.props.listData[this.props.dataSlot1]))
-                    AsyncStorage.setItem('listRecent', JSON.stringify(listRecent))
-                    setTimeout(() => { this.props.dispatch(selectedPost0(this.props.dataSlot0 + 3)) }, 210)
-                  })
-                  this.setState({ bookmarked: false },()=>{
-                    for (var i = 0; i < listBookmark.length; i++) {
-                      if (listBookmark[i].title == this.props.listData[this.props.dataSlot1].title) {
-                        this.setState({ bookmarked: true })
-                        break;
+                  this.setState({ index2: 3, index1: 2, index0: 1,bookmarked: false }, () => {
+                    setTimeout(() => {
+                      this.props.dispatch(selectedPost0(this.props.dataSlot0 + 3));
+                      if (listRecent.length < 30) {
+                        listRecent.unshift(this.props.listData[this.props.dataSlot1])
                       }
-                    }
+                      else {
+                        listRecent.pop();
+                        listRecent.unshift(this.props.listData[this.props.dataSlot1])
+                      };
+                      AsyncStorage.setItem('listRecent', JSON.stringify(listRecent))
+                      for (var i = 0; i < listBookmark.length; i++) {
+                        if (listBookmark[i].title == this.props.listData[this.props.dataSlot1].title) {
+                          this.setState({ bookmarked: true })
+                          break;
+                        }
+                      }
+                    }, nextPageDuration)
                   })
                   Animated.timing(
                     this.state.left1,
-                    { toValue: 0, duration: 200 }
+                    { toValue: 0, duration: nextPageDuration }
                   ).start();
                   this.state.left2.setValue(width)
                 }
               } else {
                 Animated.timing(
                   this.state.left1,
-                  { toValue: width, duration: 200 }
+                  { toValue: width, duration: resetDuration }
                 ).start();
               }
               break;
@@ -177,74 +177,71 @@ class NewsDetail extends Component {
               if (dx < -width / 4) {
                 let listRecent = this.props.listRecent
                 if (this.props.dataSlot0 + 2 < listLength) {
-                  this.setState({ index0: 2, index2: 1, index1: 3 }, () => {
-
-                    if (listRecent.length < 30) {
-                      listRecent.unshift(this.props.listData[this.props.dataSlot0])
-                    }
-                    else {
-                      listRecent.pop();
-                      listRecent.unshift(this.props.listData[this.props.dataSlot0])
-                    }
-                    // this.props.dispatch(addRecent(this.props.listData[this.props.dataSlot0]))
-                    AsyncStorage.setItem('listRecent', JSON.stringify(listRecent))
-                    setTimeout(() => { this.props.dispatch(selectedPost2(this.props.dataSlot2 + 3)) }, 210)
-                  })
-                  this.setState({ bookmarked: false },()=>{
-                    for (var i = 0; i < listBookmark.length; i++) {
-                      if (listBookmark[i].title == this.props.listData[this.props.dataSlot0].title) {
-                        this.setState({ bookmarked: true })
-                        break;
+                  this.setState({ index0: 2, index2: 1, index1: 3,bookmarked: false }, () => {
+                    setTimeout(() => {
+                      this.props.dispatch(selectedPost2(this.props.dataSlot2 + 3));
+                      if (listRecent.length < 30) {
+                        listRecent.unshift(this.props.listData[this.props.dataSlot0])
                       }
-                    }
+                      else {
+                        listRecent.pop();
+                        listRecent.unshift(this.props.listData[this.props.dataSlot0])
+                      }
+                      AsyncStorage.setItem('listRecent', JSON.stringify(listRecent));
+                      for (var i = 0; i < listBookmark.length; i++) {
+                        if (listBookmark[i].title == this.props.listData[this.props.dataSlot0].title) {
+                          this.setState({ bookmarked: true })
+                          break;
+                        }
+                      }
+                     }, nextPageDuration)
                   })
                   Animated.timing(
                     this.state.left0,
-                    { toValue: 0, duration: 200 }
+                    { toValue: 0, duration: nextPageDuration }
                   ).start();
                   this.state.left1.setValue(width)
                 }
               } else {
                 Animated.timing(
                   this.state.left0,
-                  { toValue: width, duration: 200 }
+                  { toValue: width, duration: resetDuration }
                 ).start();
               }
               break;
             case 1:
               if (dx < -width / 4) {
                 if (this.props.dataSlot0 < listLength) {
-                  this.setState({ index1: 1, index0: 3, index2: 2 }, () => {
-
-                    if (listRecent.length < 30) {
-                      listRecent.unshift(this.props.listData[this.props.dataSlot2])
-                    }
-                    else {
-                      listRecent.pop();
-                      listRecent.unshift(this.props.listData[this.props.dataSlot2])
-                    }
-                    // this.props.dispatch(addRecent(this.props.listData[this.props.dataSlot2]))
-                    AsyncStorage.setItem('listRecent', JSON.stringify(listRecent))
-                    setTimeout(() => { this.props.dispatch(selectedPost1(this.props.dataSlot1 + 3)) }, 210)
-                  })
-                  this.setState({ bookmarked: false },()=>{
-                    for (var i = 0; i < listBookmark.length; i++) {
-                      if (listBookmark[i].title == this.props.listData[this.props.dataSlot2].title) {
-                        this.setState({ bookmarked: true })
-                        break;
+                  this.setState({ index1: 1, index0: 3, index2: 2,bookmarked: false }, () => {
+                    setTimeout(() => {
+                      this.props.dispatch(selectedPost1(this.props.dataSlot1 + 3));
+                      if (listRecent.length < 30) {
+                        listRecent.unshift(this.props.listData[this.props.dataSlot2])
                       }
-                    }
+                      else {
+                        listRecent.pop();
+                        listRecent.unshift(this.props.listData[this.props.dataSlot2])
+                      }
+                      AsyncStorage.setItem('listRecent', JSON.stringify(listRecent))
+                      for (var i = 0; i < listBookmark.length; i++) {
+                        if (listBookmark[i].title == this.props.listData[this.props.dataSlot2].title) {
+                          this.setState({ bookmarked: true })
+                          break;
+                        }
+                      }
+                    }, nextPageDuration)
                   })
+
                   Animated.timing(
                     this.state.left2,
-                    { toValue: 0, duration: 200 }
+                    { toValue: 0, duration: nextPageDuration }
                   ).start();
                   this.state.left0.setValue(width)
                 }
               } else {
                 Animated.timing(
                   this.state.left2,
-                  { toValue: width, duration: 200 }
+                  { toValue: width, duration: resetDuration }
                 ).start();
               }
               break;
@@ -324,10 +321,10 @@ class NewsDetail extends Component {
             <View style={{height: 20, width: width, backgroundColor: 'rgba(0, 0, 0, 0.33)'}}>
             </View>
             <View style={{flex: 1, flexDirection: 'row'}}>
-              <Animatable.View iterationCount="infinite" direction="alternate" animation="fadeIn" style={{width: 70, backgroundColor: 'rgba(0, 0, 0, 0.33)'}}>
+              <Animatable.View useNativeDriver iterationCount="infinite" direction="alternate" animation="fadeIn" style={{width: 70, backgroundColor: 'rgba(0, 0, 0, 0.33)'}}>
               </Animatable.View>
               <View style={{flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.33)', justifyContent: 'center'}}>
-                <Animatable.View animation="fadeInRight" style={{width: 200, height: 110, backgroundColor: 'white', marginLeft: 10, borderRadius: 10, justifyContent: 'center', alignItems: 'center', padding: 5}}>
+                <Animatable.View useNativeDriver animation="fadeInRight" style={{width: 200, height: 110, backgroundColor: 'white', marginLeft: 10, borderRadius: 10, justifyContent: 'center', alignItems: 'center', padding: 5}}>
                   <Text style={{fontWeight: 'bold'}}>Hướng dẫn
                   </Text>
                   <Text style={{marginTop: 5}}>Vuốt cạnh trái sang phải để về trang chủ!
@@ -357,7 +354,7 @@ class NewsDetail extends Component {
           <View style={{width: width, height: height, position: 'absolute', zIndex: 6}}>
             <View style={{flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.33)', alignItems: 'center'}}>
 
-              <Animatable.View animation="fadeInDown" style={{width: 200, height: 120, backgroundColor: 'white', marginLeft: 10, borderRadius: 10, justifyContent: 'center', alignItems: 'center', padding: 5, position: 'absolute', bottom: 10}}>
+              <Animatable.View useNativeDriver animation="fadeInDown" style={{width: 200, height: 120, backgroundColor: 'white', marginLeft: 10, borderRadius: 10, justifyContent: 'center', alignItems: 'center', padding: 5, position: 'absolute', bottom: 10}}>
                 <Text style={{fontWeight: 'bold'}}>Hướng dẫn
                 </Text>
                 <Text style={{marginTop: 5}}>Thanh menu với các chức năng chia sẻ, lưu, chỉnh sửa font chữ, chế độ đọc ...
@@ -377,7 +374,7 @@ class NewsDetail extends Component {
               </Animatable.View>
 
             </View>
-            <Animatable.View iterationCount="infinite" direction="alternate" animation="fadeIn" style={{height: 50, width: width, backgroundColor: 'rgba(0, 0, 0, 0.33)'}}>
+            <Animatable.View useNativeDriver iterationCount="infinite" direction="alternate" animation="fadeIn" style={{height: 50, width: width, backgroundColor: 'rgba(0, 0, 0, 0.33)'}}>
             </Animatable.View>
           </View>
         )
@@ -389,7 +386,7 @@ class NewsDetail extends Component {
             </View>
             <View style={{flex: 1, flexDirection: 'row'}}>
               <View style={{flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.33)', justifyContent: 'center'}}>
-                <Animatable.View animation="fadeInLeft" style={{width: 200, height: 110, backgroundColor: 'white', marginLeft: 10, borderRadius: 10, justifyContent: 'center', alignItems: 'center', padding: 5, position: 'absolute', right: 5}}>
+                <Animatable.View useNativeDriver animation="fadeInLeft" style={{width: 200, height: 110, backgroundColor: 'white', marginLeft: 10, borderRadius: 10, justifyContent: 'center', alignItems: 'center', padding: 5, position: 'absolute', right: 5}}>
                   <Text style={{fontWeight: 'bold'}}>Hướng dẫn
                   </Text>
                   <Text style={{marginTop: 5}}>Vuốt màn hình sang trái để chuyển trang tiếp theo!
@@ -403,7 +400,7 @@ class NewsDetail extends Component {
                   </View>
                 </Animatable.View>
               </View>
-              <Animatable.View iterationCount="infinite" direction="alternate" animation="fadeIn" style={{width: 120, backgroundColor: 'rgba(0, 0, 0, 0.33)'}}>
+              <Animatable.View useNativeDriver iterationCount="infinite" direction="alternate" animation="fadeIn" style={{width: 120, backgroundColor: 'rgba(0, 0, 0, 0.33)'}}>
               </Animatable.View>
             </View>
             <View style={{height: 50, width: width, backgroundColor: 'rgba(0, 0, 0, 0.33)'}}>
