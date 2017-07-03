@@ -133,9 +133,30 @@ class Home extends Component {
       })
     }
   }
+  reloadData(props) {
+    this.setState({ listCate: props.listCate }, () => {
+      let listCate = props.listCate;
+      if (listCate.length > 0) {
+        let newObj = {};
+        for (var i = 0; i < listCate.length; i++) {
+          newObj["data" + i] = []
+        }
+        this.setState({ ...newObj }, () => {
+          let arrPromise = listCate.map((val, index) => {
+            return new Promise((resolve, reject) => {
+              this.fetchData(val.link, val.name, val.color, index, resolve)
+            })
+          })
+          Promise.all(arrPromise).then(() => {
+            this.arrangeData()
+          })
+        })
+      }
+    })
+  }
   componentWillReceiveProps(props) {
     if (props.reload) {
-      this._get('listCate')
+      this.reloadData(props);
       this.setState({
         top0: new Animated.Value(0),
         top1: new Animated.Value(0),

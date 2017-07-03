@@ -24,7 +24,7 @@ class RenderItem extends Component {
       this.tracker = firebaseApp.database().ref('tracker/categorySelected')
     }
     componentWillMount() {
-      let list = this.props.listCate;
+      let list = this.props.listCateData;
       for(var i=0; i<list.length; i++) {
         if (list[i].link == this.props.item.link) {
           this.setState({ selected: true })
@@ -36,7 +36,7 @@ class RenderItem extends Component {
     saveCateToAsync() {
       if (!this.state.loading) {
         this.setState({ loading: true })
-          let list = this.props.listCate;
+          let list = this.props.listCateData;
           if(this.state.selected == true) {
               //delete from Async
               for (var i = list.length - 1; i>=0; i--) {

@@ -66,46 +66,16 @@ import { connect } from 'react-redux';
 import { addCate, replaceListCate, reload } from '../actions';
 
 class Category extends Component {
-    constructor() {
-        super();
-        state = {
-            listCate: []
-        }
+    constructor(props) {
+      super(props);
+      console.log(this.props.navigation.state.params.listCate)
     }
-    componentWillMount() {
-        this._get('listCate')
-    }
-    _get = async (key) => {
-        try {
-            var value = await AsyncStorage.getItem(key);
-            if (value !== null) {
-                switch (key) {
-                    case 'listCate':
-                        this.props.dispatch(replaceListCate(JSON.parse(value)))
-                        break;
-                }
-            }
-        } catch (error) { alert(error) }
-    };
     _set = async (key, value) => {
         try { await AsyncStorage.setItem(key, value); }
         catch (error) { console.log(error.message) }
     };
-    renderItem() {
-        // alert(JSON.stringify(this.state.listCate))
-        return Item.map(function (item, index) {
-            return (
-                <RenderItem
-                    listCate={this.state.listCate}
-                    key={index}
-                    item={item}
-                />
-            )
-        })
-    }
     saveCate() {
-        console.log(this.props.listCate)
-        this._set('listCate', JSON.stringify(this.props.listCate));
+        this._set('listCate', JSON.stringify(this.props.navigation.state.params.listCate));
         this.props.navigation.goBack();
         setTimeout(() => { this.props.dispatch(reload(true)) }, 100)
     }
@@ -125,7 +95,15 @@ class Category extends Component {
                 </Text>
 
                 <ScrollView showsVerticalScrollIndicator={false}>
-                    {this.renderItem()}
+                  {Item.map((item, index) => {
+                      return (
+                          <RenderItem
+                              listCateData={this.props.navigation.state.params.listCate}
+                              key={index}
+                              item={item}
+                          />
+                      )
+                  })}
                 </ScrollView>
                 <TouchableOpacity onPress={() => this.saveCate()} style={styles.loginButton}>
                   <View style={{ backgroundColor: '#4a90e2', height: 40, width: width*0.8, marginBottom: 40, borderRadius: 5, justifyContent: 'center', alignItems: 'center' }}>
