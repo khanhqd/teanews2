@@ -15,7 +15,7 @@ import Search from './screen/Search';
 import ReadOffline from './screen/ReadOffline';
 import Bookmark from './screen/Bookmark';
 import BookmarkReading from './screen/BookmarkReading';
-import { StackNavigator, DrawerNavigator } from 'react-navigation';
+import { StackNavigator, DrawerNavigator, StackNavigatorConfig } from 'react-navigation';
 import ListNewsOffline from './screen/ListNewsOffline';
 import * as Animatable from 'react-native-animatable';
 import SideMenu from './screen/Menu.js';
@@ -45,7 +45,8 @@ export const TeaNews = StackNavigator({
     navigationOptions: {
       header: null,
       gesturesEnabled: true,
-    }
+    },
+    mode: 'card'
   },
   Category_Screen: {
     screen: Category,
@@ -92,7 +93,8 @@ export const TeaNews = StackNavigator({
       gesturesEnabled: true,
     }
   },
-});
+},
+);
 export const Menu = DrawerNavigator({
   tabbar: {
     screen: TeaNews,
@@ -103,6 +105,5 @@ export const Menu = DrawerNavigator({
     drawerPosition: 'left',
     drawerLockMode: 'locked-closed',
     contentComponent: props => <SideMenu {...props} />
-  }
-
+  },
 );

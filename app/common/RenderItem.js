@@ -63,9 +63,6 @@ class RenderItem extends Component {
                 <TouchableOpacity onPress={()=>this.saveCateToAsync()} >
                     <View style={styles.item}  >
                         <Text style={{fontSize: 15, color: this.state.selected ? '#f8e71c' : 'white', backgroundColor: 'transparent', fontWeight: 'bold'}}>{this.props.item.name.toUpperCase()}</Text>
-                        <Text style={{fontSize: 12, color: this.state.selected ? '#f8e71c' : 'white', backgroundColor: 'transparent'}}>
-                          {this.props.item.source}
-                        </Text>
                     </View>
                 </TouchableOpacity>
 

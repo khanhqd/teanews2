@@ -61,9 +61,9 @@ class NewsList extends Component {
                     <Text style={styles.categoryText}>{this.props.data[0].cate}
                     </Text>
                   </View>
+                  {/*<Text style={styles.categoryText}>{this.props.data[0].source}
+                  </Text>*/}
                   <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold', marginBottom: 10 }}>{this.props.data[0].title}
-                  </Text>
-                  <Text style={{ color: '#ffffff', fontSize: 13, marginBottom: 5, }}>{source[0]}
                   </Text>
                   <Text
                     numberOfLines={2}
@@ -85,8 +85,8 @@ class NewsList extends Component {
                 </View>
                 <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }} numberOfLines={5} ellipsizeMode="tail">{this.props.data[1].title}
                 </Text>
-                <Text style={{ color: '#ffffff', fontSize: 13 }}>{source[1]}
-                </Text>
+                {/*<Text style={styles.categoryText}>{this.props.data[1].source}
+                </Text>*/}
               </View>
             </TouchableOpacity>
             <TouchableOpacity
@@ -107,8 +107,8 @@ class NewsList extends Component {
                     ellipsizeMode="tail"
                     style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }}>{this.props.data[2].title}
                   </Text>
-                  <Text style={{ color: '#ffffff', fontSize: 13 }}>{source[2]}
-                  </Text>
+                  {/*<Text style={styles.categoryText}>{this.props.data[2].source}
+                  </Text>*/}
                 </View>
               </View>
             </TouchableOpacity>

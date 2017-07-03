@@ -14,54 +14,6 @@ import RenderItem from '../common/RenderItem.js'
 const { height, width } = Dimensions.get('window')
 const Item = [
     {
-        name: 'Thể thao',
-        link: 'http://vnexpress.net/rss/the-thao.rss',
-        source: "vnexpress.net",
-        color: 'rgb(117, 198, 67)'
-    },
-    {
-        name: 'Thế giới',
-        link: 'http://vnexpress.net/rss/the-gioi.rss',
-        source: "vnexpress.net",
-        color: 'rgb(102, 142, 209)'
-    },
-    {
-        name: 'Thời sự',
-        link: 'http://vnexpress.net/rss/thoi-su.rss',
-        source: "vnexpress.net",
-        color: 'rgb(221, 85, 85)'
-    },
-    {
-        name: 'Kinh doanh',
-        link: 'http://vnexpress.net/rss/kinh-doanh.rss',
-        source: "vnexpress.net",
-        color: 'rgb(245, 180, 113)'
-    },
-    {
-        name: 'Pháp luật',
-        link: 'http://vnexpress.net/rss/phap-luat.rss',
-        source: "vnexpress.net",
-        color: 'rgb(134, 134, 134)'
-    },
-    {
-        name: 'Xe',
-        link: 'http://vnexpress.net/rss/oto-xe-may.rss',
-        source: "vnexpress.net",
-        color: 'rgb(2, 5, 17)'
-    },
-    {
-        name: 'Khoa học',
-        link: 'http://vnexpress.net/rss/khoa-hoc.rss',
-        source: "vnexpress.net",
-        color: 'rgb(187, 67, 198)'
-    },
-    {
-        name: 'Du lịch',
-        link: 'http://vnexpress.net/rss/du-lich.rss',
-        source: "vnexpress.net",
-        color: 'rgb(213, 181, 110)'
-    },
-    {
         name: 'Thời sự',
         link: 'http://tinmoi24.vn/thoi-su/1',
         source: "tinmoi24.vn",

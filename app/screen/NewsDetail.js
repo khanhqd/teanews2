@@ -27,6 +27,9 @@ import { selectedPost2, selectedPost1, selectedPost0, disableScrollWebview } fro
 var Toast = require('react-native-toast');
 
 class NewsDetail extends Component {
+  static navigationOptions = {
+    mode:'modal'
+  }
   constructor(props) {
     super(props);
     this.state = {
@@ -57,8 +60,8 @@ class NewsDetail extends Component {
     try {
       var value = await AsyncStorage.getItem(key);
       if (value !== null) {
-          this.setState({tutorialStep: 0})
-        }
+        this.setState({ tutorialStep: 0 })
+      }
     } catch (error) { alert(error) }
   };
   componentWillMount() {
@@ -152,7 +155,7 @@ class NewsDetail extends Component {
                     AsyncStorage.setItem('listRecent', JSON.stringify(listRecent))
                     setTimeout(() => { this.props.dispatch(selectedPost0(this.props.dataSlot0 + 3)) }, 210)
                   })
-                  this.setState({ bookmarked: false },()=>{
+                  this.setState({ bookmarked: false }, () => {
                     for (var i = 0; i < listBookmark.length; i++) {
                       if (listBookmark[i].title == this.props.listData[this.props.dataSlot1].title) {
                         this.setState({ bookmarked: true })
@@ -190,7 +193,7 @@ class NewsDetail extends Component {
                     AsyncStorage.setItem('listRecent', JSON.stringify(listRecent))
                     setTimeout(() => { this.props.dispatch(selectedPost2(this.props.dataSlot2 + 3)) }, 210)
                   })
-                  this.setState({ bookmarked: false },()=>{
+                  this.setState({ bookmarked: false }, () => {
                     for (var i = 0; i < listBookmark.length; i++) {
                       if (listBookmark[i].title == this.props.listData[this.props.dataSlot0].title) {
                         this.setState({ bookmarked: true })
@@ -227,7 +230,7 @@ class NewsDetail extends Component {
                     AsyncStorage.setItem('listRecent', JSON.stringify(listRecent))
                     setTimeout(() => { this.props.dispatch(selectedPost1(this.props.dataSlot1 + 3)) }, 210)
                   })
-                  this.setState({ bookmarked: false },()=>{
+                  this.setState({ bookmarked: false }, () => {
                     for (var i = 0; i < listBookmark.length; i++) {
                       if (listBookmark[i].title == this.props.listData[this.props.dataSlot2].title) {
                         this.setState({ bookmarked: true })
@@ -320,93 +323,93 @@ class NewsDetail extends Component {
     switch (this.state.tutorialStep) {
       case 1:
         return (
-          <View style={{width: width, height: height, position: 'absolute', zIndex: 6}}>
-            <View style={{height: 20, width: width, backgroundColor: 'rgba(0, 0, 0, 0.33)'}}>
+          <View style={{ width: width, height: height, position: 'absolute', zIndex: 6 }}>
+            <View style={{ height: 20, width: width, backgroundColor: 'rgba(0, 0, 0, 0.33)' }}>
             </View>
-            <View style={{flex: 1, flexDirection: 'row'}}>
-              <Animatable.View iterationCount="infinite" direction="alternate" animation="fadeIn" style={{width: 70, backgroundColor: 'rgba(0, 0, 0, 0.33)'}}>
+            <View style={{ flex: 1, flexDirection: 'row' }}>
+              <Animatable.View iterationCount="infinite" direction="alternate" animation="fadeIn" style={{ width: 70, backgroundColor: 'rgba(0, 0, 0, 0.33)' }}>
               </Animatable.View>
-              <View style={{flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.33)', justifyContent: 'center'}}>
-                <Animatable.View animation="fadeInRight" style={{width: 200, height: 110, backgroundColor: 'white', marginLeft: 10, borderRadius: 10, justifyContent: 'center', alignItems: 'center', padding: 5}}>
-                  <Text style={{fontWeight: 'bold'}}>Hướng dẫn
+              <View style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.33)', justifyContent: 'center' }}>
+                <Animatable.View animation="fadeInRight" style={{ width: 200, height: 110, backgroundColor: 'white', marginLeft: 10, borderRadius: 10, justifyContent: 'center', alignItems: 'center', padding: 5 }}>
+                  <Text style={{ fontWeight: 'bold' }}>Hướng dẫn
                   </Text>
-                  <Text style={{marginTop: 5}}>Vuốt cạnh trái sang phải để về trang chủ!
+                  <Text style={{ marginTop: 5 }}>Vuốt cạnh trái sang phải để về trang chủ!
                   </Text>
-                  <View style={{width: 200, flexDirection: 'row', margin: 10, height: 40, flex:1, alignItems: 'center'}}>
-                    <TouchableOpacity onPress={() => this.setState({ tutorialStep: 0})} style={styles.loginButton}>
-                      <View style={{ borderColor: '#4a90e2', height: 30, width: 80, borderRadius: 5, justifyContent: 'center', alignItems: 'center', borderWidth: 1,marginLeft: 10 }}>
-                         <Text style={{color: '#4a90e2', fontWeight: '500', fontSize: 15}}>Kết thúc</Text>
+                  <View style={{ width: 200, flexDirection: 'row', margin: 10, height: 40, flex: 1, alignItems: 'center' }}>
+                    <TouchableOpacity onPress={() => this.setState({ tutorialStep: 0 })} style={styles.loginButton}>
+                      <View style={{ borderColor: '#4a90e2', height: 30, width: 80, borderRadius: 5, justifyContent: 'center', alignItems: 'center', borderWidth: 1, marginLeft: 10 }}>
+                        <Text style={{ color: '#4a90e2', fontWeight: '500', fontSize: 15 }}>Kết thúc</Text>
                       </View>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => this.setState({ tutorialStep: this.state.tutorialStep + 1})} style={styles.loginButton}>
+                    <TouchableOpacity onPress={() => this.setState({ tutorialStep: this.state.tutorialStep + 1 })} style={styles.loginButton}>
                       <View style={{ backgroundColor: '#4a90e2', height: 30, width: 80, borderRadius: 5, justifyContent: 'center', alignItems: 'center', marginLeft: 20 }}>
-                         <Text style={{color: 'white', fontWeight: '500', fontSize: 15}}>Tiếp</Text>
+                        <Text style={{ color: 'white', fontWeight: '500', fontSize: 15 }}>Tiếp</Text>
                       </View>
                     </TouchableOpacity>
                   </View>
                 </Animatable.View>
               </View>
             </View>
-            <View style={{height: 50, width: width, backgroundColor: 'rgba(0, 0, 0, 0.33)'}}>
+            <View style={{ height: 50, width: width, backgroundColor: 'rgba(0, 0, 0, 0.33)' }}>
             </View>
           </View>
         )
         break;
       case 2:
         return (
-          <View style={{width: width, height: height, position: 'absolute', zIndex: 6}}>
-            <View style={{flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.33)', alignItems: 'center'}}>
+          <View style={{ width: width, height: height, position: 'absolute', zIndex: 6 }}>
+            <View style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.33)', alignItems: 'center' }}>
 
-              <Animatable.View animation="fadeInDown" style={{width: 200, height: 120, backgroundColor: 'white', marginLeft: 10, borderRadius: 10, justifyContent: 'center', alignItems: 'center', padding: 5, position: 'absolute', bottom: 10}}>
-                <Text style={{fontWeight: 'bold'}}>Hướng dẫn
+              <Animatable.View animation="fadeInDown" style={{ width: 200, height: 120, backgroundColor: 'white', marginLeft: 10, borderRadius: 10, justifyContent: 'center', alignItems: 'center', padding: 5, position: 'absolute', bottom: 10 }}>
+                <Text style={{ fontWeight: 'bold' }}>Hướng dẫn
                 </Text>
-                <Text style={{marginTop: 5}}>Thanh menu với các chức năng chia sẻ, lưu, chỉnh sửa font chữ, chế độ đọc ...
+                <Text style={{ marginTop: 5 }}>Thanh menu với các chức năng chia sẻ, lưu, chỉnh sửa font chữ, chế độ đọc ...
                 </Text>
-                <View style={{width: 200, flexDirection: 'row', margin: 10, height: 40, flex:1, alignItems: 'center'}}>
-                  <TouchableOpacity onPress={() => this.setState({ tutorialStep: 0})} style={styles.loginButton}>
-                    <View style={{ borderColor: '#4a90e2', height: 30, width: 80, borderRadius: 5, justifyContent: 'center', alignItems: 'center', borderWidth: 1,marginLeft: 10 }}>
-                       <Text style={{color: '#4a90e2', fontWeight: '500', fontSize: 15}}>Kết thúc</Text>
+                <View style={{ width: 200, flexDirection: 'row', margin: 10, height: 40, flex: 1, alignItems: 'center' }}>
+                  <TouchableOpacity onPress={() => this.setState({ tutorialStep: 0 })} style={styles.loginButton}>
+                    <View style={{ borderColor: '#4a90e2', height: 30, width: 80, borderRadius: 5, justifyContent: 'center', alignItems: 'center', borderWidth: 1, marginLeft: 10 }}>
+                      <Text style={{ color: '#4a90e2', fontWeight: '500', fontSize: 15 }}>Kết thúc</Text>
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => this.setState({ tutorialStep: this.state.tutorialStep + 1})} style={styles.loginButton}>
+                  <TouchableOpacity onPress={() => this.setState({ tutorialStep: this.state.tutorialStep + 1 })} style={styles.loginButton}>
                     <View style={{ backgroundColor: '#4a90e2', height: 30, width: 80, borderRadius: 5, justifyContent: 'center', alignItems: 'center', marginLeft: 20 }}>
-                       <Text style={{color: 'white', fontWeight: '500', fontSize: 15}}>Tiếp</Text>
+                      <Text style={{ color: 'white', fontWeight: '500', fontSize: 15 }}>Tiếp</Text>
                     </View>
                   </TouchableOpacity>
                 </View>
               </Animatable.View>
 
             </View>
-            <Animatable.View iterationCount="infinite" direction="alternate" animation="fadeIn" style={{height: 50, width: width, backgroundColor: 'rgba(0, 0, 0, 0.33)'}}>
+            <Animatable.View iterationCount="infinite" direction="alternate" animation="fadeIn" style={{ height: 50, width: width, backgroundColor: 'rgba(0, 0, 0, 0.33)' }}>
             </Animatable.View>
           </View>
         )
         break;
       case 3:
         return (
-          <View style={{width: width, height: height, position: 'absolute', zIndex: 6}}>
-            <View style={{height: 20, width: width, backgroundColor: 'rgba(0, 0, 0, 0.33)'}}>
+          <View style={{ width: width, height: height, position: 'absolute', zIndex: 6 }}>
+            <View style={{ height: 20, width: width, backgroundColor: 'rgba(0, 0, 0, 0.33)' }}>
             </View>
-            <View style={{flex: 1, flexDirection: 'row'}}>
-              <View style={{flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.33)', justifyContent: 'center'}}>
-                <Animatable.View animation="fadeInLeft" style={{width: 200, height: 110, backgroundColor: 'white', marginLeft: 10, borderRadius: 10, justifyContent: 'center', alignItems: 'center', padding: 5, position: 'absolute', right: 5}}>
-                  <Text style={{fontWeight: 'bold'}}>Hướng dẫn
+            <View style={{ flex: 1, flexDirection: 'row' }}>
+              <View style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.33)', justifyContent: 'center' }}>
+                <Animatable.View animation="fadeInLeft" style={{ width: 200, height: 110, backgroundColor: 'white', marginLeft: 10, borderRadius: 10, justifyContent: 'center', alignItems: 'center', padding: 5, position: 'absolute', right: 5 }}>
+                  <Text style={{ fontWeight: 'bold' }}>Hướng dẫn
                   </Text>
-                  <Text style={{marginTop: 5}}>Vuốt màn hình sang trái để chuyển trang tiếp theo!
+                  <Text style={{ marginTop: 5 }}>Vuốt màn hình sang trái để chuyển trang tiếp theo!
                   </Text>
-                  <View style={{width: 200, flexDirection: 'row', margin: 10, height: 40, flex:1, alignItems: 'center'}}>
-                    <TouchableOpacity onPress={() => this.setState({ tutorialStep: this.state.tutorialStep + 1})} style={styles.loginButton}>
-                      <View style={{ backgroundColor: '#4a90e2', height: 30, width: 80, borderRadius: 5, justifyContent: 'center', marginLeft: 60, alignItems: 'center'}}>
-                         <Text style={{color: 'white', fontWeight: '500', fontSize: 15}}>Kết thúc</Text>
+                  <View style={{ width: 200, flexDirection: 'row', margin: 10, height: 40, flex: 1, alignItems: 'center' }}>
+                    <TouchableOpacity onPress={() => this.setState({ tutorialStep: this.state.tutorialStep + 1 })} style={styles.loginButton}>
+                      <View style={{ backgroundColor: '#4a90e2', height: 30, width: 80, borderRadius: 5, justifyContent: 'center', marginLeft: 60, alignItems: 'center' }}>
+                        <Text style={{ color: 'white', fontWeight: '500', fontSize: 15 }}>Kết thúc</Text>
                       </View>
                     </TouchableOpacity>
                   </View>
                 </Animatable.View>
               </View>
-              <Animatable.View iterationCount="infinite" direction="alternate" animation="fadeIn" style={{width: 120, backgroundColor: 'rgba(0, 0, 0, 0.33)'}}>
+              <Animatable.View iterationCount="infinite" direction="alternate" animation="fadeIn" style={{ width: 120, backgroundColor: 'rgba(0, 0, 0, 0.33)' }}>
               </Animatable.View>
             </View>
-            <View style={{height: 50, width: width, backgroundColor: 'rgba(0, 0, 0, 0.33)'}}>
+            <View style={{ height: 50, width: width, backgroundColor: 'rgba(0, 0, 0, 0.33)' }}>
             </View>
           </View>
         )

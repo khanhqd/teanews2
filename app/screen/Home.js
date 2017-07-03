@@ -337,82 +337,50 @@ class Home extends Component {
   }
   fetchData(linkRSS, cate, cateColor, i, callback) {
     let data = this.state["data" + i]
-    if (linkRSS.includes('http://vnexpress.net/')) {
-      fetch(linkRSS)
-        .then((response) => response.text())
-        .then((responseData) => {
-          $ = cheerio.load(responseData, {
-            xmlMode: true,
-            decodeEntities: true
-          })
-          $('channel>item').each(function () {
-            CDATA = $(this).find('description').text()
-            let vitribatdau = CDATA.search('src=')
-            let vitriketthuc = CDATA.search(' ></a>')
-            let vitribatdauDes = CDATA.search('</br>')
-            let vitriketthucDes = CDATA.search(']]>')
-            let url = $(this).find('link').text()
-            if ((url.includes('http://vnexpress.net/projects') == false) && (url.includes('http://vnexpress.net/infographics') == false)
-              && (CDATA.includes('No Description') == false) && (url.includes('/tu-van/') == false) &&
-              (url.includes('/hoi-dap/') == false) && (url.includes('http://vnexpress.net/interactive') == false) && (url.includes('http://video.vnexpress.net/') == false)) {
-              data.push({
-                title: $(this).find('title').text(),
-                thumb: CDATA.slice(vitribatdau + 5, vitriketthuc - 1).replace("_180x108", ""),
-                des: CDATA.slice(vitribatdauDes + 5, vitriketthucDes),
-                url: url,
-                date: new Date($(this).find('pubDate').text()).getTime(),
-                cate: cate,
-                cateColor: cateColor,
-              })
-              //console.log(data)
-            }
-          })
-          this.setState({
-            ['data' + i]: data,
-            refreshing: false,
-          }, () => callback())
+    fetch(linkRSS)
+      .then((response) => response.text())
+      .then((responseData) => {
+        $ = cheerio.load(responseData, {
+          xmlMode: true,
+          decodeEntities: true
         })
-    }
-    else {
-      fetch(linkRSS)
-        .then((response) => response.text())
-        .then((responseData) => {
-          $ = cheerio.load(responseData, {
-            xmlMode: true,
-            decodeEntities: true
-          })
-          $('.list-remain-category >article').each(function () {
-            let thumb = $(this).find('figure').find('a img').attr('src').replace(/\s+ /g, "").replace(/(\r\n|\n|\r)/gm, "")
-            let title = $(this).find('.title-full').attr('title').toString().replace(/\s+ /g, "").replace(/(\r\n|\n|\r)/gm, "")
-            let summary = $(this).find('.summary').text().toString().replace(/\s+ /g, "").replace(/(\r\n|\n|\r)/gm, "")
-            let date = $(this).find('.time').text().toString().replace(/\s+ /g, "").replace(/(\r\n|\n|\r)/gm, "")
-            let decodeDate = $.parseHTML(date);
-            let decodeTitle = $.parseHTML(title);
-            let decodeSummary = $.parseHTML(summary);
-            let time = decodeDate[0].data
-            let minutes = time.slice(0, 2)
-            let convertMinutesToMiliSe = parseInt(minutes) * 60 * 1000
-            let now = new Date().getTime()
-            let newsTime = now - convertMinutesToMiliSe
-            if (decodeSummary !== null) {
-              data.push({
-                title: decodeTitle[0].data,
-                thumb: thumb,
-                des: decodeSummary[0].data,
-                url: $(this).find('figure').find('a').attr('href').replace(/\s+ /g, ""),
-                date: newsTime,
-                cate: cate,
-                cateColor: cateColor,
-
-              })
-            }
-          })
-          this.setState({
-            ['data' + i]: data,
-            refreshing: false,
-          }, () => callback())
+        $('.list-remain-category >article').each(function () {
+          let thumb = $(this).find('figure').find('a img').attr('src').replace(/\s+ /g, "").replace(/(\r\n|\n|\r)/gm, "")
+          let title = $(this).find('.title-full').attr('title').toString().replace(/\s+ /g, "").replace(/(\r\n|\n|\r)/gm, "")
+          let summary = $(this).find('.summary').text().toString().replace(/\s+ /g, "").replace(/(\r\n|\n|\r)/gm, "")
+          //date
+          let date = $(this).find('.time').text().toString().replace(/\s+ /g, "").replace(/(\r\n|\n|\r)/gm, "")
+          let decodeDate = $.parseHTML(date);
+          let decodeTitle = $.parseHTML(title);
+          let decodeSummary = $.parseHTML(summary);
+          //time
+          let time = decodeDate[0].data
+          let minutes = time.slice(0, 2)
+          let convertMinutesToMiliSe = parseInt(minutes) * 60 * 1000
+          let now = new Date().getTime()
+          let newsTime = now - convertMinutesToMiliSe
+          //source
+          let source = $(this).find('.meta span').text().toString().replace(/\s+ /g, "").replace(/(\r\n|\n|\r)/gm, "")
+          let decodeSource = $.parseHTML(source);
+          let newSource = decodeSource[0].data
+          if (decodeSummary !== null) {
+            data.push({
+              title: decodeTitle[0].data,
+              thumb: thumb,
+              des: decodeSummary[0].data,
+              url: $(this).find('figure').find('a').attr('href').replace(/\s+ /g, ""),
+              date: newsTime,
+              cate: cate,
+              cateColor: cateColor,
+              source: newSource
+            })
+          }
         })
-    }
+        this.setState({
+          ['data' + i]: data,
+          refreshing: false,
+        }, () => callback())
+      })
   }
   toDetail(postId, data) {
     let listRecent = this.state.listRecent;
@@ -472,7 +440,7 @@ class Home extends Component {
         <StatusBar
           barStyle="light-content"
         />
-        <View style={{ height: 20, width: width, backgroundColor: 'black', position: 'absolute', zIndex: 5}}>
+        <View style={{ height: 20, width: width, backgroundColor: 'black', position: 'absolute', zIndex: 5 }}>
         </View>
         {!this.state.loading ?
           <View {...this._panResponder.panHandlers}>

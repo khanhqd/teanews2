@@ -33,7 +33,7 @@ import {
   changeTextColor, changeNightMode, changeLoadingState, changeLineHeight
 } from '../actions';
 var WEBVIEW_REF = 'webview';
-
+import FitImage from 'react-native-fit-image';
 import HTMLView from './react-native-htmlview';
 
 class NewsItem extends Component {
@@ -58,7 +58,9 @@ class NewsItem extends Component {
     source: '',
     arr: [],
     logo: '',
-    reRender: false
+    reRender: false,
+    height: '',
+    width: ''
   };
   componentWillMount() {
     if (this.props.row) {
@@ -107,6 +109,24 @@ class NewsItem extends Component {
       }
     });
   }
+  bodau(source) {
+    source = source.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ằ|Ẵ/g, "A");
+    source = source.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, "E");
+    source = source.replace(/Ì|Í|Ị|Ỉ|Ĩ/g, "I");
+    source = source.replace(/Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ/g, "O");
+    source = source.replace(/Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ/g, "U");
+    source = source.replace(/Ỳ|Ý|Ỵ|Ỷ|Ỹ/g, "Y");
+    source = source.replace(/Đ/g, "D");
+    source = source.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ằ|ẵ/g, "a");
+    source = source.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+    source = source.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+    source = source.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+    source = source.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+    source = source.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+    source = source.replace(/đ/g, "d");
+    source = source.replace(/\s+/g, "");
+    return source;
+  }
   fetchContent(row) {
     this.props.dispatch(changeLoadingState(true))
     let sourceReal;
@@ -124,42 +144,326 @@ class NewsItem extends Component {
         //$("strong").replaceWith(function () { return `<p style="font-Size:18">${$(this).contents()}</p>` });
         $("[data-component-type=video]").replaceWith("<strong>Bài viết chứa video, vui lòng mở link bằng trình duyệt để xem video</strong>");
         $("video").replaceWith("<strong>Bài viết chứa video, vui lòng mở link bằng trình duyệt để xem video</strong>");
-        sourceReal = $(".span-website").text();
-        $(".see-now,.author_mail.width_common,.tbl_insert,.VCSortableInPreviewMode,.image,iframe,.block_filter_live,.detail_top_live.width_common,.block_breakumb_left,#menu-box,.bi-related,head,#result_other_news,#social_like,noscript,#myvne_taskbar,.block_more_info,#wrapper_header,#header_web,#wrapper_footer,.breakumb_timer.width_common,.banner_980x60,.right,#box_comment,.nativeade,#box_tinkhac_detail,#box_tinlienquan,.block_tag.width_common.space_bottom_20,#ads_endpage,.block_timer_share,.title_news,.div-fbook.width_common.title_div_fbook,.xemthem_new_ver.width_common,.relative_new,#topbar,#topbar-scroll,.text_xemthem,#box_col_left,.form-control.change_gmt,.tt_2,.back_tt,.box_tinkhac.width_common,#sticky_info_st,.col_fillter.box_sticky_left,.start.have_cap2,.cap2,.list_news_dot_3x3,.minutes,#live-updates-wrapper,.block_share.right,.block_goithutoasoan,.xemthem_new_ver.width_common,meta,link,.menu_main,.top_3,.number_bgs,.filter_right,#headmass,.box_category.width_common,.banner_468.width_common,.adsbyeclick,.block_col_160.right,#ArticleBanner2,#ad_wrapper_protection,#WIDGET").remove();
-        if (url.includes("http://tinmoi24.vn/") == false) {
-          this.setState({ bodyHTML: $('.main_content_detail.width_common').html() }, () => {
-            this.updateWebview(row)
-          })
+        // $(".see-now,.author_mail.width_common,.tbl_insert,.VCSortableInPreviewMode,.image,iframe,.block_filter_live,.detail_top_live.width_common,.block_breakumb_left,#menu-box,.bi-related,head,#result_other_news,#social_like,noscript,#myvne_taskbar,.block_more_info,#wrapper_header,#header_web,#wrapper_footer,.breakumb_timer.width_common,.banner_980x60,.right,#box_comment,.nativeade,#box_tinkhac_detail,#box_tinlienquan,.block_tag.width_common.space_bottom_20,#ads_endpage,.block_timer_share,.title_news,.div-fbook.width_common.title_div_fbook,.xemthem_new_ver.width_common,.relative_new,#topbar,#topbar-scroll,.text_xemthem,#box_col_left,.form-control.change_gmt,.tt_2,.back_tt,.box_tinkhac.width_common,#sticky_info_st,.col_fillter.box_sticky_left,.start.have_cap2,.cap2,.list_news_dot_3x3,.minutes,#live-updates-wrapper,.block_share.right,.block_goithutoasoan,.xemthem_new_ver.width_common,meta,link,.menu_main,.top_3,.number_bgs,.filter_right,#headmass,.box_category.width_common,.banner_468.width_common,.adsbyeclick,.block_col_160.right,#ArticleBanner2,#ad_wrapper_protection,#WIDGET").remove();
+        let text = $(".newbody p").last().text()
+        if (text.includes(">>> Đọc thêm")) {
+          $(".newbody p").last().remove();
         }
-        else {
-          let text = $(".newbody p").last().text()
-          if (text.includes(">>> Đọc thêm")) {
-            $(".newbody p").last().remove();
-          }
-          this.setState({
-            bodyHTML: $('.newbody').html(),
-            sourceReal: sourceReal
-          }, () => {
-            this.setState({ loading: false }, () => this.updateWebview(row))
+        this.setState({
+          bodyHTML: $('.newbody').html(),
+          sourceReal: sourceReal
+        }, () => {
+          this.setState({ loading: false }, () => this.updateWebview(row))
 
-          })
-        }
+        })
+
       })
   }
   updateWebview(row) {
     this.props.dispatch(changeLoadingState(false))
-    if (row.url.includes("vnexpress")) {
-      this.setState({
-        source: "Vnexpress.net",
-        loading: false,
-        logo: require('../../img/vnExpress.png'),
-      })
-    } else {
-      this.setState({
-        source: 'Tinmoi24h.vn',
-        loading: false,
-        logo: require('../../img/tinmoi24h.png'),
-      })
+    let source = this.props.row.source
+    switch (source) {
+      case 'VnExpress': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/VnExpress.png`),
+          height: 20,
+          width: 20
+        })
+        break;
+      }
+      case '24h': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/24h.png`),
+          height: 30,
+          width: 60
+        })
+        break;
+      }
+      case 'Báo mới': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/Baomoi.png`),
+          height: 20,
+          width: 20
+        })
+        break;
+      }
+      case 'Thể thao 247': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/thethao247.png`),
+          height: 30,
+          width: 60
+        })
+        break;
+      }
+      case 'Bóng đá 24h': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/Bongda24h.png`),
+          height: 40,
+          width: 60
+        })
+        break;
+      }
+
+      case 'Bóng đá Plus': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/BongdaPlus.png`),
+          height: 30,
+          width: 60
+        })
+        break;
+      }
+      case 'Dân Việt': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/DanViet.png`),
+          height: 30,
+          width: 60
+        })
+        break;
+      }
+      case 'Người Đưa Tin': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/NguoiDuaTin.png`),
+          height: 30,
+          width: 60
+        })
+        break;
+      }
+      case 'Tiền Phong': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/tienphong.png`),
+          height: 30,
+          width: 60
+        })
+        break;
+      }
+      case 'Thể thao văn hóa': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/thethaovanhoa.png`),
+          height: 30,
+          width: 60
+        })
+        break;
+      }
+      case 'Báo An ninh': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/anninhthudo.png`),
+          height: 40,
+          width: 60
+        })
+        break;
+      }
+      case 'Báo Lao Động': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/laodong.png`),
+          height: 40,
+          width: 60
+        })
+        break;
+      }
+      case 'Afamily': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/afamily.png`),
+          height: 40,
+          width: 60
+        })
+        break;
+      }
+      case 'Dân trí': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/dantri.png`),
+          height: 40,
+          width: 60
+        })
+        break;
+      }
+      case 'Người Lao Động': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/laodong.png`),
+          height: 40,
+          width: 60
+        })
+        break;
+      }
+      case 'Phunutoday': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/phunutoday.png`),
+          height: 40,
+          width: 60
+        })
+        break;
+      }
+      case 'InfoNet': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/infonet.jpg`),
+          height: 40,
+          width: 60
+        })
+        break;
+      }
+      case 'Kiến thức': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/kienthuc.png`),
+          height: 40,
+          width: 60
+        })
+        break;
+      }
+      case 'Một thế giới': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/motthegioi.png`),
+          height: 40,
+          width: 60
+        })
+        break;
+      }
+      case 'Báo đất Việt': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/baodatviet.png`),
+          height: 40,
+          width: 60
+        })
+        break;
+      }
+      case 'Blog Tâm sự': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/blogtamsu.png`),
+          height: 40,
+          width: 60
+        })
+        break;
+      }
+      case 'Ngôi Sao': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/ngoisaologo.png`),
+          height: 40,
+          width: 60
+        })
+        break;
+      }
+      case 'Vietnamnet': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/vietnamnet.png`),
+          height: 40,
+          width: 60
+        })
+        break;
+      }
+      case 'SaoStar': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/saostar.png`),
+          height: 40,
+          width: 60
+        })
+        break;
+      }
+      case 'Vtc News': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/vtc.png`),
+          height: 40,
+          width: 60
+        })
+        break;
+      }
+      case 'Báo Tuổi Trẻ': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/tuoitre.png`),
+          height: 40,
+          width: 60
+        })
+        break;
+      }
+      case 'Pháp Luật Plus': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/phapluatplus.png`),
+          height: 40,
+          width: 60
+        })
+        break;
+      }
+      case 'Báo Giao thông': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/BaoGiaothong.png`),
+          height: 40,
+          width: 60
+        })
+        break;
+      }
+      case 'Kênh 14': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/kenh14.png`),
+          height: 40,
+          width: 60
+        })
+        break;
+      }
+      default: {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/tinmoi24h.png`),
+          height: 20,
+          width: 20
+        })
+        break;
+      }
     }
   }
   loading() {
@@ -199,7 +503,7 @@ class NewsItem extends Component {
       this.props.dispatch(changeBackgroundColor('white'));
       this.props.dispatch(changeNightMode(false));
     }
-    setTimeout(()=>{this.fetchContent(this.props.row)},100)
+    setTimeout(() => { this.fetchContent(this.props.row) }, 100)
   }
   render() {
     const styles2 = {
@@ -269,7 +573,7 @@ class NewsItem extends Component {
                     if (this.props.fontSize > 7) {
                       this.props.dispatch(changeFontSize(this.props.fontSize - 2));
                       this.props.dispatch(changeLineHeight(this.props.lineHeight - 2));
-                      setTimeout(()=>{this.fetchContent(this.props.row)},100)
+                      setTimeout(() => { this.fetchContent(this.props.row) }, 100)
                     } else {
                       Toast.show('Cỡ chữ đã thu nhỏ tối đa');
                     }
@@ -288,7 +592,7 @@ class NewsItem extends Component {
                     if (this.props.fontSize < 30) {
                       this.props.dispatch(changeFontSize(this.props.fontSize + 2));
                       this.props.dispatch(changeLineHeight(this.props.lineHeight + 2));
-                      setTimeout(()=>{this.fetchContent(this.props.row)},100)
+                      setTimeout(() => { this.fetchContent(this.props.row) }, 100)
                     } else {
                       Toast.show('Cỡ chữ đã tăng tối đa');
                     }
@@ -360,9 +664,9 @@ class NewsItem extends Component {
             style={{ width: width, height: height - 50, backgroundColor: this.props.postBackground, marginBottom: 50 }}
           >
             <View style={styles.sourceContainer}>
-              <View style={{ flexDirection: 'row' }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 {(this.state.logo != '') &&
-                  <Image source={this.state.logo} style={{ height: 20, width: 20 }} />
+                  <Image resizeMode='center' source={this.state.logo} style={{ height: 30, width: 30 }} />
                 }
                 <Text style={{ textAlign: 'center', marginLeft: 10, fontSize: 13, color: '#9b9b9b' }}>{this.state.source}</Text>
               </View>
@@ -437,7 +741,8 @@ const styles = {
     marginLeft: 15,
     height: 30,
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
   cover: {
     justifyContent: 'center',
