@@ -120,7 +120,7 @@ class NewsItem extends Component {
         $ = cheerio.load(responseData);
         $("a").parent(".Normal").remove();
         $("em").parent(".Normal").remove();
-        $("span,em,i,a, strong ").replaceWith(function () { return $(this).contents(); });
+        $("span,em,i,a,b,strong").replaceWith(function () { return $(this).contents(); });
         //$("strong").replaceWith(function () { return `<p style="font-Size:18">${$(this).contents()}</p>` });
         $("[data-component-type=video]").replaceWith("<strong>Bài viết chứa video, vui lòng mở link bằng trình duyệt để xem video</strong>");
         $("video").replaceWith("<strong>Bài viết chứa video, vui lòng mở link bằng trình duyệt để xem video</strong>");
@@ -489,18 +489,18 @@ class NewsItem extends Component {
     }
     setTimeout(() => { this.fetchContent(this.props.row) }, 100)
   }
-  msToTime(duration) {
-    var milliseconds = parseInt((duration % 1000) / 100)
-      , seconds = parseInt((duration / 1000) % 60)
-      , minutes = parseInt((duration / (1000 * 60)) % 60)
-      , hours = parseInt((duration / (1000 * 60 * 60)) % 24);
-
-    hours = (hours < 10) ? "0" + hours : hours;
-    minutes = (minutes < 10) ? "0" + minutes : minutes;
-    seconds = (seconds < 10) ? "0" + seconds : seconds;
-
-    return hours + ":" + minutes + ":" + seconds;
-  }
+  // msToTime(duration) {
+  //   var milliseconds = parseInt((duration % 1000) / 100)
+  //     , seconds = parseInt((duration / 1000) % 60)
+  //     , minutes = parseInt((duration / (1000 * 60)) % 60)
+  //     , hours = parseInt((duration / (1000 * 60 * 60)) % 24);
+  //
+  //   hours = (hours < 10) ? "0" + hours : hours;
+  //   minutes = (minutes < 10) ? "0" + minutes : minutes;
+  //   seconds = (seconds < 10) ? "0" + seconds : seconds;
+  //
+  //   return hours + ":" + minutes + ":" + seconds;
+  // }
   render() {
     const styles2 = {
       h1: {
@@ -558,9 +558,9 @@ class NewsItem extends Component {
         lineHeight: this.props.lineHeight
       },
     };
-    let date = new Date(this.props.row.date);
-    let convertToDate = date.toDateString();
-    let time = this.msToTime(this.props.row.date);
+    // let date = new Date(this.props.row.date);
+    // let convertToDate = date.toDateString();
+    // let time = this.msToTime(this.props.row.date);
     return (
       <View>
         <View style={{ height: 20, width: width, backgroundColor: 'black' }}>
@@ -672,7 +672,7 @@ class NewsItem extends Component {
                 }
                 <Text style={{ textAlign: 'center', marginLeft: 10, fontSize: 13, color: '#9b9b9b' }}>{this.state.source}</Text>
               </View>
-              <Text style={{ marginRight: 20, textAlign: 'center', color: '#9b9b9b' }}>{convertToDate}-{time}</Text>
+              <Text style={{ marginRight: 20, textAlign: 'center', color: '#9b9b9b' }}>{this.props.row.date}</Text>
             </View>
             <Text style={{ fontFamily: 'Lora-Regular', margin: 10, marginLeft: 15, color: this.props.textColor, fontSize: 30, fontWeight: 'bold', marginTop: 0 }}>{this.props.row.title}</Text>
             <View style={[styles.cateContainer, { backgroundColor: this.props.row.cateColor }]}>

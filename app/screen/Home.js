@@ -19,12 +19,14 @@ import NewsItem2 from '../common/NewsItem2';
 import NewsList from '../common/NewsList';
 const cheerio = require('cheerio-without-node-native');
 
-import { loadListData, selectedPost0, selectedPost1, selectedPost2, replaceBookmark, replaceRecent, addRecent } from '../actions';
+import { loadListData, selectedPost0, selectedPost1, selectedPost2, replaceBookmark, replaceRecent, addRecent, addListData, saveListCate } from '../actions';
 import { connect } from 'react-redux';
 import { replaceListCate, reload, addSearchKeyword } from '../actions';
 
 import { firebaseApp } from '../app';
 const numberOfItem = 3;
+
+var Toast = require('react-native-toast');
 
 class Home extends Component {
   static navigationOptions = {
@@ -50,7 +52,8 @@ class Home extends Component {
       listCate: [],
       loading: true,
       bigData: [],
-      listRecent: []
+      listRecent: [],
+      pageNumber: 1
     }
     topViewStyle = {
       style: {
@@ -63,6 +66,7 @@ class Home extends Component {
     })
 
     this._get('listCate');
+    this._get('fullListCate');
     this._get('listBookmark');
     this._get("listRecent");
 
@@ -79,6 +83,9 @@ class Home extends Component {
         switch (key) {
           case 'listBookmark':
             this.props.dispatch(replaceBookmark(JSON.parse(value)))
+            break;
+          case 'fullListCate':
+            this.props.dispatch(saveListCate(JSON.parse(value)))
             break;
           case 'listRecent':
             this.props.dispatch(replaceRecent(JSON.parse(value)));
@@ -105,9 +112,10 @@ class Home extends Component {
                     this.arrangeData()
                   })
                 })
-              } else {
-                this.fetchData('http://vnexpress.net/rss/kinh-doanh.rss')
               }
+              // else {
+              //   this.fetchData('http://vnexpress.net/rss/kinh-doanh.rss')
+              // }
             })
             break;
         }
@@ -115,23 +123,88 @@ class Home extends Component {
     } catch (error) { alert(error) }
   };
   arrangeData() {
-    let listCate = this.state.listCate;
+    let listCate = this.props.listCate;
     var bigData = [];
     function compare(a, b) {
-      if (a.date < b.date)
+      var date1;
+      var date2;
+      if (a.date.includes('phút')) {
+        date1 = parseInt(a.date.replace(' phút trước')) / 60
+      }
+      if (b.date.includes('phút')) {
+        date2 = parseInt(b.date.replace(' phút trước')) / 60
+      }
+      if (a.date.includes('giờ')) {
+        date1 = parseInt(a.date.replace(' giờ trước'))
+      }
+      if (b.date.includes('giờ')) {
+        date2 = parseInt(b.date.replace(' giờ trước'))
+      }
+      if (a.date.includes('ngày')) {
+        date1 = parseInt(a.date.replace(' ngày trước')) * 24
+      }
+      if (b.date.includes('ngày')) {
+        date2 = parseInt(b.date.replace(' ngày trước')) * 24
+      }
+      if (date1 > date2)
         return 1;
-      if (a.date > b.date)
+      if (date1 < date2)
         return -1;
       return 0;
     }
-    for (var i = 0; i < listCate.length; i++) {
-      for (var n = 0; n < this.state["data" + i].length; n++) {
+    for (let i = 0; i < listCate.length; i++) {
+      for (let n = 0; n < this.state["data" + i].length; n++) {
         bigData.push(this.state["data" + i][n]);
       }
-      this.setState({ bigData: bigData.sort(compare), loading: false }, () => {
-        this.props.dispatch(loadListData(this.state.bigData))
-      })
     }
+    bigData = bigData.sort(compare);
+    for (let i = 0; i< bigData.length; i++) {
+      this.props.dispatch(addListData(bigData[i]));
+      console.log(bigData[i].title);
+    }
+    this.setState({loading: false})
+    // this.setState({ bigData: bigData.sort(compare), loading: false }, () => {
+    //   this.props.dispatch(loadListData(this.state.bigData))
+    // })
+  }
+  arrangeDataReload() {
+    let listCate = this.props.listCate;
+    var bigData = [];
+    function compare(a, b) {
+      var date1;
+      var date2;
+      if (a.date.includes('phút')) {
+        date1 = parseInt(a.date.replace(' phút trước')) / 60
+      }
+      if (b.date.includes('phút')) {
+        date2 = parseInt(b.date.replace(' phút trước')) / 60
+      }
+      if (a.date.includes('giờ')) {
+        date1 = parseInt(a.date.replace(' giờ trước'))
+      }
+      if (b.date.includes('giờ')) {
+        date2 = parseInt(b.date.replace(' giờ trước'))
+      }
+      if (a.date.includes('ngày')) {
+        date1 = parseInt(a.date.replace(' ngày trước')) * 24
+      }
+      if (b.date.includes('ngày')) {
+        date2 = parseInt(b.date.replace(' ngày trước')) * 24
+      }
+      if (date1 > date2)
+        return 1;
+      if (date1 < date2)
+        return -1;
+      return 0;
+    }
+    for (let i = 0; i < listCate.length; i++) {
+      for (let n = 0; n < this.state["data" + i].length; n++) {
+        bigData.push(this.state["data" + i][n]);
+      }
+    }
+    this.setState({ bigData: bigData.sort(compare), loading: false }, () => {
+      this.props.dispatch(loadListData(this.state.bigData))
+    })
   }
   reloadData(props) {
     this.setState({ listCate: props.listCate }, () => {
@@ -145,6 +218,28 @@ class Home extends Component {
           let arrPromise = listCate.map((val, index) => {
             return new Promise((resolve, reject) => {
               this.fetchData(val.link, val.name, val.color, index, resolve)
+            })
+          })
+          Promise.all(arrPromise).then(() => {
+            this.arrangeDataReload()
+          })
+        })
+      }
+    })
+  }
+  loadMore() {
+    Toast.show('Đang tải thêm dữ liệu!');
+    this.setState({ pageNumber: this.state.pageNumber + 1 },() => {
+      let listCate = this.props.listCate;
+      if (listCate.length > 0) {
+        let newObj = {};
+        for (var i = 0; i < listCate.length; i++) {
+          newObj["newdata" + i] = []
+        }
+        this.setState({ ...newObj }, () => {
+          let arrPromise = listCate.map((val, index) => {
+            return new Promise((resolve, reject) => {
+              this.fetchData(val.link + `/trang${this.state.pageNumber}`, val.name, val.color, index, resolve)
             })
           })
           Promise.all(arrPromise).then(() => {
@@ -187,7 +282,7 @@ class Home extends Component {
                 this.state.top2.setValue(-height + gestureState.dy)
               }
             } else {
-              if (this.state.dataSlot0 + 1 < this.state.bigData.length) {
+              if (this.state.dataSlot0 + 2 < this.props.listData.length) {
                 this.state.top0.setValue(gestureState.dy)
               }
             }
@@ -196,7 +291,7 @@ class Home extends Component {
             if (gestureState.dy > 0) {
               this.state.top0.setValue(-height + gestureState.dy)
             } else {
-              if (this.state.dataSlot0 + numberOfItem + 1 < this.state.bigData.length) {
+              if (this.state.dataSlot0 + numberOfItem + 2 < this.props.listData.length) {
                 this.state.top1.setValue(gestureState.dy)
               }
             }
@@ -205,7 +300,7 @@ class Home extends Component {
             if (gestureState.dy > 0) {
               this.state.top1.setValue(-height + gestureState.dy)
             } else {
-              if (this.state.dataSlot0 < this.state.bigData.length) {
+              if (this.state.dataSlot0 + 1< this.props.listData.length) {
                 this.state.top2.setValue(gestureState.dy)
               }
             }
@@ -246,7 +341,7 @@ class Home extends Component {
               }
             } else {
               if ((this.state.dy < -height / 4) || (gestureState.vy < -0.5)) {
-                if (this.state.dataSlot0 + 1 < this.state.bigData.length) {
+                if (this.state.dataSlot0 + 2 < this.props.listData.length) {
                   this.setState({ index2: 1, index1: 2, index0: 3 }, () => {
                     this.setState({ dataSlot2: this.state.dataSlot2 + numberOfItem + 2 })
                   })
@@ -255,6 +350,8 @@ class Home extends Component {
                     { toValue: -height, duration: nextPageDuration }
                   ).start();
                   this.state.top2.setValue(0)
+                } else {
+                  this.loadMore()
                 }
               } else {
                 Animated.timing(
@@ -285,7 +382,7 @@ class Home extends Component {
               }
             } else {
               if ((this.state.dy < -height / 4) || (gestureState.vy < -0.5)) {
-                if (this.state.dataSlot0 + numberOfItem + 1 < this.state.bigData.length) {
+                if (this.state.dataSlot0 + numberOfItem + 2 < this.props.listData.length) {
                   this.setState({ index0: 1, index2: 2, index1: 3 }, () => {
                     this.setState({ dataSlot0: this.state.dataSlot0 + numberOfItem + 2 })
                   })
@@ -294,6 +391,8 @@ class Home extends Component {
                     { toValue: -height, duration: nextPageDuration }
                   ).start();
                   this.state.top0.setValue(0)
+                } else {
+                  this.loadMore()
                 }
               } else {
                 Animated.timing(
@@ -324,7 +423,7 @@ class Home extends Component {
               }
             } else {
               if ((this.state.dy < -height / 3) || (gestureState.vy < -0.5)) {
-                if (this.state.dataSlot0 < this.state.bigData.length) {
+                if (this.state.dataSlot0 + 1< this.props.listData.length) {
                   this.setState({ index1: 1, index0: 2, index2: 3 }, () => {
                     this.setState({ dataSlot1: this.state.dataSlot1 + numberOfItem + 2 })
                   })
@@ -333,6 +432,8 @@ class Home extends Component {
                     { toValue: -height, duration: nextPageDuration }
                   ).start();
                   this.state.top1.setValue(0)
+                } else {
+                  this.loadMore()
                 }
               } else {
                 Animated.timing(
@@ -368,7 +469,9 @@ class Home extends Component {
     }, 200)
   }
   fetchData(linkRSS, cate, cateColor, i, callback) {
-    let data = this.state["data" + i]
+    console.log(linkRSS)
+    // let data = this.state["data" + i]
+    let data = []
     fetch(linkRSS)
       .then((response) => response.text())
       .then((responseData) => {
@@ -381,18 +484,19 @@ class Home extends Component {
           let title = $(this).find('.title-full').attr('title').toString().replace(/\s+ /g, "").replace(/(\r\n|\n|\r)/gm, "")
           let summary = $(this).find('.summary').text().toString().replace(/\s+ /g, "").replace(/(\r\n|\n|\r)/gm, "")
           //date
-          let date = $(this).find('.time').text().toString().replace(/\s+ /g, "").replace(/(\r\n|\n|\r)/gm, "")
-          let decodeDate = $.parseHTML(date);
+          // let date = $(this).find('.time').text().toString().replace(/\s+ /g, "").replace(/(\r\n|\n|\r)/gm, "")
+          // let decodeDate = $.parseHTML(date);
           // title
           let decodeTitle = $.parseHTML(title);
           let editTitle = decodeTitle[0].data.replace(/[$\\@\\\#%\^\&\*\(\)\[\]\+\_\{\}\`\~\=\.\|]/g ,"");
           let decodeSummary = $.parseHTML(summary);
-          //time
-          let time = decodeDate[0].data
-          let minutes = time.slice(0, 2)
-          let convertMinutesToMiliSe = parseInt(minutes) * 60 * 1000
-          let now = new Date().getTime()
-          let newsTime = now - convertMinutesToMiliSe
+          // //time
+          // let time = decodeDate[0].data
+          // let minutes = time.slice(0, 2)
+          // let convertMinutesToMiliSe = parseInt(minutes) * 60 * 1000
+          // let now = new Date().getTime()
+          // let newsTime = now - convertMinutesToMiliSe
+          let newsTime = $(this).find('.time').text().trim().replace('ph&uacute;t', 'phút');
           //source
           let source = $(this).find('.meta span').text().toString().replace(/\s+ /g, "").replace(/(\r\n|\n|\r)/gm, "")
           let decodeSource = $.parseHTML(source);
@@ -435,10 +539,10 @@ class Home extends Component {
     })
     AsyncStorage.setItem('listRecent', JSON.stringify(listRecent))
     this.props.dispatch(selectedPost0(postId))
-    if (postId + 1 < this.state.bigData.length) {
+    if (postId + 1 < this.props.listData.length) {
       this.props.dispatch(selectedPost1(postId + 1))
     }
-    if (postId + 2 < this.state.bigData.length) {
+    if (postId + 2 < this.props.listData.length) {
       this.props.dispatch(selectedPost2(postId + 2))
     }
     setTimeout(() => { this.props.navigation.navigate('Detail_Screen') }, 100)
@@ -491,8 +595,8 @@ class Home extends Component {
             >
               <NewsItem2
                 navigation={this.props.navigation}
-                onPress={() => this.toDetail(this.state.dataSlot0, this.state.bigData[this.state.dataSlot0])}
-                data={this.state.bigData[this.state.dataSlot0]} />
+                onPress={() => this.toDetail(this.state.dataSlot0, this.props.listData[this.state.dataSlot0])}
+                data={this.props.listData[this.state.dataSlot0]} />
             </Animated.View>
 
             <Animated.View
@@ -500,7 +604,7 @@ class Home extends Component {
             >
               <NewsList
                 navigation={this.props.navigation}
-                data={this.state.bigData.slice(this.state.dataSlot1, this.state.dataSlot1 + numberOfItem)}
+                data={this.props.listData.slice(this.state.dataSlot1, this.state.dataSlot1 + numberOfItem)}
                 dataIndex={this.state.dataSlot1} />
             </Animated.View>
 
@@ -509,8 +613,8 @@ class Home extends Component {
             >
               <NewsItem2
                 navigation={this.props.navigation}
-                onPress={() => this.toDetail(this.state.dataSlot2, this.state.bigData[this.state.dataSlot2])}
-                data={this.state.bigData[this.state.dataSlot2]} />
+                onPress={() => this.toDetail(this.state.dataSlot2, this.props.listData[this.state.dataSlot2])}
+                data={this.props.listData[this.state.dataSlot2]} />
             </Animated.View>
           </View>
           :
@@ -533,6 +637,7 @@ const styles = StyleSheet.create({
 })
 const mapStateToProps = state => {
   return {
+    listData: state.loadListDataReducer.list,
     listCate: state.listCateReducer.list,
     reload: state.listCateReducer.reload,
     postBackground: state.readerModalReducer.postBackground,

@@ -75,6 +75,7 @@ class Category extends Component {
     };
     saveCate() {
         this._set('listCate', JSON.stringify(this.props.fullList));
+        this._set('fullListCate', JSON.stringify(this.props.fullList));
         this.props.dispatch(replaceListCate(this.props.fullList))
         this.props.navigation.goBack();
         setTimeout(() => { this.props.dispatch(reload(true)) }, 100)

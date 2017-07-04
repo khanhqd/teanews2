@@ -1,5 +1,6 @@
 import {
   LOAD_LIST_DATA,
+  ADD_LIST_DATA,
   REPLACE_FAVOR_VIDEO,
   CHANGE_MODAL_STATE,
   SELECTED_POST0,
@@ -169,6 +170,12 @@ export const saveListCate = (item) => {
   return {
     type: SAVE_LIST_CATE,
     payload: item
+  }
+}
+export const addListData = (data) => {
+  return {
+    type: ADD_LIST_DATA,
+    payload: data
   }
 }
 

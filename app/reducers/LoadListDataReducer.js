@@ -9,6 +9,13 @@ export default (state = INITIAL_STATE, action) => {
         list: action.payload
       }
       break;
+    case types.ADD_LIST_DATA:
+      let oldList = state.list
+      return {
+        ...state,
+        list: [...oldList, action.payload]
+      }
+      break;
     case types.SELECTED_POST0:
       return {
         ...state,

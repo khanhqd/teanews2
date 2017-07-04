@@ -32,9 +32,9 @@ class NewsItem2 extends Component {
   }
   render() {
     if (this.props.data) {
-      let date = new Date(this.props.data.date);
-      let convertToDate = date.toDateString();
-      let time = this.msToTime(this.props.data.date);
+      // let date = new Date(this.props.data.date);
+      // let convertToDate = date.toDateString();
+      // let time = this.msToTime(this.props.data.date);
       return (
         <TouchableOpacity
           onPress={this.props.onPress}
@@ -50,7 +50,7 @@ class NewsItem2 extends Component {
                     onPress={() => { this.props.navigation.navigate('DrawerOpen') }}>
                       <Image source={require('../../img/ic_list_w.png')} style={{ height: 24, width: 24 }} />
                     </TouchableOpacity>
-                    <Text style={{ textAlign: 'center', fontSize: 20, marginLeft: 20, color: 'white', fontWeight: 'bold' }}>TEANEWS</Text>
+                    <Text style={{ textAlign: 'center', fontSize: 20, marginLeft: 20, color: 'white', fontWeight: 'bold' }}></Text>
                   </View>
                   <TouchableOpacity onPress={() => { this.props.navigation.navigate('Search_Screen') }}>
                     <Image source={require('../../img/ic_search_w.png')} style={{ height: 24, width: 24 }} />
@@ -81,7 +81,7 @@ class NewsItem2 extends Component {
             </Image>
           }
           <View style={{ height: height - width, width: width }} >
-            <Text style={{ fontSize: 13, marginLeft: 13, color: '#4a4a4a' }}>{convertToDate}-{time}</Text>
+            <Text style={{ fontSize: 13, marginLeft: 13, color: '#4a4a4a' }}>{this.props.data.date}</Text>
             <Text numberOfLines={3} ellipsizeMode="tail" style={{ marginLeft: 10, marginRight: 9, fontSize: 30, marginTop: 10, fontFamily: 'Lora-Bold', lineHeight: 35, color: this.props.textColor }}>{this.props.data.title}</Text>
             <Text
               numberOfLines={4}
