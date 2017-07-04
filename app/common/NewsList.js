@@ -29,8 +29,10 @@ class NewsList extends Component {
       return (
         <View style={styles.menuBar}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <TouchableOpacity onPress={() => { this.props.navigation.navigate('DrawerOpen') }}>
-              <Image source={require('../../img/ic_list_b.png')} style={{ height: 24, width: 24, marginLeft: 15 }} />
+            <TouchableOpacity
+            style={{height: 45, width: 45, justifyContent: 'center', alignItems: 'center', marginLeft: 5}}
+            onPress={() => { this.props.navigation.navigate('DrawerOpen') }}>
+              <Image source={require('../../img/ic_list_b.png')} style={{ height: 24, width: 24 }} />
             </TouchableOpacity>
             <Text style={{ textAlign: 'center', fontSize: 20, marginLeft: 20, color: this.props.textColor, fontWeight: 'bold' }}>TEANEWS</Text>
           </View>
@@ -44,8 +46,10 @@ class NewsList extends Component {
       return (
         <View style={styles.menuBar}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <TouchableOpacity onPress={() => { this.props.navigation.navigate('DrawerOpen') }}>
-              <Image source={require('../../img/ic_night_list_b.png')} style={{ height: 24, width: 24, marginLeft: 15, tintColor: this.props.textColor }} />
+            <TouchableOpacity
+            style={{height: 45, width: 45, justifyContent: 'center', alignItems: 'center', marginLeft: 5}}
+            onPress={() => { this.props.navigation.navigate('DrawerOpen') }}>
+              <Image source={require('../../img/ic_night_list_b.png')} style={{ height: 24, width: 24, tintColor: this.props.textColor }} />
             </TouchableOpacity>
             <Text style={{ textAlign: 'center', fontSize: 20, marginLeft: 20, color: this.props.textColor, fontWeight: 'bold' }}>TEANEWS</Text>
           </View>

@@ -23,6 +23,7 @@ import {
   CHANGE_LINEHEIGHT,
   ADD_RECENT,
   REPLACE_RECENT,
+  SAVE_LIST_CATE
 } from './types';
 
 
@@ -164,6 +165,13 @@ export const changeLineHeight = (item) => {
     payload: item
   }
 }
+export const saveListCate = (item) => {
+  return {
+    type: SAVE_LIST_CATE,
+    payload: item
+  }
+}
+
 // export const goToPlay = (number) => {
 //   return (dispatch) => {
 //     Actions.PlayScene({ numberOfPlayer: number })

@@ -22,21 +22,6 @@ class SideMenu extends Component {
         animationIn: true,
         listCate: []
       }
-      this._get("listCate");
-    }
-    _get = async (key) => {
-        try {
-            var value = await AsyncStorage.getItem(key);
-              this.setState({
-                listCate: JSON.parse(value)
-              })
-            console.log(this.state.listCate)
-        } catch (error) { alert(error) }
-    };
-    componentWillReceiveProps(props) {
-      if(props.listCate != this.state.listCate) {
-        this._get("listCate");
-      }
     }
     render() {
         return (
@@ -61,7 +46,7 @@ class SideMenu extends Component {
                     <Image source={require('../../img/ic_night_chuyenmuc.png')} style={{ height: 24, width: 24, tintColor: this.props.textColor }} />
                     <Text style={{ marginLeft: 15, color: this.props.textColor }}>Chuyên mục</Text>
                 </View >
-                <View style={styles.item} onTouchStart={() => {this.props.navigation.navigate('Category_Screen',{ listCate: this.state.listCate }) }}>
+                <View style={styles.item} onTouchStart={() => {this.props.navigation.navigate('Category_Screen') }}>
                     <Image source={require('../../img/ic_night_quanlyCM.png')} style={{ height: 24, width: 24, tintColor: this.props.textColor }} />
                     <Text style={{ marginLeft: 15, color: this.props.textColor }}>Quản lý CM</Text>
                 </View >
@@ -93,7 +78,7 @@ class SideMenu extends Component {
                     <Text style={{ marginLeft: 15, color: this.props.textColor }}>Logout</Text>
                 </View >
 
-                {this.state.isDropDown && (this.state.listCate.length !=0) &&
+                {this.state.isDropDown && (this.props.fullList.length !=0) &&
                   <TouchableOpacity onPress={()=>this.setState({animationIn:false})} style={{width: width, height: height, position: 'absolute'}}>
                     <Animatable.View animation={this.state.animationIn ? "fadeInLeft" : "fadeOutLeft"}
                     onAnimationEnd={()=>{
@@ -105,13 +90,13 @@ class SideMenu extends Component {
                     style={{position: 'absolute', left: 190, top: 200, backgroundColor: this.props.postBackground, shadowOpacity: 0.2, borderRadius: 5}}>
                       <TouchableOpacity style={styles.item2} onPress={() => {
                         this.setState({animationIn:false})
-                        this.props.dispatch(replaceListCate(this.state.listCate))
+                        this.props.dispatch(replaceListCate(this.props.fullList))
                         this.props.dispatch(reload(true))
                         this.props.navigation.navigate('DrawerClose')
                       }}>
                         <Text style={{ color: this.props.textColor }}>Tất cả</Text>
                       </TouchableOpacity>
-                      {this.state.listCate.map((data,index) => {
+                      {this.props.fullList.map((data,index) => {
                         return (
                           <TouchableOpacity style={styles.item2} key={index} onPress={() => {
                             this.setState({animationIn:false})
@@ -150,6 +135,7 @@ const mapStateToProps = state => {
         postBackground: state.readerModalReducer.postBackground,
         textColor: state.readerModalReducer.textColor,
         listCate: state.listCateReducer.list,
+        fullList: state.listCateReducer.fullList
     }
 }
 export default connect(mapStateToProps)(SideMenu);

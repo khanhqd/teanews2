@@ -28,7 +28,7 @@ class NewsItem2 extends Component {
     minutes = (minutes < 10) ? "0" + minutes : minutes;
     //seconds = (seconds < 10) ? "0" + seconds : seconds;
 
-    return hours + ":" + minutes 
+    return hours + ":" + minutes
   }
   render() {
     if (this.props.data) {
@@ -45,8 +45,10 @@ class NewsItem2 extends Component {
               <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)', flex: 1, justifyContent: 'space-between' }}>
                 <View style={styles.menuBar}>
                   <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <TouchableOpacity onPress={() => { this.props.navigation.navigate('DrawerOpen') }}>
-                      <Image source={require('../../img/ic_list_w.png')} style={{ height: 24, width: 24, marginLeft: 15 }} />
+                    <TouchableOpacity
+                    style={{height: 45, width: 45, justifyContent: 'center', alignItems: 'center', marginLeft: 5}}
+                    onPress={() => { this.props.navigation.navigate('DrawerOpen') }}>
+                      <Image source={require('../../img/ic_list_w.png')} style={{ height: 24, width: 24 }} />
                     </TouchableOpacity>
                     <Text style={{ textAlign: 'center', fontSize: 20, marginLeft: 20, color: 'white', fontWeight: 'bold' }}>TEANEWS</Text>
                   </View>

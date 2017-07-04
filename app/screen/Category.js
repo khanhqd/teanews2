@@ -68,14 +68,14 @@ import { addCate, replaceListCate, reload } from '../actions';
 class Category extends Component {
     constructor(props) {
       super(props);
-      console.log(this.props.navigation.state.params.listCate)
     }
     _set = async (key, value) => {
         try { await AsyncStorage.setItem(key, value); }
         catch (error) { console.log(error.message) }
     };
     saveCate() {
-        this._set('listCate', JSON.stringify(this.props.navigation.state.params.listCate));
+        this._set('listCate', JSON.stringify(this.props.fullList));
+        this.props.dispatch(replaceListCate(this.props.fullList))
         this.props.navigation.goBack();
         setTimeout(() => { this.props.dispatch(reload(true)) }, 100)
     }
@@ -98,7 +98,6 @@ class Category extends Component {
                   {Item.map((item, index) => {
                       return (
                           <RenderItem
-                              listCateData={this.props.navigation.state.params.listCate}
                               key={index}
                               item={item}
                           />
@@ -156,7 +155,8 @@ const mapStateToProps = state => {
     return {
         listCate: state.listCateReducer.list,
         postBackground: state.readerModalReducer.postBackground,
-        textColor: state.readerModalReducer.textColor
+        textColor: state.readerModalReducer.textColor,
+        fullList: state.listCateReducer.fullList
     }
 }
 export default connect(mapStateToProps)(Category);
