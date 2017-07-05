@@ -75,6 +75,7 @@ class NewsDetail extends Component {
     let listLength = this.props.listData.length;
     var foo;
     var dx;
+    var moved;
     this._panResponder = PanResponder.create({
       onMoveShouldSetPanResponder: (
         event: { nativeEvent: { pageY: number, pageX: number } },
@@ -88,7 +89,7 @@ class NewsDetail extends Component {
           const screenEdgeDistance = currentDragPosition - currentDragDistance;
           // Compare to the gesture distance relavant to card or modal
           const gestureResponseDistance = width - 130;
-          if (screenEdgeDistance < gestureResponseDistance) {
+          if ((screenEdgeDistance < gestureResponseDistance)&&(screenEdgeDistance > 130)&&(screenEdgeDistance < 40)) {
             // Reject touches that started in the middle of the screen
             return false;
           }
@@ -108,35 +109,58 @@ class NewsDetail extends Component {
       //   }
       // },
       onPanResponderMove: (event, gestureState) => {
-        if (gestureState.dx < 0) {
+        moved = false;
+        dx = gestureState.dx;
+        if (dx < 0) {
           switch (this.state.index0) {
             case 2:
               if (this.props.dataSlot0 + 1 < listLength) {
-                this.state.left1.setValue(width + gestureState.dx)
+                this.state.left1.setValue(width + dx)
+                moved = true;
               }
               break;
             case 3:
               if (this.props.dataSlot0 + 2 < listLength) {
-                this.state.left0.setValue(width + gestureState.dx)
+                this.state.left0.setValue(width + dx)
+                moved = true;
               }
               break;
             case 1:
               if (this.props.dataSlot0 < listLength) {
-                this.state.left2.setValue(width + gestureState.dx)
+                this.state.left2.setValue(width + dx)
+                moved = true;
               }
               break;
           }
-          dx = gestureState.dx;
+        } else {
+          switch (this.state.index0) {
+            case 2:
+                if (this.props.dataSlot0 - 1 >= 0) {
+                  this.state.left0.setValue(dx)
+                  moved = true;
+                }
+                break;
+            case 3:
+                if (this.props.dataSlot0 - 2 >= 0) {
+                  this.state.left2.setValue(dx)
+                  moved = true;
+                }
+                break;
+            case 1:
+                if (this.props.dataSlot0 >= 0) {
+                  this.state.left1.setValue(dx)
+                  moved = true;
+                }
+                break;
+          }
         }
-        // else {
-        //   this.setState({ canScrollPage: false })
-        // }
+
       },
       onPanResponderTerminationRequest: (evt, gestureState) => true,
       onPanResponderRelease: (event, gestureState) => {
         // if (this.state.canScrollPage) {
         // this.setState({ canScrollPage: false })
-        if (dx < 0) {
+        if (moved == true) {
           const axisDistance = width;
           const movedDistance = gestureState.moveX;
           const defaultVelocity = axisDistance / width;
@@ -150,10 +174,10 @@ class NewsDetail extends Component {
           switch (this.state.index0) {
             case 2:
               if (dx < -width / 4) {
-                if (this.props.dataSlot0 + 1 < listLength) {
+                if (this.props.dataSlot2 + 3 < listLength) {
                   this.setState({ index2: 3, index1: 2, index0: 1, bookmarked: false }, () => {
                     setTimeout(() => {
-                      this.props.dispatch(selectedPost0(this.props.dataSlot0 + 3));
+                      this.props.dispatch(selectedPost2(this.props.dataSlot2 + 3));
                       for (var i = 0; i < listRecent.length; i++) {
                         if (listRecent[i].title == this.props.listData[this.props.dataSlot1].title) {
                           listRecent.splice(i, 1);
@@ -191,19 +215,36 @@ class NewsDetail extends Component {
                   this.state.left2.setValue(width)
                 }
               } else {
-                Animated.timing(
-                  this.state.left1,
-                  { toValue: width, duration: resetDuration }
-                ).start();
+                if (dx > width / 4) {
+                    Animated.timing(
+                      this.state.left0,
+                      { toValue: width, duration: 300 }
+                    ).start();
+                    this.state.left1.setValue(0);
+
+                    this.setState({ index2: 2, index1: 1, index0: 3, bookmarked: false }, () => {
+                      // if (this.props.dataSlot1 - 3 >= 0) {
+                        setTimeout(() => {
+                          this.props.dispatch(selectedPost1(this.props.dataSlot1 - 3));
+                        }, 310)
+                      // }
+                    })
+                  } else {
+                  Animated.timing(
+                    this.state.left1,
+                    { toValue: width, duration: resetDuration }
+                  ).start();
+                }
               }
+
               break;
             case 3:
               if (dx < -width / 4) {
                 let listRecent = this.props.listRecent
-                if (this.props.dataSlot0 + 2 < listLength) {
+                if (this.props.dataSlot1 + 3 < listLength) {
                   this.setState({ index0: 2, index2: 1, index1: 3, bookmarked: false }, () => {
                     setTimeout(() => {
-                      this.props.dispatch(selectedPost2(this.props.dataSlot2 + 3));
+                      this.props.dispatch(selectedPost1(this.props.dataSlot1 + 3));
                       for (var i = 0; i < listRecent.length; i++) {
                         if (listRecent[i].title == this.props.listData[this.props.dataSlot0].title) {
                           listRecent.splice(i, 1);
@@ -240,18 +281,34 @@ class NewsDetail extends Component {
                   this.state.left1.setValue(width)
                 }
               } else {
-                Animated.timing(
-                  this.state.left0,
-                  { toValue: width, duration: resetDuration }
-                ).start();
+                if (dx > width / 4) {
+                  Animated.timing(
+                    this.state.left2,
+                    { toValue: width, duration: 300 }
+                  ).start();
+                  this.state.left0.setValue(0);
+
+                  this.setState({ index0: 1, index2: 3, index1: 2, bookmarked: false }, () => {
+                    // if (this.props.dataSlot0 - 3 >= 0) {
+                      setTimeout(() => {
+                        this.props.dispatch(selectedPost0(this.props.dataSlot0 - 3));
+                      }, 310)
+                    // }
+                  })
+                } else {
+                  Animated.timing(
+                    this.state.left0,
+                    { toValue: width, duration: resetDuration }
+                  ).start();
+                }
               }
               break;
             case 1:
               if (dx < -width / 4) {
-                if (this.props.dataSlot0 < listLength) {
+                if (this.props.dataSlot0 + 3< listLength) {
                   this.setState({ index1: 1, index0: 3, index2: 2, bookmarked: false }, () => {
                     setTimeout(() => {
-                      this.props.dispatch(selectedPost1(this.props.dataSlot1 + 3));
+                      this.props.dispatch(selectedPost0(this.props.dataSlot0 + 3));
                       for (var i = 0; i < listRecent.length; i++) {
                         if (listRecent[i].title == this.props.listData[this.props.dataSlot2].title) {
                           listRecent.splice(i, 1);
@@ -289,10 +346,26 @@ class NewsDetail extends Component {
                   this.state.left0.setValue(width)
                 }
               } else {
-                Animated.timing(
-                  this.state.left2,
-                  { toValue: width, duration: resetDuration }
-                ).start();
+                if (dx > width / 4) {
+                  Animated.timing(
+                    this.state.left1,
+                    { toValue: width, duration: 300 }
+                  ).start();
+                  this.state.left2.setValue(0);
+
+                  this.setState({ index1: 3, index0: 2, index2: 1, bookmarked: false }, () => {
+                    // if (this.props.dataSlot2 - 3 >= 0) {
+                      setTimeout(() => {
+                        this.props.dispatch(selectedPost2(this.props.dataSlot2 - 3));
+                      }, 310)
+                    // }
+                  })
+                } else {
+                  Animated.timing(
+                    this.state.left2,
+                    { toValue: width, duration: resetDuration }
+                  ).start();
+                }
               }
               break;
           }
@@ -587,7 +660,7 @@ class NewsDetail extends Component {
               <NewsItem
                 stt={0}
                 navigation={this.props.navigation}
-                row={this.props.listData[this.props.dataSlot0]} />
+                row={(this.props.dataSlot0 >= 0) ? this.props.listData[this.props.dataSlot0] : this.props.listData[0]} />
             </Animated.View>
 
             <Animated.View
@@ -596,7 +669,7 @@ class NewsDetail extends Component {
               <NewsItem
                 stt={1}
                 navigation={this.props.navigation}
-                row={this.props.listData[this.props.dataSlot1]} />
+                row={(this.props.dataSlot1 >= 0) ? this.props.listData[this.props.dataSlot1] : this.props.listData[0]} />
             </Animated.View>
 
 
@@ -606,7 +679,7 @@ class NewsDetail extends Component {
               <NewsItem
                 stt={2}
                 navigation={this.props.navigation}
-                row={this.props.listData[this.props.dataSlot2]} />
+                row={(this.props.dataSlot2 >= 0) ? this.props.listData[this.props.dataSlot2] : this.props.listData[0]} />
             </Animated.View>
 
 

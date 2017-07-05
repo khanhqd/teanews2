@@ -545,9 +545,9 @@ class Home extends Component {
     if (postId + 1 < this.props.listData.length) {
       this.props.dispatch(selectedPost1(postId + 1))
     }
-    if (postId + 2 < this.props.listData.length) {
-      this.props.dispatch(selectedPost2(postId + 2))
-    }
+    // if (postId - 1 >= 0) {
+      this.props.dispatch(selectedPost2(postId - 1))
+    // }
     setTimeout(() => { this.props.navigation.navigate('Detail_Screen') }, 100)
   }
   renderLoading() {
