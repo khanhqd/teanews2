@@ -1,5 +1,5 @@
 import * as types from '../actions/types';
-const INITIAL_STATE = {list:[], selectedPost:1, loading:false};
+const INITIAL_STATE = { list: [], selectedPost: 1, loading: false, rootLink1: '',rootLink2: '',rootLink3: '' };
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -38,6 +38,24 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         loading: action.payload
+      }
+      break;
+    case types.ROOT_LINK1:
+      return {
+        ...state,
+        rootLink1: action.payload
+      }
+      break;
+    case types.ROOT_LINK2:
+      return {
+        ...state,
+        rootLink2: action.payload
+      }
+      break;
+    case types.ROOT_LINK3:
+      return {
+        ...state,
+        rootLink3: action.payload
       }
       break;
     default:

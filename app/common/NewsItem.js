@@ -29,8 +29,8 @@ var Toast = require('react-native-toast');
 
 import { connect } from 'react-redux';
 import {
-  changeFontSize, changeModalState, changeBackgroundColor,
-  changeTextColor, changeNightMode, changeLoadingState, changeLineHeight, hideBottomBar
+  changeFontSize, changeModalState, changeBackgroundColor,rootLink2, rootLink3,
+  changeTextColor, changeNightMode, changeLoadingState, changeLineHeight, hideBottomBar, rootLink1
 } from '../actions';
 var WEBVIEW_REF = 'webview';
 import FitImage from 'react-native-fit-image';
@@ -59,6 +59,7 @@ class NewsItem extends Component {
     arr: [],
     logo: '',
     reRender: false,
+    linkShare: ''
   };
   componentWillMount() {
     if (this.props.row) {
@@ -126,6 +127,7 @@ class NewsItem extends Component {
         $("video").replaceWith("<strong>Bài viết chứa video, vui lòng mở link bằng trình duyệt để xem video</strong>");
         $(".see-now,.author_mail.width_common,.tbl_insert").remove();
         let text = $(".newbody p").last().text()
+        let linkShare = $("input.hidden").attr("value")
         if (text.includes(">>> Đọc thêm") || text.includes("Bấm xem")) {
           $(".newbody p").last().remove();
         }
@@ -133,7 +135,10 @@ class NewsItem extends Component {
           bodyHTML: $('.newbody').html(),
           sourceReal: sourceReal
         }, () => {
-          this.setState({ loading: false }, () => this.updateWebview(row))
+          this.setState({
+            loading: false,
+            linkShare: linkShare
+          }, () => this.updateWebview(row))
 
         })
 
@@ -142,6 +147,20 @@ class NewsItem extends Component {
 
   updateWebview(row) {
     this.props.dispatch(changeLoadingState(false))
+    switch (this.props.stt) {
+      case 0: {
+        this.props.dispatch(rootLink1(this.state.linkShare))
+        break;
+      }
+      case 1: {
+        this.props.dispatch(rootLink2(this.state.linkShare))
+        break;
+      }
+      case 2: {
+        this.props.dispatch(rootLink3(this.state.linkShare))
+        break;
+      }
+    }
     let source = this.props.row.source
     switch (source) {
       case 'VnExpress': {
@@ -664,6 +683,7 @@ class NewsItem extends Component {
     // let date = new Date(this.props.row.date);
     // let convertToDate = date.toDateString();
     // let time = this.msToTime(this.props.row.date);
+    console.log(this.props.stt)
     return (
       <View>
         <View style={{ height: 20, width: width, backgroundColor: 'black' }}>
@@ -924,7 +944,7 @@ const mapStateToProps = state => {
     disableScroll: state.readerModalReducer.disableScroll,
     nightMode: state.readerModalReducer.nightMode,
     menuBarColor: state.readerModalReducer.menuBarColor,
-    lineHeight: state.readerModalReducer.lineHeight
+    lineHeight: state.readerModalReducer.lineHeight,
   }
 }
 export default connect(mapStateToProps)(NewsItem);

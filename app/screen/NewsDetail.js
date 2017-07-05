@@ -46,7 +46,8 @@ class NewsDetail extends Component {
       tutorialStep: 1,
       bookmarked: false,
       hideBottomBar: false,
-      renderBottomBar: true
+      renderBottomBar: true,
+      uri: ''
     };
     this._get("firstLogin");
     for (let i = 0; i < this.props.listBookmark.length; i++) {
@@ -303,7 +304,7 @@ class NewsDetail extends Component {
     this._set('firstLogin', 'false');
   }
   componentWillReceiveProps(props) {
-    if(props.hideBottomBar != this.props.hideBottomBar) {
+    if (props.hideBottomBar != this.props.hideBottomBar) {
       if (props.hideBottomBar) {
         this.setState({ hideBottomBar: true })
       } else {
@@ -350,26 +351,60 @@ class NewsDetail extends Component {
   }
   shareLink() {
     var page;
+    var url;
     if (this.state.index0 == 2) {
       page = this.props.listData[this.props.dataSlot0];
+      this.setState({
+        uri: this.props.rootLink1
+      }, () =>
+          Share.share({
+            //message: this.state.uri,
+            message: page.title,
+            url: this.state.uri,
+            title: 'From News App'
+          }, {
+              dialogTitle: 'From News App',
+              tintColor: 'green'
+            })
+            .then(this._showResult)
+            .catch((error) => this.setState({ result: 'error: ' + error.message })
+            ))
     } else if (this.state.index1 == 2) {
       page = this.props.listData[this.props.dataSlot1];
+      this.setState({
+        uri: this.props.rootLink2
+      }, () =>
+          Share.share({
+            //message: this.state.uri,
+            message: page.title,
+            url: this.state.uri,
+            title: 'From News App'
+          }, {
+              dialogTitle: 'From News App',
+              tintColor: 'green'
+            })
+            .then(this._showResult)
+            .catch((error) => this.setState({ result: 'error: ' + error.message })
+            ))
     } else {
       page = this.props.listData[this.props.dataSlot2];
+      this.setState({
+        uri: this.props.rootLink3
+      }, () =>
+          Share.share({
+            // message: this.state.uri,
+             message: page.title,
+            url: this.state.uri,
+            title: 'From News App'
+          }, {
+              dialogTitle: 'From News App',
+              tintColor: 'green'
+            })
+            .then(this._showResult)
+            .catch((error) => this.setState({ result: 'error: ' + error.message })
+            ))
     }
-    Share.share({
-      message: page.title,
-      url: page.url,
-      title: 'From News App'
-    }, {
-        dialogTitle: 'From News App',
-        // excludedActivityTypes: [
-        //   'com.apple.UIKit.activity.PostToTwitter'
-        // ],
-        tintColor: 'green'
-      })
-      .then(this._showResult)
-      .catch((error) => this.setState({ result: 'error: ' + error.message }));
+
   }
   renderTutorial() {
     switch (this.state.tutorialStep) {
@@ -509,15 +544,15 @@ class NewsDetail extends Component {
 
           {this.state.renderBottomBar &&
             <Animatable.View
-            useNativeDriver
-            onAnimationEnd={()=>{if (this.state.hideBottomBar) { this.setState({renderBottomBar: false}) }}}
-            animation={this.state.hideBottomBar ? "fadeOutDown" : "fadeInUp"}
-            style={[styles.navBar, { backgroundColor: this.props.postBackground }]}>
+              useNativeDriver
+              onAnimationEnd={() => { if (this.state.hideBottomBar) { this.setState({ renderBottomBar: false }) } }}
+              animation={this.state.hideBottomBar ? "fadeOutDown" : "fadeInUp"}
+              style={[styles.navBar, { backgroundColor: this.props.postBackground }]}>
               <TouchableOpacity
                 onPress={() => this.props.navigation.goBack()}
                 style={[styles.navBarButton, { marginLeft: 0 }]}>
                 <Image
-                  style={[styles.iconNavBar,{tintColor:this.props.textColor}]}
+                  style={[styles.iconNavBar, { tintColor: this.props.textColor }]}
                   source={require('../../img/ic_night_back.png')} />
               </TouchableOpacity>
               <View style={{ flexDirection: 'row', alignSelf: 'flex-end' }}>
@@ -525,7 +560,7 @@ class NewsDetail extends Component {
                   onPress={() => this.shareLink()}
                   style={styles.navBarButton}>
                   <Image
-                    style={[styles.iconNavBar,{tintColor:this.props.textColor}]}
+                    style={[styles.iconNavBar, { tintColor: this.props.textColor }]}
                     source={require('../../img/ic_night_share.png')} />
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -537,7 +572,7 @@ class NewsDetail extends Component {
                   onPress={() => this.props.dispatch(changeModalState(!this.props.openMenu))}
                   style={styles.navBarButton}>
                   <Image
-                    style={[styles.iconNavBar,{tintColor:this.props.textColor}]}
+                    style={[styles.iconNavBar, { tintColor: this.props.textColor }]}
                     source={require('../../img/ic_night_more-vertical.png')} />
                 </TouchableOpacity>
               </View>
@@ -550,6 +585,7 @@ class NewsDetail extends Component {
               style={{ position: 'absolute', left: this.state.left0, zIndex: this.state.index0, backgroundColor: 'white', flex: 1 }}
             >
               <NewsItem
+                stt={0}
                 navigation={this.props.navigation}
                 row={this.props.listData[this.props.dataSlot0]} />
             </Animated.View>
@@ -558,6 +594,7 @@ class NewsDetail extends Component {
               style={{ position: 'absolute', left: this.state.left1, zIndex: this.state.index1, backgroundColor: 'white', flex: 1 }}
             >
               <NewsItem
+                stt={1}
                 navigation={this.props.navigation}
                 row={this.props.listData[this.props.dataSlot1]} />
             </Animated.View>
@@ -567,6 +604,7 @@ class NewsDetail extends Component {
               style={{ position: 'absolute', left: this.state.left2, zIndex: this.state.index2, backgroundColor: 'white', flex: 1 }}
             >
               <NewsItem
+                stt={2}
                 navigation={this.props.navigation}
                 row={this.props.listData[this.props.dataSlot2]} />
             </Animated.View>
@@ -632,7 +670,10 @@ const mapStateToProps = state => {
     listRecent: state.bookmarkReducer.listRecent,
     postBackground: state.readerModalReducer.postBackground,
     textColor: state.readerModalReducer.textColor,
-    hideBottomBar: state.readerModalReducer.hideBottomBar
+    hideBottomBar: state.readerModalReducer.hideBottomBar,
+    rootLink1: state.loadListDataReducer.rootLink1,
+    rootLink2: state.loadListDataReducer.rootLink2,
+    rootLink3: state.loadListDataReducer.rootLink3,
   }
 }
 export default connect(mapStateToProps)(NewsDetail);

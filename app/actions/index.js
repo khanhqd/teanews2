@@ -25,7 +25,10 @@ import {
   ADD_RECENT,
   REPLACE_RECENT,
   SAVE_LIST_CATE,
-  HIDE_BOTTOM_BAR
+  HIDE_BOTTOM_BAR,
+  ROOT_LINK1,
+  ROOT_LINK2,
+  ROOT_LINK3,
 } from './types';
 
 
@@ -37,61 +40,61 @@ export const loadListData = (data) => {
 }
 export const replaceFavorVideo = (item) => {
   return {
-    type: REPLACE_FAVOR_VIDEO ,
+    type: REPLACE_FAVOR_VIDEO,
     payload: item
   }
 }
 export const changeModalState = (item) => {
   return {
-    type: CHANGE_MODAL_STATE ,
+    type: CHANGE_MODAL_STATE,
     payload: item
   }
 }
 export const selectedPost0 = (item) => {
   return {
-    type: SELECTED_POST0 ,
+    type: SELECTED_POST0,
     payload: item
   }
 }
 export const selectedPost1 = (item) => {
   return {
-    type: SELECTED_POST1 ,
+    type: SELECTED_POST1,
     payload: item
   }
 }
 export const selectedPost2 = (item) => {
   return {
-    type: SELECTED_POST2 ,
+    type: SELECTED_POST2,
     payload: item
   }
 }
 export const changeBackgroundColor = (item) => {
   return {
-    type: CHANGE_BACKGROUND_COLOR ,
+    type: CHANGE_BACKGROUND_COLOR,
     payload: item
   }
 }
 export const changeTextColor = (item) => {
   return {
-    type: CHANGE_TEXT_COLOR ,
+    type: CHANGE_TEXT_COLOR,
     payload: item
   }
 }
 export const changeFontSize = (item) => {
   return {
-    type: CHANGE_FONTSIZE ,
+    type: CHANGE_FONTSIZE,
     payload: item
   }
 }
 export const addCate = (item) => {
   return {
-    type: ADD_CATE ,
+    type: ADD_CATE,
     payload: item
   }
 }
 export const replaceListCate = (item) => {
   return {
-    type: REPLACE_LIST_CATE ,
+    type: REPLACE_LIST_CATE,
     payload: item
   }
 }
@@ -151,7 +154,7 @@ export const replaceRecent = (data) => {
 }
 export const addSearchKeyword = (item) => {
   return {
-    type: ADD_SEARCH_KEYWORD ,
+    type: ADD_SEARCH_KEYWORD,
     payload: item
   }
 }
@@ -182,6 +185,24 @@ export const addListData = (data) => {
 export const hideBottomBar = (data) => {
   return {
     type: HIDE_BOTTOM_BAR,
+    payload: data
+  }
+}
+export const rootLink1 = (data) => {
+  return {
+    type: ROOT_LINK1,
+    payload: data
+  }
+}
+export const rootLink2 = (data) => {
+  return {
+    type: ROOT_LINK2,
+    payload: data
+  }
+}
+export const rootLink3 = (data) => {
+  return {
+    type: ROOT_LINK3,
     payload: data
   }
 }

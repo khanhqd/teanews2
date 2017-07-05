@@ -25,3 +25,6 @@ export const CHANGE_LINEHEIGHT = 'CHANGE_LINEHEIGHT';
 export const SAVE_LIST_CATE = 'SAVE_LIST_CATE';
 export const ADD_LIST_DATA = 'ADD_LIST_DATA';
 export const HIDE_BOTTOM_BAR = 'HIDE_BOTTOM_BAR';
+export const ROOT_LINK1 = 'ROOT_LINK1';
+export const ROOT_LINK2 = 'ROOT_LINK2';
+export const ROOT_LINK3 = 'ROOT_LINK3';
