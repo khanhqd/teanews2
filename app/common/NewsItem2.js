@@ -82,7 +82,7 @@ class NewsItem2 extends Component {
           }
           <View style={{ height: height - width, width: width }} >
             <Text style={{ fontSize: 13, marginLeft: 13, color: '#4a4a4a' }}>{this.props.data.date}</Text>
-            <Text numberOfLines={3} ellipsizeMode="tail" style={{ marginLeft: 10, marginRight: 9, fontSize: 30, marginTop: 10, fontFamily: 'Lora-Bold', lineHeight: 35, color: this.props.textColor }}>{this.props.data.title}</Text>
+            <Text numberOfLines={3} ellipsizeMode="tail" style={{ marginLeft: 10, marginRight: 9, fontSize: 28, marginTop: 10, fontFamily: 'Lora-Bold', lineHeight: 35, color: this.props.textColor }}>{this.props.data.title}</Text>
             <Text
               numberOfLines={4}
               ellipsizeMode="tail"

@@ -16,7 +16,7 @@ const Img = props => {
     uri: props.attribs.src,
   };
   return (
-      <FitImage source={source} resizeMode="cover" style={{ marginLeft:10 , marginRight:10, marginBottom: 15}} />
+      <FitImage source={source} resizeMode="cover" style={{ marginBottom: 15}} />
   );
 };
 

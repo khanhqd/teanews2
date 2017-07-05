@@ -24,7 +24,8 @@ import {
   CHANGE_LINEHEIGHT,
   ADD_RECENT,
   REPLACE_RECENT,
-  SAVE_LIST_CATE
+  SAVE_LIST_CATE,
+  HIDE_BOTTOM_BAR
 } from './types';
 
 
@@ -178,7 +179,12 @@ export const addListData = (data) => {
     payload: data
   }
 }
-
+export const hideBottomBar = (data) => {
+  return {
+    type: HIDE_BOTTOM_BAR,
+    payload: data
+  }
+}
 // export const goToPlay = (number) => {
 //   return (dispatch) => {
 //     Actions.PlayScene({ numberOfPlayer: number })

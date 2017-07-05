@@ -119,7 +119,7 @@ class NewsList extends Component {
                   <Text style={styles.categoryText}>{this.props.data[1].cate}
                   </Text>
                 </View>
-                <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }} numberOfLines={5} ellipsizeMode="tail">{this.props.data[1].title}
+                <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }} numberOfLines={4} ellipsizeMode="tail">{this.props.data[1].title}
                 </Text>
                 <Text style={styles.categoryText}>{this.props.data[1].date}
                 </Text>
@@ -140,7 +140,7 @@ class NewsList extends Component {
                     </Text>
                   </View>
                   <Text
-                    numberOfLines={5}
+                    numberOfLines={4}
                     ellipsizeMode="tail"
                     style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }}>{this.props.data[2].title}
                   </Text>

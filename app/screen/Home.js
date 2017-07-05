@@ -19,7 +19,7 @@ import NewsItem2 from '../common/NewsItem2';
 import NewsList from '../common/NewsList';
 const cheerio = require('cheerio-without-node-native');
 
-import { loadListData, selectedPost0, selectedPost1, selectedPost2, replaceBookmark, replaceRecent, addRecent, addListData, saveListCate } from '../actions';
+import { loadListData, selectedPost0, selectedPost1, selectedPost2, replaceBookmark, replaceRecent, addListData, saveListCate } from '../actions';
 import { connect } from 'react-redux';
 import { replaceListCate, reload, addSearchKeyword } from '../actions';
 
@@ -160,7 +160,6 @@ class Home extends Component {
     bigData = bigData.sort(compare);
     for (let i = 0; i< bigData.length; i++) {
       this.props.dispatch(addListData(bigData[i]));
-      console.log(bigData[i].title);
     }
     this.setState({loading: false})
     // this.setState({ bigData: bigData.sort(compare), loading: false }, () => {
@@ -469,7 +468,6 @@ class Home extends Component {
     }, 200)
   }
   fetchData(linkRSS, cate, cateColor, i, callback) {
-    console.log(linkRSS)
     // let data = this.state["data" + i]
     let data = []
     fetch(linkRSS)
@@ -522,6 +520,11 @@ class Home extends Component {
   }
   toDetail(postId, data) {
     let listRecent = this.state.listRecent;
+    for (var i = 0; i < listRecent.length; i++) {
+      if (listRecent[i].title == data.title) {
+        listRecent.splice(i, 1);
+      }
+    }
     if (listRecent.length < 30) {
       listRecent.unshift(data)
     }
@@ -529,7 +532,7 @@ class Home extends Component {
       listRecent.pop();
       listRecent.unshift(data)
     }
-    this.props.dispatch(addRecent(data));
+    this.props.dispatch(replaceRecent(listRecent));
     //tracking
     this.tracker.child(data.title.replace(/\./g,"")).transaction(function(view) {
       return view + 1;

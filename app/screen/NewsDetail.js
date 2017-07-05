@@ -22,7 +22,7 @@ import NewsItem from '../common/NewsItem';
 const cheerio = require('cheerio-without-node-native');
 
 import { connect } from 'react-redux';
-import { changeModalState, addBookmark, replaceBookmark, addRecent } from '../actions';
+import { changeModalState, addBookmark, replaceBookmark } from '../actions';
 import { selectedPost2, selectedPost1, selectedPost0, disableScrollWebview } from '../actions';
 var Toast = require('react-native-toast');
 
@@ -44,7 +44,9 @@ class NewsDetail extends Component {
       index2: 1,
       dx: 0,
       tutorialStep: 1,
-      bookmarked: false
+      bookmarked: false,
+      hideBottomBar: false,
+      renderBottomBar: true
     };
     this._get("firstLogin");
     for (let i = 0; i < this.props.listBookmark.length; i++) {
@@ -151,6 +153,11 @@ class NewsDetail extends Component {
                   this.setState({ index2: 3, index1: 2, index0: 1, bookmarked: false }, () => {
                     setTimeout(() => {
                       this.props.dispatch(selectedPost0(this.props.dataSlot0 + 3));
+                      for (var i = 0; i < listRecent.length; i++) {
+                        if (listRecent[i].title == this.props.listData[this.props.dataSlot1].title) {
+                          listRecent.splice(i, 1);
+                        }
+                      }
                       if (listRecent.length < 30) {
                         listRecent.unshift(this.props.listData[this.props.dataSlot1])
                       }
@@ -196,6 +203,11 @@ class NewsDetail extends Component {
                   this.setState({ index0: 2, index2: 1, index1: 3, bookmarked: false }, () => {
                     setTimeout(() => {
                       this.props.dispatch(selectedPost2(this.props.dataSlot2 + 3));
+                      for (var i = 0; i < listRecent.length; i++) {
+                        if (listRecent[i].title == this.props.listData[this.props.dataSlot0].title) {
+                          listRecent.splice(i, 1);
+                        }
+                      }
                       if (listRecent.length < 30) {
                         listRecent.unshift(this.props.listData[this.props.dataSlot0])
                       }
@@ -239,6 +251,11 @@ class NewsDetail extends Component {
                   this.setState({ index1: 1, index0: 3, index2: 2, bookmarked: false }, () => {
                     setTimeout(() => {
                       this.props.dispatch(selectedPost1(this.props.dataSlot1 + 3));
+                      for (var i = 0; i < listRecent.length; i++) {
+                        if (listRecent[i].title == this.props.listData[this.props.dataSlot2].title) {
+                          listRecent.splice(i, 1);
+                        }
+                      }
                       if (listRecent.length < 30) {
                         listRecent.unshift(this.props.listData[this.props.dataSlot2])
                       }
@@ -284,6 +301,15 @@ class NewsDetail extends Component {
   }
   componentDidMount() {
     this._set('firstLogin', 'false');
+  }
+  componentWillReceiveProps(props) {
+    if(props.hideBottomBar != this.props.hideBottomBar) {
+      if (props.hideBottomBar) {
+        this.setState({ hideBottomBar: true })
+      } else {
+        this.setState({ hideBottomBar: false, renderBottomBar: true })
+      }
+    }
   }
   saveBookmark() {
     var postInfo;
@@ -480,36 +506,44 @@ class NewsDetail extends Component {
       return (
         <View style={{ flex: 1 }}>
           {this.renderTutorial()}
-          <View style={[styles.navBar, { backgroundColor: this.props.postBackground }]}>
-            <TouchableOpacity
-              onPress={() => this.props.navigation.goBack()}
-              style={[styles.navBarButton, { marginLeft: 0 }]}>
-              <Image
-                style={[styles.iconNavBar,{tintColor:this.props.textColor}]}
-                source={require('../../img/ic_night_back.png')} />
-            </TouchableOpacity>
-            <View style={{ flexDirection: 'row', alignSelf: 'flex-end' }}>
+
+          {this.state.renderBottomBar &&
+            <Animatable.View
+            useNativeDriver
+            onAnimationEnd={()=>{if (this.state.hideBottomBar) { this.setState({renderBottomBar: false}) }}}
+            animation={this.state.hideBottomBar ? "fadeOutDown" : "fadeInUp"}
+            style={[styles.navBar, { backgroundColor: this.props.postBackground }]}>
               <TouchableOpacity
-                onPress={() => this.shareLink()}
-                style={styles.navBarButton}>
+                onPress={() => this.props.navigation.goBack()}
+                style={[styles.navBarButton, { marginLeft: 0 }]}>
                 <Image
                   style={[styles.iconNavBar,{tintColor:this.props.textColor}]}
-                  source={require('../../img/ic_night_share.png')} />
+                  source={require('../../img/ic_night_back.png')} />
               </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => this.saveBookmark()}
-                style={styles.navBarButton}>
-                {this.renderIconBookmark()}
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => this.props.dispatch(changeModalState(!this.props.openMenu))}
-                style={styles.navBarButton}>
-                <Image
-                  style={[styles.iconNavBar,{tintColor:this.props.textColor}]}
-                  source={require('../../img/ic_night_more-vertical.png')} />
-              </TouchableOpacity>
-            </View>
-          </View>
+              <View style={{ flexDirection: 'row', alignSelf: 'flex-end' }}>
+                <TouchableOpacity
+                  onPress={() => this.shareLink()}
+                  style={styles.navBarButton}>
+                  <Image
+                    style={[styles.iconNavBar,{tintColor:this.props.textColor}]}
+                    source={require('../../img/ic_night_share.png')} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => this.saveBookmark()}
+                  style={styles.navBarButton}>
+                  {this.renderIconBookmark()}
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => this.props.dispatch(changeModalState(!this.props.openMenu))}
+                  style={styles.navBarButton}>
+                  <Image
+                    style={[styles.iconNavBar,{tintColor:this.props.textColor}]}
+                    source={require('../../img/ic_night_more-vertical.png')} />
+                </TouchableOpacity>
+              </View>
+            </Animatable.View>
+          }
+
           <View style={{ flex: 1 }} {...this._panResponder.panHandlers}>
 
             <Animated.View
@@ -598,6 +632,7 @@ const mapStateToProps = state => {
     listRecent: state.bookmarkReducer.listRecent,
     postBackground: state.readerModalReducer.postBackground,
     textColor: state.readerModalReducer.textColor,
+    hideBottomBar: state.readerModalReducer.hideBottomBar
   }
 }
 export default connect(mapStateToProps)(NewsDetail);

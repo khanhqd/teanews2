@@ -30,7 +30,7 @@ var Toast = require('react-native-toast');
 import { connect } from 'react-redux';
 import {
   changeFontSize, changeModalState, changeBackgroundColor,
-  changeTextColor, changeNightMode, changeLoadingState, changeLineHeight
+  changeTextColor, changeNightMode, changeLoadingState, changeLineHeight, hideBottomBar
 } from '../actions';
 var WEBVIEW_REF = 'webview';
 import FitImage from 'react-native-fit-image';
@@ -120,7 +120,7 @@ class NewsItem extends Component {
         $ = cheerio.load(responseData);
         $("a").parent(".Normal").remove();
         $("em").parent(".Normal").remove();
-        $("span,em,i,a,b,strong").replaceWith(function () { return $(this).contents(); });
+        $("span,em,i,a,b,strong,ins").replaceWith(function () { return $(this).contents(); });
         //$("strong").replaceWith(function () { return `<p style="font-Size:18">${$(this).contents()}</p>` });
         $("[data-component-type=video]").replaceWith("<strong>Bài viết chứa video, vui lòng mở link bằng trình duyệt để xem video</strong>");
         $("video").replaceWith("<strong>Bài viết chứa video, vui lòng mở link bằng trình duyệt để xem video</strong>");
@@ -464,6 +464,13 @@ class NewsItem extends Component {
     var scrollHeight = e.nativeEvent.contentOffset.y + height - 50;
     var contentHeight = e.nativeEvent.contentSize.height;
     var num = scrollHeight - contentHeight;
+    if (e.nativeEvent.contentOffset.y > this.state.disToTop) {
+      this.props.dispatch(hideBottomBar(true))
+      this.setState({ disToTop: e.nativeEvent.contentOffset.y })
+    } else {
+      this.props.dispatch(hideBottomBar(false))
+      this.setState({ disToTop: e.nativeEvent.contentOffset.y })
+    }
     if (contentHeight > height) {
       this.setState({ pullToCloseDist: num })
       if (num <= 10) {
@@ -657,28 +664,27 @@ class NewsItem extends Component {
         {!this.state.reRender &&
           <ScrollView
             onScroll={this.onScroll}
-            scrollEventThrottle={30}
+            scrollEventThrottle={100}
             onTouchEnd={() => {
               if (this.state.pullToCloseDist > 90) {
                 this.props.navigation.goBack();
               }
             }}
-            style={{ width: width, height: height - 50, backgroundColor: this.props.postBackground, marginBottom: 50 }}
+            style={{ width: width, height: height - 20, backgroundColor: this.props.postBackground, marginBottom: 50 }}
           >
-            <View style={styles.sourceContainer}>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Text style={{ fontFamily: 'Lora-Regular', margin: 10, marginLeft: 15, color: this.props.textColor, fontSize: 30, fontWeight: 'bold', marginTop: 0 }}>{this.props.row.title}</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 15 }}>
+              <View style={[styles.cateContainer, { backgroundColor: this.props.row.cateColor }]}>
+                <Text style={styles.textCate}>{this.props.row.cate}</Text>
+              </View>
+              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                 {(this.state.logo != '') &&
                   <Image resizeMode='center' source={this.state.logo} style={{ height: 30, width: 30 }} />
                 }
-                <Text style={{ textAlign: 'center', marginLeft: 10, fontSize: 13, color: '#9b9b9b' }}>{this.state.source}</Text>
+                <Text style={{ textAlign: 'center', marginLeft: 10, fontSize: 13, color: '#9b9b9b' }}>{this.state.source}  |  </Text>
               </View>
               <Text style={{ marginRight: 20, textAlign: 'center', color: '#9b9b9b' }}>{this.props.row.date}</Text>
             </View>
-            <Text style={{ fontFamily: 'Lora-Regular', margin: 10, marginLeft: 15, color: this.props.textColor, fontSize: 30, fontWeight: 'bold', marginTop: 0 }}>{this.props.row.title}</Text>
-            <View style={[styles.cateContainer, { backgroundColor: this.props.row.cateColor }]}>
-              <Text style={styles.textCate}>{this.props.row.cate}</Text>
-            </View>
-
             <HTMLView
               value={this.state.bodyHTML}
               stylesheet={styles2}
@@ -728,8 +734,8 @@ const styles = {
   cateContainer: {
     marginLeft: 15,
     borderRadius: 3,
+    marginRight: 15,
     width: 80,
-    marginBottom: 10,
   },
   textCate: {
     color: "white",
@@ -739,7 +745,6 @@ const styles = {
     borderRadius: 4,
   },
   sourceContainer: {
-    marginTop: 10,
     marginLeft: 15,
     height: 30,
     flexDirection: 'row',

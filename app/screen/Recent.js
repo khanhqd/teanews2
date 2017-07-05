@@ -33,6 +33,13 @@ class Recent extends Component {
         try { await AsyncStorage.setItem(key, value); }
         catch (error) { console.log(error.message) }
     };
+    componentWillReceiveProps(props) {
+      if(props.listRecent != this.props.listRecent) {
+        this.setState({
+          dataSource: this.state.dataSource.cloneWithRows(props.listRecent)
+        });
+      }
+    }
     // componentWillMount() {
     //     this._get('listCate')
     // }
@@ -82,7 +89,21 @@ class Recent extends Component {
                 rightExpansionSettings={{ buttonIndex: 0 }}
                 rightButtons={[{ title: " Remove ", color: '#4a90e2', callback: () => { this.removeRecent(row, sectionID, rowID); } }]}>
                 <TouchableOpacity onPress={() => {
-                    console.log(row);
+                    let listRecent = this.props.listRecent;
+                    for (var i = 0; i < listRecent.length; i++) {
+                      if (listRecent[i].title == row.title) {
+                        listRecent.splice(i, 1);
+                      }
+                    }
+                    if (listRecent.length < 30) {
+                      listRecent.unshift(row)
+                    }
+                    else {
+                      listRecent.pop();
+                      listRecent.unshift(row)
+                    }
+                    this.props.dispatch(replaceRecent(listRecent));
+                    AsyncStorage.setItem("listRecent" , JSON.stringify(listRecent))
                     this.props.navigation.navigate('RecentReading_Screen', { row: row })
                 }}>
 
