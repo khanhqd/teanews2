@@ -119,14 +119,15 @@ class NewsItem extends Component {
       .then((response) => response.text())
       .then((responseData) => {
         $ = cheerio.load(responseData);
+        let source = $(".meta > .span-website").text().replace(/\s+ /g, '')
         $("a").parent(".Normal").remove();
         $("em").parent(".Normal").remove();
-        $("span,em,i,a,b,strong,ins").replaceWith(function () { return $(this).contents(); });
-
-        //$("strong").replaceWith(function () { return `<p style="font-Size:18">${$(this).contents()}</p>` });
+        $("i").parent().parent(".blockquote-reverse").remove();
+        $("span,em,i,a,b,strong,ins ,u").replaceWith(function () { return $(this).contents(); });
         $("[data-component-type=video]").replaceWith("<strong>Bài viết chứa video, vui lòng mở link bằng trình duyệt để xem video</strong>");
         $("video").replaceWith("<strong>Bài viết chứa video, vui lòng mở link bằng trình duyệt để xem video</strong>");
-        $(".see-now,.author_mail.width_common,.tbl_insert").remove();
+        $(".see-now,.author_mail.width_common,.tbl_insert, span.author").remove();
+        console.log(source)
         let text = $(".newbody p").last().text()
         let linkShare = $("input.hidden").attr("value")
         if (text.includes(">>> Đọc thêm") || text.includes("Bấm xem")) {
@@ -134,7 +135,7 @@ class NewsItem extends Component {
         }
         this.setState({
           bodyHTML: $('.newbody').html(),
-          sourceReal: sourceReal
+          sourceReal: source
         }, () => {
           this.setState({
             loading: false,
@@ -161,8 +162,9 @@ class NewsItem extends Component {
         break;
       }
     }
-    let source = this.props.row.source
-    switch (source) {
+    let source = this.state.sourceReal
+    let icon = source.replace(/\s+/g, '')
+    switch (icon) {
       case 'VnExpress': {
         this.setState({
           source: source,
@@ -179,7 +181,7 @@ class NewsItem extends Component {
         })
         break;
       }
-      case 'Bóng đá 24h': {
+      case 'Bóngđá24h': {
         this.setState({
           source: source,
           loading: false,
@@ -187,7 +189,7 @@ class NewsItem extends Component {
         })
         break;
       }
-      case 'Bóng đá Plus': {
+      case 'BóngđáPlus': {
         this.setState({
           source: source,
           loading: false,
@@ -203,7 +205,7 @@ class NewsItem extends Component {
         })
         break;
       }
-      case 'Dân trí': {
+      case 'Dântrí': {
         this.setState({
           source: source,
           loading: false,
@@ -211,7 +213,7 @@ class NewsItem extends Component {
         })
         break;
       }
-      case 'Báo đất Việt': {
+      case 'BáođấtViệt': {
         this.setState({
           source: source,
           loading: false,
@@ -219,7 +221,7 @@ class NewsItem extends Component {
         })
         break;
       }
-      case 'Việt Báo': {
+      case 'ViệtBáo': {
         this.setState({
           source: source,
           loading: false,
@@ -227,9 +229,9 @@ class NewsItem extends Component {
         })
         break;
       }
-      case 'Thanh Niên': {
+      case 'ThanhNiên': {
         this.setState({
-          source: source,
+          source: this.props.row.source,
           loading: false,
           logo: require(`../../img/logo/thanhnien.png`),
         })
@@ -267,7 +269,7 @@ class NewsItem extends Component {
         })
         break;
       }
-      case 'Pháp Luật HCM': {
+      case 'PhápLuậtHCM': {
         this.setState({
           source: source,
           loading: false,
@@ -275,7 +277,7 @@ class NewsItem extends Component {
         })
         break;
       }
-      case 'Báo mới': {
+      case 'Báomới': {
         this.setState({
           source: source,
           loading: false,
@@ -283,7 +285,7 @@ class NewsItem extends Component {
         })
         break;
       }
-      case 'Báo Giao thông': {
+      case 'BáoGiaothông': {
         this.setState({
           source: source,
           loading: false,
@@ -323,7 +325,7 @@ class NewsItem extends Component {
         })
         break;
       }
-      case 'Báo Lao Động': {
+      case 'BáoLaoĐộng': {
         this.setState({
           source: source,
           loading: false,
@@ -339,7 +341,7 @@ class NewsItem extends Component {
         })
         break;
       }
-      case 'Ngôi Sao': {
+      case 'NgôiSao': {
         this.setState({
           source: source,
           loading: false,
@@ -347,7 +349,7 @@ class NewsItem extends Component {
         })
         break;
       }
-      case 'Đời Sống Pháp Luật': {
+      case 'ĐờiSốngPhápLuật': {
         this.setState({
           source: source,
           loading: false,
@@ -355,7 +357,7 @@ class NewsItem extends Component {
         })
         break;
       }
-      case 'Người Đưa Tin': {
+      case 'NgườiĐưaTin': {
         this.setState({
           source: source,
           loading: false,
@@ -371,7 +373,7 @@ class NewsItem extends Component {
         })
         break;
       }
-      case 'Blog Tâm Sự': {
+      case 'BlogTâmSự': {
         this.setState({
           source: source,
           loading: false,
@@ -379,7 +381,7 @@ class NewsItem extends Component {
         })
         break;
       }
-      case 'Pháp Luật Plus': {
+      case 'PhápLuậtPlus': {
         this.setState({
           source: source,
           loading: false,
@@ -387,7 +389,7 @@ class NewsItem extends Component {
         })
         break;
       }
-      case 'Người Lao Động': {
+      case 'NgườiLaoĐộng': {
         this.setState({
           source: source,
           loading: false,
@@ -395,7 +397,7 @@ class NewsItem extends Component {
         })
         break;
       }
-      case 'Báo Tuổi Trẻ': {
+      case 'BáoTuổiTrẻ': {
         this.setState({
           source: source,
           loading: false,
@@ -403,7 +405,7 @@ class NewsItem extends Component {
         })
         break;
       }
-      case 'Xe Hay': {
+      case 'XeHay': {
         this.setState({
           source: source,
           loading: false,
@@ -411,7 +413,7 @@ class NewsItem extends Component {
         })
         break;
       }
-      case 'Kiến thức': {
+      case 'Kiếnthức': {
         this.setState({
           source: source,
           loading: false,
@@ -451,7 +453,7 @@ class NewsItem extends Component {
         })
         break;
       }
-      case 'Kênh 14': {
+      case 'Kênh14': {
         this.setState({
           source: source,
           loading: false,
@@ -459,7 +461,7 @@ class NewsItem extends Component {
         })
         break;
       }
-      case 'Đại Kỷ Nguyên': {
+      case 'ĐạiKỷNguyên': {
         this.setState({
           source: source,
           loading: false,
@@ -467,7 +469,7 @@ class NewsItem extends Component {
         })
         break;
       }
-      case 'Trí Thức Trẻ': {
+      case 'TríThứcTrẻ': {
         this.setState({
           source: source,
           loading: false,
@@ -491,7 +493,7 @@ class NewsItem extends Component {
         })
         break;
       }
-      case 'Giáo dục Thời đại': {
+      case 'GiáodụcThờiđại': {
         this.setState({
           source: source,
           loading: false,
@@ -507,7 +509,7 @@ class NewsItem extends Component {
         })
         break;
       }
-      case 'Thể thao 247': {
+      case 'Thểthao247': {
         this.setState({
           source: source,
           loading: false,
@@ -515,7 +517,7 @@ class NewsItem extends Component {
         })
         break;
       }
-      case 'Công an nhân dân': {
+      case 'Côngannhândân': {
         this.setState({
           source: source,
           loading: false,
@@ -531,7 +533,7 @@ class NewsItem extends Component {
         })
         break;
       }
-      case 'Báo Phụ Nữ': {
+      case 'BáoPhụNữ': {
         this.setState({
           source: source,
           loading: false,
@@ -571,7 +573,7 @@ class NewsItem extends Component {
         })
         break;
       }
-      case 'Báo Xã Hội': {
+      case 'BáoXãHội': {
         this.setState({
           source: source,
           loading: false,
@@ -707,6 +709,11 @@ class NewsItem extends Component {
         color: this.props.textColor,
         lineHeight: this.props.lineHeight
       },
+      em: {
+        fontSize: this.props.fontSize,
+        color: this.props.textColor,
+        lineHeight: this.props.lineHeight
+      },
     };
     // let date = new Date(this.props.row.date);
     // let convertToDate = date.toDateString();
@@ -817,11 +824,14 @@ class NewsItem extends Component {
             style={{ width: width, height: height - 20, backgroundColor: this.props.postBackground, marginBottom: 50 }}
           >
             <Text style={{ fontFamily: 'Lora-Regular', margin: 10, marginLeft: 15, color: this.props.textColor, fontSize: 30, fontWeight: 'bold', marginTop: 0 }}>{this.props.row.title}</Text>
+
             <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 15 }}>
-              <View style={[styles.cateContainer, { backgroundColor: this.props.row.cateColor }]}>
-                <Text style={styles.textCate}>{this.props.row.cate}</Text>
-              </View>
-              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+              {this.props.row.cate !== undefined &&
+                <View style={[styles.cateContainer, { backgroundColor: this.props.row.cateColor }]}>
+                  <Text style={styles.textCate}>{this.props.row.cate}</Text>
+                </View>
+              }
+              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginLeft:10 }}>
                 {(this.state.logo != '') &&
                   <Image resizeMode='cover' source={this.state.logo} style={{ height: 20, width: 20 }} />
                 }
