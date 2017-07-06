@@ -29,6 +29,8 @@ import {
   ROOT_LINK1,
   ROOT_LINK2,
   ROOT_LINK3,
+  OPEN_DROPDOWN_MENU,
+  SELECT_CATE
 } from './types';
 
 
@@ -206,6 +208,19 @@ export const rootLink3 = (data) => {
     payload: data
   }
 }
+export const openDropdownMenu = (data) => {
+  return {
+    type: OPEN_DROPDOWN_MENU,
+    payload: data
+  }
+}
+export const selectCate = (data) => {
+  return {
+    type: SELECT_CATE,
+    payload: data
+  }
+}
+
 // export const goToPlay = (number) => {
 //   return (dispatch) => {
 //     Actions.PlayScene({ numberOfPlayer: number })

@@ -3,7 +3,7 @@ import { View, Text, Dimensions, Platform, TouchableOpacity, Image, AsyncStorage
 var { height, width } = Dimensions.get('window');
 import { connect } from 'react-redux';
 import Triangle from 'react-native-triangle';
-
+import { openDropdownMenu } from '../actions';
 
 var source = "";
 class NewsItem2 extends Component {
@@ -50,7 +50,14 @@ class NewsItem2 extends Component {
                     onPress={() => { this.props.navigation.navigate('DrawerOpen') }}>
                       <Image source={require('../../img/ic_list_w.png')} style={{ height: 24, width: 24 }} />
                     </TouchableOpacity>
-                    <Text style={{ textAlign: 'center', fontSize: 20, marginLeft: 20, color: 'white', fontWeight: 'bold' }}></Text>
+                    <TouchableOpacity
+                    onPress={()=>this.props.dispatch(openDropdownMenu(!this.props.dropdown))}
+                    style={{flexDirection: 'row', height: 45, width: 80, marginLeft: 10, justifyContent: 'flex-start', alignItems: 'center' }}>
+                      <Text style={{ textAlign: 'center', fontSize: 16, color: 'white', fontWeight: 'bold' }}>{this.props.selectedCate}</Text>
+                      <Image
+                      style={{width: 24, height: 24, tintColor: 'white'}}
+                      source={require('../../img/ic_dropdown.png')}/>
+                    </TouchableOpacity>
                   </View>
                   <TouchableOpacity
                   style={{height: 45, width: 45, justifyContent: 'center', alignItems: 'center'}}
@@ -149,6 +156,8 @@ const mapStateToProps = state => {
     openMenu: state.readerModalReducer.modalState,
     postBackground: state.readerModalReducer.postBackground,
     textColor: state.readerModalReducer.textColor,
+    dropdown: state.listCateReducer.dropdown,
+    selectedCate: state.listCateReducer.selectedCate
   }
 }
 export default connect(mapStateToProps)(NewsItem2);

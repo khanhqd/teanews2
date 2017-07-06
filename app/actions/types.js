@@ -28,3 +28,5 @@ export const HIDE_BOTTOM_BAR = 'HIDE_BOTTOM_BAR';
 export const ROOT_LINK1 = 'ROOT_LINK1';
 export const ROOT_LINK2 = 'ROOT_LINK2';
 export const ROOT_LINK3 = 'ROOT_LINK3';
+export const OPEN_DROPDOWN_MENU = 'OPEN_DROPDOWN_MENU';
+export const SELECT_CATE = 'SELECT_CATE';

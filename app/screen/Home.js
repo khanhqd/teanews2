@@ -18,10 +18,10 @@ import { Button1 } from '../common';
 import NewsItem2 from '../common/NewsItem2';
 import NewsList from '../common/NewsList';
 const cheerio = require('cheerio-without-node-native');
-
+import * as Animatable from 'react-native-animatable';
 import { loadListData, selectedPost0, selectedPost1, selectedPost2, replaceBookmark, replaceRecent, addListData, saveListCate } from '../actions';
 import { connect } from 'react-redux';
-import { replaceListCate, reload, addSearchKeyword } from '../actions';
+import { replaceListCate, reload, addSearchKeyword, openDropdownMenu, selectCate } from '../actions';
 
 import { firebaseApp } from '../app';
 const numberOfItem = 3;
@@ -563,6 +563,85 @@ class Home extends Component {
       )
     }
   }
+  renderDropdown() {
+    if (this.props.fullList.length > 5) {
+      return (
+        <Animatable.View
+        animation="fadeIn" duration={300}
+        style={[styles.dropdownContainer,{backgroundColor: this.props.postBackground, height: 300}]}>
+          <ScrollView>
+            <TouchableOpacity style={[styles.item2,{marginLeft: 14 }]} onPress={() => {
+              this.setState({animationIn:false})
+              this.props.dispatch(replaceListCate(this.props.fullList))
+              this.props.dispatch(reload(true))
+              this.props.dispatch(selectCate("Tất cả"))
+            }}>
+              <Text style={{ color: this.props.textColor}}>Tất cả</Text>
+              {(this.props.selectedCate == "Tất cả") &&
+                <Image
+                source={require('../../img/ic_check_w.png')}
+                style={{width: 24, height: 24, tintColor: this.props.textColor, position: 'absolute', right: 7}}/>
+              }
+            </TouchableOpacity>
+            {this.props.fullList.map((data,index) => {
+              return (
+                <TouchableOpacity style={styles.item2} key={index} onPress={() => {
+                  this.props.dispatch(replaceListCate([data]))
+                  this.props.dispatch(reload(true))
+                  this.props.dispatch(selectCate(data.name))
+                }}>
+                  <View style={{height: 40, width: 3, backgroundColor: data.color, marginRight: 10}}></View>
+                  <Text style={{ color: this.props.textColor }}>{data.name}</Text>
+                  {(this.props.selectedCate == data.name) &&
+                    <Image
+                    source={require('../../img/ic_check_w.png')}
+                    style={{width: 24, height: 24, tintColor: this.props.textColor, position: 'absolute', right: 7}}/>
+                  }
+                </TouchableOpacity>
+              )
+            })}
+          </ScrollView>
+        </Animatable.View>
+      )
+    } else {
+      return (
+        <Animatable.View
+        animation="fadeIn" duration={300}
+        style={[styles.dropdownContainer,{backgroundColor: this.props.postBackground}]}>
+          <TouchableOpacity style={[styles.item2,{marginLeft: 14 }]} onPress={() => {
+            this.setState({animationIn:false})
+            this.props.dispatch(replaceListCate(this.props.fullList))
+            this.props.dispatch(reload(true))
+            this.props.dispatch(selectCate("Tất cả"))
+          }}>
+            <Text style={{ color: this.props.textColor }}>Tất cả</Text>
+            {(this.props.selectedCate == "Tất cả") &&
+              <Image
+              source={require('../../img/ic_check_w.png')}
+              style={{width: 24, height: 24, tintColor: this.props.textColor, position: 'absolute', right: 7}}/>
+            }
+          </TouchableOpacity>
+          {this.props.fullList.map((data,index) => {
+            return (
+              <TouchableOpacity style={styles.item2} key={index} onPress={() => {
+                this.props.dispatch(replaceListCate([data]))
+                this.props.dispatch(reload(true))
+                this.props.dispatch(selectCate(data.name))
+              }}>
+                <View style={{height: 35, width: 3, backgroundColor: data.color, marginRight: 10}}></View>
+                <Text style={{ color: this.props.textColor }}>{data.name}</Text>
+                {(this.props.selectedCate == data.name) &&
+                  <Image
+                  source={require('../../img/ic_check_w.png')}
+                  style={{width: 24, height: 24, tintColor: this.props.textColor, position: 'absolute', right: 7}}/>
+                }
+              </TouchableOpacity>
+            )
+          })}
+        </Animatable.View>
+      )
+    }
+  }
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: this.props.postBackground }}>
@@ -622,7 +701,14 @@ class Home extends Component {
           </View>
           :
           this.renderLoading()}
-
+          {this.props.dropdown &&
+          <TouchableOpacity
+          activeOpacity={1}
+          onPress={()=>{this.props.dispatch(openDropdownMenu(!this.props.dropdown))}}
+          style={{position: 'absolute', zIndex: 5, backgroundColor: 'transparent', width: width, height: height}}>
+            {this.renderDropdown()}
+          </TouchableOpacity>
+          }
       </View>
     );
   }
@@ -636,6 +722,23 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 20,
     left: 20
+  },
+  dropdownContainer: {
+    width: 130,
+    position: 'absolute',
+    top: 60,
+    left: 120,
+    borderRadius: 5,
+    shadowOpacity: 0.3
+  },
+  item2: {
+      paddingLeft: 10,
+      height: 50,
+      flex: 1,
+      paddingRight: 15,
+      justifyContent: 'flex-start',
+      flexDirection: 'row',
+      alignItems: 'center'
   }
 })
 const mapStateToProps = state => {
@@ -645,6 +748,9 @@ const mapStateToProps = state => {
     reload: state.listCateReducer.reload,
     postBackground: state.readerModalReducer.postBackground,
     textColor: state.readerModalReducer.textColor,
+    dropdown: state.listCateReducer.dropdown,
+    fullList: state.listCateReducer.fullList,
+    selectedCate: state.listCateReducer.selectedCate
   }
 }
 export default connect(mapStateToProps)(Home);
