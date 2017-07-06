@@ -171,203 +171,227 @@ class NewsDetail extends Component {
 
           let listRecent = this.props.listRecent;
           let listBookmark = this.props.listBookmark;
-          switch (this.state.index0) {
-            case 2:
-              if (dx < -width / 4) {
-                if (this.props.dataSlot2 + 3 < listLength) {
-                  this.setState({ index2: 3, index1: 2, index0: 1, bookmarked: false }, () => {
-                    setTimeout(() => {
-                      this.props.dispatch(selectedPost2(this.props.dataSlot2 + 3));
-                      for (var i = 0; i < listRecent.length; i++) {
-                        if (listRecent[i].title == this.props.listData[this.props.dataSlot1].title) {
-                          listRecent.splice(i, 1);
+          if (dx < 0) {
+            switch (this.state.index0) {
+              case 2:
+                if (dx < -width / 4) {
+                  if (this.props.dataSlot2 + 3 < listLength) {
+                    this.setState({ index2: 3, index1: 2, index0: 1, bookmarked: false }, () => {
+                      setTimeout(() => {
+                        this.props.dispatch(selectedPost2(this.props.dataSlot2 + 3));
+                        for (var i = 0; i < listRecent.length; i++) {
+                          if (listRecent[i].title == this.props.listData[this.props.dataSlot1].title) {
+                            listRecent.splice(i, 1);
+                          }
                         }
-                      }
-                      if (listRecent.length < 30) {
-                        listRecent.unshift(this.props.listData[this.props.dataSlot1])
-                      }
-                      else {
-                        listRecent.pop();
-                        listRecent.unshift(this.props.listData[this.props.dataSlot1])
-                      };
-                      //tracking
-                      this.tracker.child(this.props.listData[this.props.dataSlot1].title.replace(/\./g, "")).transaction(function (view) {
-                        return view + 1;
-                      });
-                      this.tracker2.child(this.props.listData[this.props.dataSlot1].cate).transaction(function (view) {
-                        return view + 1;
-                      })
-
-                      AsyncStorage.setItem('listRecent', JSON.stringify(listRecent))
-                      for (var i = 0; i < listBookmark.length; i++) {
-                        if (listBookmark[i].title == this.props.listData[this.props.dataSlot1].title) {
-                          this.setState({ bookmarked: true })
-                          break;
+                        if (listRecent.length < 30) {
+                          listRecent.unshift(this.props.listData[this.props.dataSlot1])
                         }
+                        else {
+                          listRecent.pop();
+                          listRecent.unshift(this.props.listData[this.props.dataSlot1])
+                        };
+                        //tracking
+                        this.tracker.child(this.props.listData[this.props.dataSlot1].title.replace(/\./g, "")).transaction(function (view) {
+                          return view + 1;
+                        });
+                        this.tracker2.child(this.props.listData[this.props.dataSlot1].cate).transaction(function (view) {
+                          return view + 1;
+                        })
 
-                      }
-                    }, nextPageDuration)
-                  })
+                        AsyncStorage.setItem('listRecent', JSON.stringify(listRecent))
+                        for (var i = 0; i < listBookmark.length; i++) {
+                          if (listBookmark[i].title == this.props.listData[this.props.dataSlot1].title) {
+                            this.setState({ bookmarked: true })
+                            break;
+                          }
+
+                        }
+                      }, nextPageDuration)
+                    })
+                    Animated.timing(
+                      this.state.left1,
+                      { toValue: 0, duration: nextPageDuration }
+                    ).start();
+                    this.state.left2.setValue(width)
+                  }
+                } else {
                   Animated.timing(
                     this.state.left1,
-                    { toValue: 0, duration: nextPageDuration }
+                    { toValue: width, duration: resetDuration }
                   ).start();
-                  this.state.left2.setValue(width)
                 }
-              } else {
-                if (dx > width / 4) {
+
+                break;
+              case 3:
+                if (dx < -width / 4) {
+                  let listRecent = this.props.listRecent
+                  if (this.props.dataSlot1 + 3 < listLength) {
+                    this.setState({ index0: 2, index2: 1, index1: 3, bookmarked: false }, () => {
+                      setTimeout(() => {
+                        this.props.dispatch(selectedPost1(this.props.dataSlot1 + 3));
+                        for (var i = 0; i < listRecent.length; i++) {
+                          if (listRecent[i].title == this.props.listData[this.props.dataSlot0].title) {
+                            listRecent.splice(i, 1);
+                          }
+                        }
+                        if (listRecent.length < 30) {
+                          listRecent.unshift(this.props.listData[this.props.dataSlot0])
+                        }
+                        else {
+                          listRecent.pop();
+                          listRecent.unshift(this.props.listData[this.props.dataSlot0])
+                        }
+                        //tracking
+                        this.tracker.child(this.props.listData[this.props.dataSlot0].title.replace(/\./g, "")).transaction(function (view) {
+                          return view + 1;
+                        });
+                        this.tracker2.child(this.props.listData[this.props.dataSlot0].cate).transaction(function (view) {
+                          return view + 1;
+                        })
+
+                        AsyncStorage.setItem('listRecent', JSON.stringify(listRecent));
+                        for (var i = 0; i < listBookmark.length; i++) {
+                          if (listBookmark[i].title == this.props.listData[this.props.dataSlot0].title) {
+                            this.setState({ bookmarked: true })
+                            break;
+                          }
+                        }
+                      }, nextPageDuration)
+                    })
                     Animated.timing(
                       this.state.left0,
+                      { toValue: 0, duration: nextPageDuration }
+                    ).start();
+                    this.state.left1.setValue(width)
+                  }
+                } else {
+                    Animated.timing(
+                      this.state.left0,
+                      { toValue: width, duration: resetDuration }
+                    ).start();
+                }
+                break;
+              case 1:
+                if (dx < -width / 4) {
+                  if (this.props.dataSlot0 + 3< listLength) {
+                    this.setState({ index1: 1, index0: 3, index2: 2, bookmarked: false }, () => {
+                      setTimeout(() => {
+                        this.props.dispatch(selectedPost0(this.props.dataSlot0 + 3));
+                        for (var i = 0; i < listRecent.length; i++) {
+                          if (listRecent[i].title == this.props.listData[this.props.dataSlot2].title) {
+                            listRecent.splice(i, 1);
+                          }
+                        }
+                        if (listRecent.length < 30) {
+                          listRecent.unshift(this.props.listData[this.props.dataSlot2])
+                        }
+                        else {
+                          listRecent.pop();
+                          listRecent.unshift(this.props.listData[this.props.dataSlot2])
+                        }
+                        //tracking
+                        this.tracker.child(this.props.listData[this.props.dataSlot2].title.replace(/\./g, "")).transaction(function (view) {
+                          return view + 1;
+                        });
+                        this.tracker2.child(this.props.listData[this.props.dataSlot2].cate).transaction(function (view) {
+                          return view + 1;
+                        })
+
+                        AsyncStorage.setItem('listRecent', JSON.stringify(listRecent))
+                        for (var i = 0; i < listBookmark.length; i++) {
+                          if (listBookmark[i].title == this.props.listData[this.props.dataSlot2].title) {
+                            this.setState({ bookmarked: true })
+                            break;
+                          }
+                        }
+                      }, nextPageDuration)
+                    })
+
+                    Animated.timing(
+                      this.state.left2,
+                      { toValue: 0, duration: nextPageDuration }
+                    ).start();
+                    this.state.left0.setValue(width)
+                  }
+                } else {
+                    Animated.timing(
+                      this.state.left2,
+                      { toValue: width, duration: resetDuration }
+                    ).start();
+                }
+                break;
+            }
+          } else {
+            switch (this.state.index0) {
+              case 2:
+                  if (dx > width / 4) {
+                      Animated.timing(
+                        this.state.left0,
+                        { toValue: width, duration: 300 }
+                      ).start();
+                      this.state.left1.setValue(0);
+
+                      this.setState({ index2: 2, index1: 1, index0: 3, bookmarked: false }, () => {
+                        // if (this.props.dataSlot1 - 3 >= 0) {
+                          setTimeout(() => {
+                            this.props.dispatch(selectedPost1(this.props.dataSlot1 - 3));
+                          }, 310)
+                        // }
+                      })
+                    } else {
+                    Animated.timing(
+                      this.state.left0,
+                      { toValue: 0, duration: resetDuration }
+                    ).start();
+                  }
+
+                break;
+              case 3:
+                  if (dx > width / 4) {
+                    Animated.timing(
+                      this.state.left2,
                       { toValue: width, duration: 300 }
                     ).start();
-                    this.state.left1.setValue(0);
+                    this.state.left0.setValue(0);
 
-                    this.setState({ index2: 2, index1: 1, index0: 3, bookmarked: false }, () => {
-                      // if (this.props.dataSlot1 - 3 >= 0) {
+                    this.setState({ index0: 1, index2: 3, index1: 2, bookmarked: false }, () => {
+                      // if (this.props.dataSlot0 - 3 >= 0) {
                         setTimeout(() => {
-                          this.props.dispatch(selectedPost1(this.props.dataSlot1 - 3));
+                          this.props.dispatch(selectedPost0(this.props.dataSlot0 - 3));
                         }, 310)
                       // }
                     })
                   } else {
-                  Animated.timing(
-                    this.state.left1,
-                    { toValue: width, duration: resetDuration }
-                  ).start();
-                }
-              }
+                    Animated.timing(
+                      this.state.left2,
+                      { toValue: 0, duration: resetDuration }
+                    ).start();
+                  }
+                break;
+              case 1:
+                  if (dx > width / 4) {
+                    Animated.timing(
+                      this.state.left1,
+                      { toValue: width, duration: 300 }
+                    ).start();
+                    this.state.left2.setValue(0);
 
-              break;
-            case 3:
-              if (dx < -width / 4) {
-                let listRecent = this.props.listRecent
-                if (this.props.dataSlot1 + 3 < listLength) {
-                  this.setState({ index0: 2, index2: 1, index1: 3, bookmarked: false }, () => {
-                    setTimeout(() => {
-                      this.props.dispatch(selectedPost1(this.props.dataSlot1 + 3));
-                      for (var i = 0; i < listRecent.length; i++) {
-                        if (listRecent[i].title == this.props.listData[this.props.dataSlot0].title) {
-                          listRecent.splice(i, 1);
-                        }
-                      }
-                      if (listRecent.length < 30) {
-                        listRecent.unshift(this.props.listData[this.props.dataSlot0])
-                      }
-                      else {
-                        listRecent.pop();
-                        listRecent.unshift(this.props.listData[this.props.dataSlot0])
-                      }
-                      //tracking
-                      this.tracker.child(this.props.listData[this.props.dataSlot0].title.replace(/\./g, "")).transaction(function (view) {
-                        return view + 1;
-                      });
-                      this.tracker2.child(this.props.listData[this.props.dataSlot0].cate).transaction(function (view) {
-                        return view + 1;
-                      })
-
-                      AsyncStorage.setItem('listRecent', JSON.stringify(listRecent));
-                      for (var i = 0; i < listBookmark.length; i++) {
-                        if (listBookmark[i].title == this.props.listData[this.props.dataSlot0].title) {
-                          this.setState({ bookmarked: true })
-                          break;
-                        }
-                      }
-                    }, nextPageDuration)
-                  })
-                  Animated.timing(
-                    this.state.left0,
-                    { toValue: 0, duration: nextPageDuration }
-                  ).start();
-                  this.state.left1.setValue(width)
-                }
-              } else {
-                if (dx > width / 4) {
-                  Animated.timing(
-                    this.state.left2,
-                    { toValue: width, duration: 300 }
-                  ).start();
-                  this.state.left0.setValue(0);
-
-                  this.setState({ index0: 1, index2: 3, index1: 2, bookmarked: false }, () => {
-                    // if (this.props.dataSlot0 - 3 >= 0) {
-                      setTimeout(() => {
-                        this.props.dispatch(selectedPost0(this.props.dataSlot0 - 3));
-                      }, 310)
-                    // }
-                  })
-                } else {
-                  Animated.timing(
-                    this.state.left0,
-                    { toValue: width, duration: resetDuration }
-                  ).start();
-                }
-              }
-              break;
-            case 1:
-              if (dx < -width / 4) {
-                if (this.props.dataSlot0 + 3< listLength) {
-                  this.setState({ index1: 1, index0: 3, index2: 2, bookmarked: false }, () => {
-                    setTimeout(() => {
-                      this.props.dispatch(selectedPost0(this.props.dataSlot0 + 3));
-                      for (var i = 0; i < listRecent.length; i++) {
-                        if (listRecent[i].title == this.props.listData[this.props.dataSlot2].title) {
-                          listRecent.splice(i, 1);
-                        }
-                      }
-                      if (listRecent.length < 30) {
-                        listRecent.unshift(this.props.listData[this.props.dataSlot2])
-                      }
-                      else {
-                        listRecent.pop();
-                        listRecent.unshift(this.props.listData[this.props.dataSlot2])
-                      }
-                      //tracking
-                      this.tracker.child(this.props.listData[this.props.dataSlot2].title.replace(/\./g, "")).transaction(function (view) {
-                        return view + 1;
-                      });
-                      this.tracker2.child(this.props.listData[this.props.dataSlot2].cate).transaction(function (view) {
-                        return view + 1;
-                      })
-
-                      AsyncStorage.setItem('listRecent', JSON.stringify(listRecent))
-                      for (var i = 0; i < listBookmark.length; i++) {
-                        if (listBookmark[i].title == this.props.listData[this.props.dataSlot2].title) {
-                          this.setState({ bookmarked: true })
-                          break;
-                        }
-                      }
-                    }, nextPageDuration)
-                  })
-
-                  Animated.timing(
-                    this.state.left2,
-                    { toValue: 0, duration: nextPageDuration }
-                  ).start();
-                  this.state.left0.setValue(width)
-                }
-              } else {
-                if (dx > width / 4) {
-                  Animated.timing(
-                    this.state.left1,
-                    { toValue: width, duration: 300 }
-                  ).start();
-                  this.state.left2.setValue(0);
-
-                  this.setState({ index1: 3, index0: 2, index2: 1, bookmarked: false }, () => {
-                    // if (this.props.dataSlot2 - 3 >= 0) {
-                      setTimeout(() => {
-                        this.props.dispatch(selectedPost2(this.props.dataSlot2 - 3));
-                      }, 310)
-                    // }
-                  })
-                } else {
-                  Animated.timing(
-                    this.state.left2,
-                    { toValue: width, duration: resetDuration }
-                  ).start();
-                }
-              }
-              break;
+                    this.setState({ index1: 3, index0: 2, index2: 1, bookmarked: false }, () => {
+                      // if (this.props.dataSlot2 - 3 >= 0) {
+                        setTimeout(() => {
+                          this.props.dispatch(selectedPost2(this.props.dataSlot2 - 3));
+                        }, 310)
+                      // }
+                    })
+                  } else {
+                    Animated.timing(
+                      this.state.left1,
+                      { toValue: 0, duration: resetDuration }
+                    ).start();
+                  }
+                break;
+            }
           }
         }
       }
@@ -618,6 +642,7 @@ class NewsDetail extends Component {
           {this.state.renderBottomBar &&
             <Animatable.View
               useNativeDriver
+              duration={300}
               onAnimationEnd={() => { if (this.state.hideBottomBar) { this.setState({ renderBottomBar: false }) } }}
               animation={this.state.hideBottomBar ? "fadeOutDown" : "fadeInUp"}
               style={[styles.navBar, { backgroundColor: this.props.postBackground }]}>
