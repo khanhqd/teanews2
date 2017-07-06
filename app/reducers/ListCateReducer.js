@@ -1,5 +1,5 @@
 import * as types from '../actions/types';
-const INITIAL_STATE = {list:[], reload:false, listKeyword:[],
+const INITIAL_STATE = {list:[], reload:false, listKeyword:[], dropdown: false, selectedCate: 'Tất cả',
   fullList:[
     {
         name: 'Thời sự',
@@ -95,6 +95,18 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         fullList: action.payload
+      }
+      break;
+    case types.OPEN_DROPDOWN_MENU:
+      return {
+        ...state,
+        dropdown: action.payload
+      }
+      break;
+    case types.SELECT_CATE:
+      return {
+        ...state,
+        selectedCate: action.payload
       }
       break;
     default:
