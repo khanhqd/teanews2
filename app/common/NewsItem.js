@@ -810,7 +810,7 @@ class NewsItem extends Component {
             scrollEventThrottle={100}
             onTouchEnd={() => {
               this.props.dispatch(hideBottomBar(false))
-              if (this.state.pullToCloseDist > 90) {
+              if (this.state.pullToCloseDist > 70) {
                 this.props.navigation.goBack();
               }
             }}

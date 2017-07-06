@@ -41,7 +41,7 @@ class NewsItem2 extends Component {
           activeOpacity={1}
           style={[{ height: height, backgroundColor: this.props.postBackground }, this.props.style]}>
           {!this.state.loading &&
-            <Image resizeMode='cover' source={{ uri: this.props.data.thumb }} defaultSource={require('../../img/background.jpg')} style={{ width: width, height: width, }}>
+            <Image resizeMode='cover' source={{ uri: this.props.data.thumb }} defaultSource={require('../../img/background.jpg')} style={{ width: width, height: width }}>
               <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)', flex: 1, justifyContent: 'space-between' }}>
                 <View style={styles.menuBar}>
                   <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -52,7 +52,9 @@ class NewsItem2 extends Component {
                     </TouchableOpacity>
                     <Text style={{ textAlign: 'center', fontSize: 20, marginLeft: 20, color: 'white', fontWeight: 'bold' }}></Text>
                   </View>
-                  <TouchableOpacity onPress={() => { this.props.navigation.navigate('Search_Screen') }}>
+                  <TouchableOpacity
+                  style={{height: 45, width: 45, justifyContent: 'center', alignItems: 'center'}}
+                  onPress={() => { this.props.navigation.navigate('Search_Screen') }}>
                     <Image source={require('../../img/ic_search_w.png')} style={{ height: 24, width: 24 }} />
                   </TouchableOpacity>
                 </View>
@@ -137,7 +139,7 @@ const styles = {
     flexDirection: 'row',
     backgroundColor: 'transparent',
     justifyContent: 'space-between',
-    paddingRight: 20,
+    paddingRight: 5,
     marginTop: 32,
     alignItems: 'center'
   }

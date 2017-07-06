@@ -85,13 +85,13 @@ class Category extends Component {
         try { await AsyncStorage.setItem(key, value); }
         catch (error) { console.log(error.message) }
     };
-    componentWillMount() {
-      if (this.props.listCate.length == 0) {
-        this._set('listCate', JSON.stringify(Item));
-        this._set('fullListCate', JSON.stringify(Item));
-        this.props.dispatch(replaceListCate(Item))
-      }
-    }
+    // componentWillMount() {
+    //   if (this.props.listCate.length == 0) {
+    //     this._set('listCate', JSON.stringify(Item));
+    //     this._set('fullListCate', JSON.stringify(Item));
+    //     this.props.dispatch(replaceListCate(Item))
+    //   }
+    // }
     saveCate() {
         this._set('listCate', JSON.stringify(this.props.fullList));
         this._set('fullListCate', JSON.stringify(this.props.fullList));

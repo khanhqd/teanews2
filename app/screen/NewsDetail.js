@@ -83,20 +83,21 @@ class NewsDetail extends Component {
       ) => {
         const currentDragDistance = gesture.dx;
         const currentDragPosition = event.nativeEvent.pageX;
-        if (this.props.loadingDetailState) {
-          Toast.show('Dữ liệu trang tiếp đang load trong giây lát')
+        const screenEdgeDistance = currentDragPosition - currentDragDistance;
+        // Compare to the gesture distance relavant to card or modal
+        const gestureResponseDistance = width - 130;
+        if ((screenEdgeDistance < gestureResponseDistance)&&(screenEdgeDistance > 130)&&(screenEdgeDistance < 40)) {
+          // Reject touches that started in the middle of the screen
+          return false;
         } else {
-          const screenEdgeDistance = currentDragPosition - currentDragDistance;
-          // Compare to the gesture distance relavant to card or modal
-          const gestureResponseDistance = width - 130;
-          if ((screenEdgeDistance < gestureResponseDistance)&&(screenEdgeDistance > 130)&&(screenEdgeDistance < 40)) {
-            // Reject touches that started in the middle of the screen
-            return false;
+          if (this.props.loadingDetailState) {
+            Toast.show('Dữ liệu trang tiếp đang load trong giây lát')
+          } else {
+            const hasDraggedEnough = Math.abs(currentDragDistance) > 20;
+            const shouldSetResponder = hasDraggedEnough && (Math.abs(gesture.dx) > Math.abs(gesture.dy));
+            // && axisHasBeenMeasured && !isOnFirstCard;
+            return shouldSetResponder;
           }
-          const hasDraggedEnough = Math.abs(currentDragDistance) > 20;
-          const shouldSetResponder = hasDraggedEnough && (Math.abs(gesture.dx) > Math.abs(gesture.dy));
-          // && axisHasBeenMeasured && !isOnFirstCard;
-          return shouldSetResponder;
         }
       },
       // onStartShouldSetPanResponder: (event, gestureState) => {

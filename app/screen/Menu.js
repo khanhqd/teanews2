@@ -25,7 +25,7 @@ class SideMenu extends Component {
     }
     render() {
         return (
-            <View style={{ flex: 1, backgroundColor: this.props.postBackground }}>
+            <View style={{ flex: 1, backgroundColor: this.props.postBackground, paddingTop: 20 }}>
                 <View style={styles.item} onTouchStart={() => { this.props.navigation.navigate('DrawerClose') }}>
                     <Image source={require('../../img/ic_night_list_b.png')} style={{ height: 24, width: 24 , tintColor:this.props.textColor }} />
                     <Text style={{ marginLeft: 15, fontFamily: 'AlNile-Bold', color: this.props.textColor }}>TEANEWS</Text>
@@ -118,7 +118,7 @@ class SideMenu extends Component {
 const styles = StyleSheet.create({
     item: {
         flexDirection: 'row',
-        height: 50,
+        height: 55,
         alignItems: 'center',
         paddingLeft: 22
     },

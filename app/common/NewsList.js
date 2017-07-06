@@ -36,7 +36,9 @@ class NewsList extends Component {
             </TouchableOpacity>
             <Text style={{ textAlign: 'center', fontSize: 20, marginLeft: 20, color: this.props.textColor, fontWeight: 'bold' }}></Text>
           </View>
-          <TouchableOpacity onPress={() => { this.props.navigation.navigate('Search_Screen') }}>
+          <TouchableOpacity
+          style={{height: 45, width: 45, justifyContent: 'center', alignItems: 'center'}}
+          onPress={() => { this.props.navigation.navigate('Search_Screen') }}>
             <Image source={require('../../img/ic_search_b.png')} style={{ height: 24, width: 24 }} />
           </TouchableOpacity>
         </View>
@@ -53,7 +55,9 @@ class NewsList extends Component {
             </TouchableOpacity>
             <Text style={{ textAlign: 'center', fontSize: 20, marginLeft: 20, color: this.props.textColor, fontWeight: 'bold' }}></Text>
           </View>
-          <TouchableOpacity onPress={() => { this.props.navigation.navigate('Search_Screen') }}>
+          <TouchableOpacity
+          style={{height: 45, width: 45, justifyContent: 'center', alignItems: 'center'}}
+          onPress={() => { this.props.navigation.navigate('Search_Screen') }}>
             <Image source={require('../../img/ic_search_b.png')} style={{ height: 24, width: 24, tintColor: this.props.textColor }} />
           </TouchableOpacity>
         </View>
@@ -188,7 +192,7 @@ const styles = {
     backgroundColor: 'transparent',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingRight: 20
+    paddingRight: 7
   },
 }
 export default connect(mapStateToProps)(NewsList);

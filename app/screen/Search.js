@@ -53,7 +53,7 @@ class Search extends Component {
             return (
               <TouchableOpacity
                 onPress={() => { this.searchWithSuggest(data) }}
-                key={index} style={{ marginTop: 10, height: 30, marginRight: 10, borderColor: '#d8d8d8', borderWidth: 1, borderRadius: 4, padding: 5 }}>
+                key={index} style={{ marginTop: 10, marginRight: 10, borderColor: '#d8d8d8', borderWidth: 1, borderRadius: 4, padding: 5 }}>
                 <Text style={{ color: this.props.textColor }}>{data}
                 </Text>
               </TouchableOpacity>
@@ -70,7 +70,7 @@ class Search extends Component {
                 this.props.navigation.navigate('BookmarkReading_Screen', { row: row })
               }}>
 
-                <Animatable.View animation="slideInDown" duration={300} style={{ width: width, height: 160, padding: 15, paddingTop: 10 }}>
+                <Animatable.View animation="slideInDown" duration={300} style={{ width: width, padding: 15, paddingTop: 10 }}>
                   <Text
                     numberOfLines={2}
                     ellipsizeMode="tail"
@@ -159,17 +159,18 @@ class Search extends Component {
     var _this = this;
     this.setState({ isSearchEnd: false })
     term = this.remove_unicode(this.state.input);
-    fetch(`http://timkiem.vnexpress.net/?q=${term}`)
-      .then((response) => response.text())
+    fetch(`http://api.5play.mobi/news/search/query?limit=20&offset=0&q=${term}`)
+      .then((response) => response.json())
       .then((responseData) => {
-        $ = cheerio.load(responseData);
-        $('.block_image_news.width_common').each(function () {
+        console.log(responseData)
+        responseData.linfos.forEach(function (row) {
+          let a = new Date(row.posttime)
           items.push({
-            thumb: $(this).find('.thumb').find('img').attr('src'),
-            title: $(this).find('.thumb').find('img').attr('alt'),
-            url: $(this).find('.thumb').find('a').attr('href'),
-            des: $(this).find('.news_lead').text().trim(),
-            date: $(this).find('.title_news.timer_search').text()
+            thumb: row.cover,
+            title: row.title,
+            url: row.url,
+            des: row.desc,
+            date: a.toLocaleString()
           })
           _this.setState({ result: items })
         })
