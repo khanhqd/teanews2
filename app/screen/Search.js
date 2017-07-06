@@ -168,7 +168,7 @@ class Search extends Component {
           items.push({
             thumb: row.cover,
             title: row.title,
-            url: row.url,
+            url: row.fplayurl,
             des: row.desc,
             date: a.toLocaleString()
           })
