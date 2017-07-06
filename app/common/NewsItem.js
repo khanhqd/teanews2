@@ -579,12 +579,16 @@ class NewsItem extends Component {
     var scrollHeight = e.nativeEvent.contentOffset.y + height - 50;
     var contentHeight = e.nativeEvent.contentSize.height;
     var num = scrollHeight - contentHeight;
-    if (e.nativeEvent.contentOffset.y > this.state.disToTop) {
-      this.props.dispatch(hideBottomBar(true))
-      this.setState({ disToTop: e.nativeEvent.contentOffset.y })
+    if (e.nativeEvent.contentOffset.y > 100) {
+      if (e.nativeEvent.contentOffset.y > this.state.disToTop) {
+        this.props.dispatch(hideBottomBar(true))
+        this.setState({ disToTop: e.nativeEvent.contentOffset.y })
+      } else {
+        this.props.dispatch(hideBottomBar(false))
+        this.setState({ disToTop: e.nativeEvent.contentOffset.y })
+      }
     } else {
       this.props.dispatch(hideBottomBar(false))
-      this.setState({ disToTop: e.nativeEvent.contentOffset.y })
     }
     if (contentHeight > height) {
       this.setState({ pullToCloseDist: num })
@@ -601,8 +605,8 @@ class NewsItem extends Component {
   }
   switcherPressed() {
     if (this.props.postBackground == 'white') {
-      this.props.dispatch(changeTextColor('white'));
-      this.props.dispatch(changeBackgroundColor('black'));
+      this.props.dispatch(changeTextColor('#d8d8d8'));
+      this.props.dispatch(changeBackgroundColor('#171717'));
       this.props.dispatch(changeNightMode(true));
     } else {
       this.props.dispatch(changeTextColor('black'));
@@ -690,7 +694,7 @@ class NewsItem extends Component {
         </View>
         {this.props.openMenu &&
           <TouchableOpacity activeOpacity={1} style={styles.modalContainer} onPress={() => this.props.dispatch(changeModalState(!this.props.openMenu))}>
-            <Animatable.View animation="slideInUp" useNativeDriver duration={300} style={[styles.menuModal, { backgroundColor: this.props.postBackground }]}>
+            <Animatable.View animation="slideInUp" useNativeDriver duration={300} style={[styles.menuModal, { backgroundColor: this.props.postBackground, borderColor: this.props.textColor }]}>
               <View style={{ flexDirection: 'row', flex: 1 }}>
                 <TouchableHighlight
                   underlayColor="white"
@@ -706,7 +710,7 @@ class NewsItem extends Component {
                       setTimeout(() => this.reloadWebview(), 200)
                     }
                   }}
-                  style={[styles.modalItem, { borderRightWidth: 1, borderTopLeftRadius: 10 }]}>
+                  style={[styles.modalItem, { borderRightWidth: 0.5, borderTopLeftRadius: 10, borderColor: this.props.textColor }]}>
                   <View style={{ alignItems: 'center' }}>
                     <Text style={{ color: this.props.textColor }}>A</Text>
                   </View>
@@ -725,7 +729,7 @@ class NewsItem extends Component {
                       setTimeout(() => this.reloadWebview(), 200)
                     }
                   }}
-                  style={[styles.modalItem, { borderTopRightRadius: 10 }]}>
+                  style={[styles.modalItem, { borderTopRightRadius: 10, borderColor: this.props.textColor }]}>
                   <View style={{ alignItems: 'center' }}>
                     <Text style={{ fontSize: 20, fontWeight: 'bold', color: this.props.textColor }}>A</Text>
                   </View>
@@ -735,7 +739,7 @@ class NewsItem extends Component {
               <TouchableHighlight
                 underlayColor="white"
                 onPress={() => this.switcherPressed()}
-                style={styles.modalItem}>
+                style={[styles.modalItem,{borderColor: this.props.textColor}]}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingRight: 20 }}>
                   <Text style={[styles.modalText, { color: this.props.textColor }]}>Chế độ đọc ban đêm
                           </Text>
@@ -750,7 +754,7 @@ class NewsItem extends Component {
               <TouchableHighlight
                 underlayColor="white"
                 onPress={() => this._openLink()}
-                style={styles.modalItem}>
+                style={[styles.modalItem,{ borderColor: this.props.textColor}]}>
                 <View>
                   <Text style={[styles.modalText, { color: this.props.textColor }]}>Mở trong trình duyệt
                           </Text>
@@ -764,7 +768,7 @@ class NewsItem extends Component {
                   Toast.show('Đã sao chép link');
                   this.props.dispatch(changeModalState(!this.props.openMenu))
                 }}
-                style={[styles.modalItem, { borderBottomWidth: 0 }]}
+                style={[styles.modalItem, { borderBottomWidth: 0, borderColor: this.props.textColor }]}
               >
                 <View>
                   <Text style={[styles.modalText, { color: this.props.textColor }]}>Sao chép link
@@ -797,9 +801,9 @@ class NewsItem extends Component {
                 {(this.state.logo != '') &&
                   <Image resizeMode='cover' source={this.state.logo} style={{ height: 20, width: 20 }} />
                 }
-                <Text style={{ textAlign: 'center', marginLeft: 10, fontSize: 13, color: '#9b9b9b' }}>{this.state.source}  |  </Text>
+                <Text style={{ textAlign: 'center', marginLeft: 10, fontSize: 11, color: '#9b9b9b' }}>{this.state.source} | </Text>
               </View>
-              <Text style={{ marginRight: 20, textAlign: 'center', color: '#9b9b9b' }}>{this.props.row.date}</Text>
+              <Text style={{ marginRight: 20, textAlign: 'center', color: '#9b9b9b', fontSize: 11 }}>{this.props.row.date}</Text>
             </View>
             <HTMLView
               value={this.state.bodyHTML}
@@ -856,8 +860,10 @@ const styles = {
   textCate: {
     color: "white",
     textAlign: "center",
-    fontSize: 14,
-    margin: 5,
+    fontSize: 13,
+    margin: 3,
+    marginLeft: 0,
+    marginRight: 0,
     borderRadius: 4,
   },
   sourceContainer: {
@@ -907,8 +913,7 @@ const styles = {
     width: '100%'
   },
   modalItem: {
-    borderColor: 'rgb(217, 217, 217)',
-    borderBottomWidth: 1,
+    borderBottomWidth: 0.5,
     justifyContent: 'center',
     flex: 1
   },
@@ -920,8 +925,7 @@ const styles = {
     shadowOpacity: 0.3,
     height: 200,
     width: width,
-    borderColor: 'white',
-    borderWidth: 1
+    borderWidth: 0.5
   },
   modalContainer: {
     width: width,

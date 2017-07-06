@@ -590,7 +590,7 @@ class Home extends Component {
         />
         <View style={{ height: 20, width: width, backgroundColor: 'black', position: 'absolute', zIndex: 5 }}>
         </View>
-        {!this.state.loading ?
+        {(!this.state.loading && (this.props.listData.length > 5)) ?
           <View {...this._panResponder.panHandlers}>
 
             <Animated.View
@@ -617,7 +617,7 @@ class Home extends Component {
               <NewsItem2
                 navigation={this.props.navigation}
                 onPress={() => this.toDetail(this.state.dataSlot2, this.props.listData[this.state.dataSlot2])}
-                data={this.props.listData[this.state.dataSlot2]} />
+                data={(this.state.dataSlot2 > 0) ? this.props.listData[this.state.dataSlot2] : this.props.listData[0]} />
             </Animated.View>
           </View>
           :
