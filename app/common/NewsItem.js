@@ -115,7 +115,7 @@ class NewsItem extends Component {
     setTimeout(() => this.setState({ loading: false }), 4000);
     let url = row.url
     let other = []
-    fetch('http://tinmoi24.vn/nguoi-phan-xu-tap-30-phan-hai-tuyen-bo-lap-de-che-moi/news-56-11-36fea1dfa9b240c5a25bcad91d53e09e')
+    fetch(url)
       .then((response) => response.text())
       .then((responseData) => {
         $ = cheerio.load(responseData);
@@ -689,7 +689,6 @@ class NewsItem extends Component {
     // let date = new Date(this.props.row.date);
     // let convertToDate = date.toDateString();
     // let time = this.msToTime(this.props.row.date);
-    console.log(this.props.stt)
     return (
       <View>
         <View style={{ height: 20, width: width, backgroundColor: 'black' }}>
@@ -788,6 +787,7 @@ class NewsItem extends Component {
             onScroll={this.onScroll}
             scrollEventThrottle={100}
             onTouchEnd={() => {
+              this.props.dispatch(hideBottomBar(false))
               if (this.state.pullToCloseDist > 90) {
                 this.props.navigation.goBack();
               }
