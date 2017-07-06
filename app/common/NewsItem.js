@@ -711,7 +711,6 @@ class NewsItem extends Component {
     // let date = new Date(this.props.row.date);
     // let convertToDate = date.toDateString();
     // let time = this.msToTime(this.props.row.date);
-    console.log(this.props.stt)
     return (
       <View>
         <View style={{ height: 20, width: width, backgroundColor: 'black' }}>
@@ -810,6 +809,7 @@ class NewsItem extends Component {
             onScroll={this.onScroll}
             scrollEventThrottle={100}
             onTouchEnd={() => {
+              this.props.dispatch(hideBottomBar(false))
               if (this.state.pullToCloseDist > 90) {
                 this.props.navigation.goBack();
               }
