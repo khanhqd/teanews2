@@ -111,7 +111,7 @@ class Recent extends Component {
                         <Text
                             numberOfLines={2}
                             ellipsizeMode="tail"
-                            style={{ fontFamily: "Lora-Bold", fontWeight: 'bold', fontSize: 15 }}>{row.title}
+                            style={{ fontFamily: "Lora-Bold", fontWeight: 'bold', fontSize: 15 , color:this.props.textColor }}>{row.title}
                         </Text>
                         <Text style={{ marginBottom: 5, fontSize: 13, color: 'grey' }}>Vnexpress.net
                 </Text>
@@ -126,7 +126,7 @@ class Recent extends Component {
                                 <Text
                                     numberOfLines={3}
                                     ellipsizeMode="tail"
-                                    style={{ height: 55 }}>{row.des}
+                                    style={{ height: 55, color: this.props.textColor }}>{row.des}
                                 </Text>
                                 <View style={[styles.cateContainer, { backgroundColor: row.cateColor }]}>
                                     <Text style={styles.textCate}>{row.cate}</Text>

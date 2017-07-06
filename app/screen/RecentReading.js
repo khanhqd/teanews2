@@ -28,36 +28,36 @@ class RecentReading extends Component {
     super(props);
   };
   _set = async (key, value) => {
-      try { await AsyncStorage.setItem(key, value); }
-      catch (error) { console.log(error.message) }
+    try { await AsyncStorage.setItem(key, value); }
+    catch (error) { console.log(error.message) }
   };
   saveBookmark() {
-        var postInfo = this.props.navigation.state.params.row;
-        var selected = false;
-        // this._set('listBookmark', JSON.stringify(this.props.listBookmark));
-        let listBookmark = this.props.listBookmark;
-        for(var i=0; i<listBookmark.length; i++) {
-          if (listBookmark[i].title == postInfo.title) {
-            selected = true;
-            break;
-          }
+    var postInfo = this.props.navigation.state.params.row;
+    var selected = false;
+    // this._set('listBookmark', JSON.stringify(this.props.listBookmark));
+    let listBookmark = this.props.listBookmark;
+    for (var i = 0; i < listBookmark.length; i++) {
+      if (listBookmark[i].title == postInfo.title) {
+        selected = true;
+        break;
+      }
+    }
+    if (selected == true) {
+      //delete from Async
+      for (var i = listBookmark.length - 1; i >= 0; i--) {
+        if (listBookmark[i].title == postInfo.title) {
+          listBookmark.splice(i, 1);
+          Toast.show('Đã bỏ lưu')
         }
-        if(selected == true) {
-            //delete from Async
-            for (var i = listBookmark.length - 1; i>=0; i--) {
-              if (listBookmark[i].title == postInfo.title) {
-                listBookmark.splice(i,1);
-                Toast.show('Đã bỏ lưu')
-              }
-            }
-            this.props.dispatch(replaceBookmark(listBookmark))
-            this._set('listBookmark', JSON.stringify(listBookmark))
-        } else {
-            // listBookmark.push(postInfo);
-            this._set('listBookmark', JSON.stringify(listBookmark))
-            this.props.dispatch(addBookmark(postInfo))
-            Toast.show('Đã lưu')
-        }
+      }
+      this.props.dispatch(replaceBookmark(listBookmark))
+      this._set('listBookmark', JSON.stringify(listBookmark))
+    } else {
+      // listBookmark.push(postInfo);
+      this._set('listBookmark', JSON.stringify(listBookmark))
+      this.props.dispatch(addBookmark(postInfo))
+      Toast.show('Đã lưu')
+    }
   }
   shareLink() {
     var page = this.props.navigation.state.params.row;
@@ -79,37 +79,38 @@ class RecentReading extends Component {
     if (this.props.listData != 0) {
       return (
         <View style={{ flex: 1 }}>
-          <StatusBar
+          {/*<StatusBar
+            style={{backgroundColor: this.props.postBackground}}
             barStyle="light-content"
-          />
-          <View style={styles.navBar}>
+          />*/}
+          <View style={[styles.navBar,{backgroundColor:this.props.postBackground}]}>
             <TouchableHighlight
               onPress={() => this.props.navigation.goBack()}
-              style={[styles.navBarButton, { marginLeft: 0 }]}>
+              style={[styles.navBarButton, { backgroundColor:this.props.postBackground }]}>
               <Image
-                style={styles.iconNavBar}
+                style={[styles.iconNavBar,{tintColor:this.props.textColor}]}
                 source={require('../../img/ic_back.png')} />
             </TouchableHighlight>
             <View style={{ flexDirection: 'row', alignSelf: 'flex-end' }}>
               <TouchableHighlight
                 onPress={() => this.shareLink()}
-                style={styles.navBarButton}>
+                style={[styles.navBarButton, { backgroundColor:this.props.postBackground }]}>
                 <Image
-                  style={styles.iconNavBar}
+                  style={[styles.iconNavBar,{tintColor:this.props.textColor}]}
                   source={require('../../img/ic_share.png')} />
               </TouchableHighlight>
               <TouchableHighlight
                 onPress={() => this.saveBookmark()}
-                style={styles.navBarButton}>
+                style={[styles.navBarButton, { backgroundColor:this.props.postBackground }]}>
                 <Image
-                  style={styles.iconNavBar}
+                  style={[styles.iconNavBar,{tintColor:this.props.textColor}]}
                   source={require('../../img/ic_bookmark.png')} />
               </TouchableHighlight>
               <TouchableHighlight
                 onPress={() => this.props.dispatch(changeModalState(!this.props.openMenu))}
-                style={styles.navBarButton}>
+                style={[styles.navBarButton, { backgroundColor:this.props.postBackground }]}>
                 <Image
-                  style={styles.iconNavBar}
+                  style={[styles.iconNavBar,{tintColor:this.props.textColor}]}
                   source={require('../../img/ic_more-vertical.png')} />
               </TouchableHighlight>
             </View>
@@ -117,7 +118,7 @@ class RecentReading extends Component {
 
           <View style={{ flex: 1 }}>
             <NewsItem
-              navigation = {this.props.navigation}
+              navigation={this.props.navigation}
               row={this.props.navigation.state.params.row} />
           </View>
 
@@ -125,8 +126,8 @@ class RecentReading extends Component {
       );
     } else {
       return (
-        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-          <Text>Loading...
+        <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor:this.props.postBackground }}>
+          <Text style={{ color:this.props.textColor}}>Loading...
           </Text>
         </View>
       )
@@ -139,7 +140,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     position: 'absolute',
     bottom: 0,
-    backgroundColor: 'white',
     zIndex: 3,
     paddingLeft: 10,
     paddingRight: 10,
@@ -149,7 +149,6 @@ const styles = StyleSheet.create({
     height: 50,
   },
   navBarButton: {
-    backgroundColor: 'white',
     width: 40,
     height: 40,
     justifyContent: 'flex-end',
@@ -165,13 +164,14 @@ const styles = StyleSheet.create({
   iconNavBar: {
     height: 25,
     width: 25,
-    tintColor: 'black'
   }
 });
 const mapStateToProps = state => {
   return {
     listData: state.loadListDataReducer.list,
-    listBookmark: state.bookmarkReducer.list
+    listBookmark: state.bookmarkReducer.list,
+    postBackground: state.readerModalReducer.postBackground,
+    textColor: state.readerModalReducer.textColor,
   }
 }
 export default connect(mapStateToProps)(RecentReading);

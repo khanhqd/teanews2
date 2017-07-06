@@ -29,7 +29,7 @@ var Toast = require('react-native-toast');
 
 import { connect } from 'react-redux';
 import {
-  changeFontSize, changeModalState, changeBackgroundColor,rootLink2, rootLink3,
+  changeFontSize, changeModalState, changeBackgroundColor, rootLink2, rootLink3,
   changeTextColor, changeNightMode, changeLoadingState, changeLineHeight, hideBottomBar, rootLink1
 } from '../actions';
 var WEBVIEW_REF = 'webview';
@@ -102,7 +102,7 @@ class NewsItem extends Component {
   _openLink() {
     Linking.canOpenURL(this.props.row.url).then(supported => {
       if (supported) {
-        Linking.openURL(this.props.row.url);
+        Linking.openURL(this.state.linkShare);
       } else {
         console.log('Don\'t know how to open URI: ' + this.props.row.url);
       }
@@ -115,13 +115,15 @@ class NewsItem extends Component {
     setTimeout(() => this.setState({ loading: false }), 4000);
     let url = row.url
     let other = []
-    fetch(url)
+    fetch('http://tinmoi24.vn/nguoi-phan-xu-tap-30-phan-hai-tuyen-bo-lap-de-che-moi/news-56-11-36fea1dfa9b240c5a25bcad91d53e09e')
       .then((response) => response.text())
       .then((responseData) => {
         $ = cheerio.load(responseData);
         $("a").parent(".Normal").remove();
         $("em").parent(".Normal").remove();
-        $("span,em,i,a,b,strong,ins").replaceWith(function () { return $(this).contents(); });
+        $(".newbody div").each(function () {
+          $("span,em,i,a,b,strong,ins").replaceWith(function () { return $(this).contents(); });
+        })
         //$("strong").replaceWith(function () { return `<p style="font-Size:18">${$(this).contents()}</p>` });
         $("[data-component-type=video]").replaceWith("<strong>Bài viết chứa video, vui lòng mở link bằng trình duyệt để xem video</strong>");
         $("video").replaceWith("<strong>Bài viết chứa video, vui lòng mở link bằng trình duyệt để xem video</strong>");
