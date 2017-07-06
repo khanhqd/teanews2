@@ -79,40 +79,39 @@ class RecentReading extends Component {
     if (this.props.listData != 0) {
       return (
         <View style={{ flex: 1 }}>
-          {/*<StatusBar
-            style={{backgroundColor: this.props.postBackground}}
+              <StatusBar
             barStyle="light-content"
-          />*/}
-          <View style={[styles.navBar,{backgroundColor:this.props.postBackground}]}>
-            <TouchableHighlight
+          />
+          <View style={[styles.navBar, { backgroundColor: this.props.postBackground }]}>
+            <TouchableOpacity
               onPress={() => this.props.navigation.goBack()}
-              style={[styles.navBarButton, { backgroundColor:this.props.postBackground }]}>
+              style={[styles.navBarButton , {backgroundColor:this.props.postBackground}]}>
               <Image
-                style={[styles.iconNavBar,{tintColor:this.props.textColor}]}
+                style={[styles.iconNavBar, { tintColor: this.props.textColor }]}
                 source={require('../../img/ic_back.png')} />
-            </TouchableHighlight>
+            </TouchableOpacity>
             <View style={{ flexDirection: 'row', alignSelf: 'flex-end' }}>
-              <TouchableHighlight
+              <TouchableOpacity
                 onPress={() => this.shareLink()}
-                style={[styles.navBarButton, { backgroundColor:this.props.postBackground }]}>
+                style={[styles.navBarButton , {backgroundColor:this.props.postBackground}]}>
                 <Image
-                  style={[styles.iconNavBar,{tintColor:this.props.textColor}]}
+                  style={[styles.iconNavBar, { tintColor: this.props.textColor }]}
                   source={require('../../img/ic_share.png')} />
-              </TouchableHighlight>
-              <TouchableHighlight
+              </TouchableOpacity>
+              <TouchableOpacity
                 onPress={() => this.saveBookmark()}
-                style={[styles.navBarButton, { backgroundColor:this.props.postBackground }]}>
+               style={[styles.navBarButton , {backgroundColor:this.props.postBackground}]}>
                 <Image
-                  style={[styles.iconNavBar,{tintColor:this.props.textColor}]}
+                  style={[styles.iconNavBar, { tintColor: this.props.textColor }]}
                   source={require('../../img/ic_bookmark.png')} />
-              </TouchableHighlight>
-              <TouchableHighlight
+              </TouchableOpacity>
+              <TouchableOpacity
                 onPress={() => this.props.dispatch(changeModalState(!this.props.openMenu))}
-                style={[styles.navBarButton, { backgroundColor:this.props.postBackground }]}>
+                style={[styles.navBarButton , {backgroundColor:this.props.postBackground}]}>
                 <Image
-                  style={[styles.iconNavBar,{tintColor:this.props.textColor}]}
+                  style={[styles.iconNavBar, { tintColor: this.props.textColor }]}
                   source={require('../../img/ic_more-vertical.png')} />
-              </TouchableHighlight>
+              </TouchableOpacity>
             </View>
           </View>
 
@@ -172,6 +171,7 @@ const mapStateToProps = state => {
     listBookmark: state.bookmarkReducer.list,
     postBackground: state.readerModalReducer.postBackground,
     textColor: state.readerModalReducer.textColor,
+    openMenu: state.readerModalReducer.modalState,
   }
 }
 export default connect(mapStateToProps)(RecentReading);

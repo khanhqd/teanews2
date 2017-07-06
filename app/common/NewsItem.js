@@ -742,7 +742,7 @@ class NewsItem extends Component {
                   }}
                   style={[styles.modalItem, { borderRightWidth: 0.5, borderTopLeftRadius: 10, borderColor: this.props.textColor }]}>
                   <View style={{ alignItems: 'center' }}>
-                    <Text style={{ color: this.props.textColor }}>A</Text>
+                    <Text style={{ color: this.props.textColor, fontSize: 18 }}>A</Text>
                   </View>
                 </TouchableHighlight>
                 <TouchableHighlight
@@ -761,7 +761,7 @@ class NewsItem extends Component {
                   }}
                   style={[styles.modalItem, { borderTopRightRadius: 10, borderColor: this.props.textColor }]}>
                   <View style={{ alignItems: 'center' }}>
-                    <Text style={{ fontSize: 20, fontWeight: 'bold', color: this.props.textColor }}>A</Text>
+                    <Text style={{ fontSize: 24, fontWeight: 'bold', color: this.props.textColor }}>A</Text>
                   </View>
                 </TouchableHighlight>
 
@@ -769,10 +769,12 @@ class NewsItem extends Component {
               <TouchableHighlight
                 underlayColor="white"
                 onPress={() => this.switcherPressed()}
-                style={[styles.modalItem, { borderColor: this.props.textColor }]}>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingRight: 20 }}>
-                  <Text style={[styles.modalText, { color: this.props.textColor }]}>Chế độ đọc ban đêm
-                          </Text>
+                style={[styles.modalItem, { borderColor: this.props.textColor, borderTopWidth: 0.5 }]}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Image source={require('../../img/ic_moon_b@2x.png')} style={{ height: 24, width: 24, tintColor: this.props.textColor }} />
+                    <Text style={[styles.modalText, { color: this.props.textColor }]}>Chế độ đọc ban đêm</Text>
+                  </View>
                   <Switch
                     value={this.props.nightMode}
                     onValueChange={() => {
@@ -785,8 +787,9 @@ class NewsItem extends Component {
                 underlayColor="white"
                 onPress={() => this._openLink()}
                 style={[styles.modalItem, { borderColor: this.props.textColor }]}>
-                <View>
-                  <Text style={[styles.modalText, { color: this.props.textColor }]}>Mở trong trình duyệt
+                <View style={{ flexDirection: 'row', alignItems: 'center', paddingLeft: 19 }}>
+                  <Image source={require('../../img/ic_web_b@2x.png')} style={{ height: 24, width: 24, tintColor: this.props.textColor }} />
+                  <Text style={[styles.modalText, { color: this.props.textColor }]}>Mở trang trong trình duyệt
                           </Text>
                 </View>
               </TouchableHighlight>
@@ -800,9 +803,9 @@ class NewsItem extends Component {
                 }}
                 style={[styles.modalItem, { borderBottomWidth: 0, borderColor: this.props.textColor }]}
               >
-                <View>
-                  <Text style={[styles.modalText, { color: this.props.textColor }]}>Sao chép link
-                          </Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', paddingLeft: 19 }}>
+                  <Image source={require('../../img/ic_offline_b@2x.png')} style={{ height: 24, width: 24, tintColor: this.props.textColor }} />
+                  <Text style={[styles.modalText, { color: this.props.textColor }]}>Lưu trang đọc offline</Text>
                 </View>
               </TouchableHighlight>
 
@@ -831,7 +834,7 @@ class NewsItem extends Component {
                   <Text style={styles.textCate}>{this.props.row.cate}</Text>
                 </View>
               }
-              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginLeft:10 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginLeft: 10 }}>
                 {(this.state.logo != '') &&
                   <Image resizeMode='cover' source={this.state.logo} style={{ height: 20, width: 20 }} />
                 }
@@ -947,19 +950,19 @@ const styles = {
     width: '100%'
   },
   modalItem: {
-    borderBottomWidth: 0.5,
     justifyContent: 'center',
     flex: 1
   },
   modalText: {
-    paddingLeft: 20
+    marginLeft: 10
   },
   menuModal: {
     elevation: 5,
     shadowOpacity: 0.3,
     height: 200,
-    width: width,
-    borderWidth: 0.5
+    width: width * 3 / 4,
+    borderWidth: 0.5,
+    borderRadius: 10,
   },
   modalContainer: {
     width: width,
@@ -969,7 +972,7 @@ const styles = {
     backgroundColor: 'rgba(0, 0, 0, 0.39)',
     justifyContent: 'flex-end',
     paddingBottom: 55,
-    alignItems: 'center'
+    alignItems: 'flex-end'
   }
 }
 
