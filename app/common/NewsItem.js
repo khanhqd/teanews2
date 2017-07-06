@@ -121,9 +121,8 @@ class NewsItem extends Component {
         $ = cheerio.load(responseData);
         $("a").parent(".Normal").remove();
         $("em").parent(".Normal").remove();
-        $(".newbody div").each(function () {
-          $("span,em,i,a,b,strong,ins").replaceWith(function () { return $(this).contents(); });
-        })
+        $("span,em,i,a,b,strong,ins").replaceWith(function () { return $(this).contents(); });
+
         //$("strong").replaceWith(function () { return `<p style="font-Size:18">${$(this).contents()}</p>` });
         $("[data-component-type=video]").replaceWith("<strong>Bài viết chứa video, vui lòng mở link bằng trình duyệt để xem video</strong>");
         $("video").replaceWith("<strong>Bài viết chứa video, vui lòng mở link bằng trình duyệt để xem video</strong>");
@@ -146,7 +145,6 @@ class NewsItem extends Component {
 
       })
   }
-
   updateWebview(row) {
     this.props.dispatch(changeLoadingState(false))
     switch (this.props.stt) {
@@ -557,6 +555,30 @@ class NewsItem extends Component {
         })
         break;
       }
+      case 'Game4V': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/game4v.png`),
+        })
+        break;
+      }
+      case 'GameK': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/gameK.png`),
+        })
+        break;
+      }
+      case 'Báo Xã Hội': {
+        this.setState({
+          source: source,
+          loading: false,
+          logo: require(`../../img/logo/baoxahoi.png`),
+        })
+        break;
+      }
       default: {
         this.setState({
           source: source,
@@ -740,7 +762,7 @@ class NewsItem extends Component {
               <TouchableHighlight
                 underlayColor="white"
                 onPress={() => this.switcherPressed()}
-                style={[styles.modalItem,{borderColor: this.props.textColor}]}>
+                style={[styles.modalItem, { borderColor: this.props.textColor }]}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingRight: 20 }}>
                   <Text style={[styles.modalText, { color: this.props.textColor }]}>Chế độ đọc ban đêm
                           </Text>
@@ -755,7 +777,7 @@ class NewsItem extends Component {
               <TouchableHighlight
                 underlayColor="white"
                 onPress={() => this._openLink()}
-                style={[styles.modalItem,{ borderColor: this.props.textColor}]}>
+                style={[styles.modalItem, { borderColor: this.props.textColor }]}>
                 <View>
                   <Text style={[styles.modalText, { color: this.props.textColor }]}>Mở trong trình duyệt
                           </Text>
