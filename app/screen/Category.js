@@ -28,11 +28,7 @@ const Item = [
         link: 'http://tinmoi24.vn/the-thao/3',
         color: 'rgb(105, 151, 200)'
     },
-    {
-        name: 'Giáo Dục',
-        link: 'http://tinmoi24.vn/giao-duc/8',
-        color: 'rgb(231, 131, 106)'
-    },
+
     {
         name: 'Kinh Tế',
         link: 'http://tinmoi24.vn/kinh-te/4',
@@ -44,19 +40,9 @@ const Item = [
         color: 'rgb(134, 134, 134)'
     },
     {
-        name: 'Xe',
-        link: 'http://tinmoi24.vn/xe/15',
-        color: 'rgb(2, 5, 17)'
-    },
-    {
         name: 'Công nghệ',
         link: 'http://tinmoi24.vn/cong-nghe/6',
         color: 'rgb(187, 67, 198)'
-    },
-    {
-        name: 'Sức khoẻ',
-        link: 'http://tinmoi24.vn/suc-khoe/10',
-        color: 'rgb(77, 205, 174)'
     },
     {
         name: 'Game',
@@ -64,14 +50,40 @@ const Item = [
         color: 'rgb(106, 90, 205)'
     },
     {
+        name: 'Giáo Dục',
+        link: 'http://tinmoi24.vn/giao-duc/8',
+        color: 'rgb(231, 131, 106)'
+    },
+    {
+        name: 'Tâm Sự',
+        link: 'http://tinmoi24.vn/tam-su/9',
+        color: 'rgb(203, 223, 255)'
+    },
+    {
+        name: 'Sức khoẻ',
+        link: 'http://tinmoi24.vn/suc-khoe/10',
+        color: 'rgb(77, 205, 174)'
+    },
+    {
         name: 'Khám Phá',
         link: 'http://tinmoi24.vn/kham-pha/13',
         color: 'rgb(231, 131, 224)'
     },
+
     {
         name: 'Cẩm Nang',
         link: 'http://tinmoi24.vn/cam-nang/14',
         color: 'rgb(139, 200, 106)'
+    },
+    {
+        name: 'Xe',
+        link: 'http://tinmoi24.vn/xe/15',
+        color: 'rgb(2, 5, 17)'
+    },
+    {
+        name: 'Cộng Đồng',
+        link: 'http://tinmoi24.vn/cong-dong/16',
+        color: 'rgb(245, 82, 82)'
     },
 ]
 import { connect } from 'react-redux';

@@ -482,14 +482,14 @@ class Home extends Component {
           let title = $(this).find('.title-full').attr('title').toString().replace(/\s+ /g, "").replace(/(\r\n|\n|\r)/gm, "")
           let summary = $(this).find('.summary').text().toString().replace(/\s+ /g, "").replace(/(\r\n|\n|\r)/gm, "")
           //date
-          // let date = $(this).find('.time').text().toString().replace(/\s+ /g, "").replace(/(\r\n|\n|\r)/gm, "")
-          // let decodeDate = $.parseHTML(date);
+          let date = $(this).find('.time').text().toString().replace(/\s+ /g, "").replace(/(\r\n|\n|\r)/gm, "")
+          let decodeDate = $.parseHTML(date);
           // title
           let decodeTitle = $.parseHTML(title);
           let editTitle = decodeTitle[0].data.replace(/[$\\@\\\#%\^\&\*\(\)\[\]\+\_\{\}\`\~\=\.\|]/g ,"");
           let decodeSummary = $.parseHTML(summary);
           // //time
-          // let time = decodeDate[0].data
+          let time = decodeDate[0].data
           // let minutes = time.slice(0, 2)
           // let convertMinutesToMiliSe = parseInt(minutes) * 60 * 1000
           // let now = new Date().getTime()
@@ -505,7 +505,7 @@ class Home extends Component {
               thumb: thumb,
               des: decodeSummary[0].data,
               url: $(this).find('figure').find('a').attr('href').replace(/\s+ /g, ""),
-              date: newsTime,
+              date: time,
               cate: cate,
               cateColor: cateColor,
               source: newSource

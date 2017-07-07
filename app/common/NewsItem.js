@@ -108,9 +108,17 @@ class NewsItem extends Component {
       }
     });
   }
+  sliceString(string) {
+    let newStr = '';
+    for (let i = 0; i < string.length; i++) {
+      if (string[i] !== " ") {
+        newStr = newStr + string[i]
+      }
+    }
+    return newStr
+  }
   fetchContent(row) {
     this.props.dispatch(changeLoadingState(true))
-    let sourceReal;
     this.setState({ loading: true, reRender: false });
     setTimeout(() => this.setState({ loading: false }), 4000);
     let url = row.url
@@ -119,7 +127,7 @@ class NewsItem extends Component {
       .then((response) => response.text())
       .then((responseData) => {
         $ = cheerio.load(responseData);
-        let source = $(".meta > .span-website").text().replace(/\s+ /g, '')
+        let source = $(".meta > .span-website").text()
         $("a").parent(".Normal").remove();
         $("em").parent(".Normal").remove();
         $("i").parent().parent(".blockquote-reverse").remove();
@@ -127,7 +135,6 @@ class NewsItem extends Component {
         $("[data-component-type=video]").replaceWith("<strong>Bài viết chứa video, vui lòng mở link bằng trình duyệt để xem video</strong>");
         $("video").replaceWith("<strong>Bài viết chứa video, vui lòng mở link bằng trình duyệt để xem video</strong>");
         $(".see-now,.author_mail.width_common,.tbl_insert, span.author").remove();
-        console.log(source)
         let text = $(".newbody p").last().text()
         let linkShare = $("input.hidden").attr("value")
         if (text.includes(">>> Đọc thêm") || text.includes("Bấm xem")) {
@@ -135,7 +142,7 @@ class NewsItem extends Component {
         }
         this.setState({
           bodyHTML: $('.newbody').html(),
-          sourceReal: source
+          sourceReal: source.trim()
         }, () => {
           this.setState({
             loading: false,
@@ -162,434 +169,10 @@ class NewsItem extends Component {
         break;
       }
     }
-    let source = this.state.sourceReal
-    let icon = source.replace(/\s+/g, '')
-    switch (icon) {
-      case 'VnExpress': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/vnExpress.png`),
-        })
-        break;
-      }
-      case '24h': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/24h.png`)
-        })
-        break;
-      }
-      case 'Bóngđá24h': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/bongda24h.png`),
-        })
-        break;
-      }
-      case 'BóngđáPlus': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/bongdaplus.png`),
-        })
-        break;
-      }
-      case 'Dân Việt': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/danviet.png`),
-        })
-        break;
-      }
-      case 'Dântrí': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/dantri.png`),
-        })
-        break;
-      }
-      case 'BáođấtViệt': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/baodatviet.png`),
-        })
-        break;
-      }
-      case 'ViệtBáo': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/vietbao.png`),
-        })
-        break;
-      }
-      case 'ThanhNiên': {
-        this.setState({
-          source: this.props.row.source,
-          loading: false,
-          logo: require(`../../img/logo/thanhnien.png`),
-        })
-        break;
-      }
-      case 'Tiền Phong': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/tienphong.png`),
-        })
-        break;
-      }
-      case 'Thể thao văn hoá': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/thethaovanhoa.png`),
-        })
-        break;
-      }
-      case 'CafeBiz': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/cafeBiz.png`),
-        })
-        break;
-      }
-      case 'Vov': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/vov.png`),
-        })
-        break;
-      }
-      case 'PhápLuậtHCM': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/plo.png`),
-        })
-        break;
-      }
-      case 'Báomới': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/baomoi.png`),
-        })
-        break;
-      }
-      case 'BáoGiaothông': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/baogiaothong.png`),
-        })
-        break;
-      }
-      case 'InfoNet': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/infonet.png`),
-        })
-        break;
-      }
-      case 'Vinacorp': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/vinacorp.png`),
-        })
-        break;
-      }
-      case 'Một thế giới': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/motthegioi.png`),
-        })
-        break;
-      }
-      case 'Soha': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/soha.png`),
-        })
-        break;
-      }
-      case 'BáoLaoĐộng': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/baolaodong.png`),
-        })
-        break;
-      }
-      case 'Vietnamnet': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/vietnamnet.png`),
-        })
-        break;
-      }
-      case 'NgôiSao': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/ngoisao.png`),
-        })
-        break;
-      }
-      case 'ĐờiSốngPhápLuật': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/doisongphapluat.png`),
-        })
-        break;
-      }
-      case 'NgườiĐưaTin': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/nguoiduatin.png`),
-        })
-        break;
-      }
-      case 'Phunutoday': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/phunutoday.png`),
-        })
-        break;
-      }
-      case 'BlogTâmSự': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/blogtamsu.png`),
-        })
-        break;
-      }
-      case 'PhápLuậtPlus': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/phapluatplus.png`),
-        })
-        break;
-      }
-      case 'NgườiLaoĐộng': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/nguoilaodong.png`),
-        })
-        break;
-      }
-      case 'BáoTuổiTrẻ': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/tuoitre.png`),
-        })
-        break;
-      }
-      case 'XeHay': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/xehay.png`),
-        })
-        break;
-      }
-      case 'Kiếnthức': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/kienthuc.png`),
-        })
-        break;
-      }
-      case 'AutoPro': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/autopro.png`),
-        })
-        break;
-      }
-      case 'CafeAuto': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/cafeauto.png`),
-        })
-        break;
-      }
-      case 'AutoDaily': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/autodaily.png`),
-        })
-        break;
-      }
-      case 'ICTNews': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/infonet.png`),
-        })
-        break;
-      }
-      case 'Kênh14': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/kenh14-2.png`),
-        })
-        break;
-      }
-      case 'ĐạiKỷNguyên': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/daikynguyen-3.png`),
-        })
-        break;
-      }
-      case 'TríThứcTrẻ': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/trithuctre-2.png`),
-        })
-        break;
-      }
-      case '2Sao': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/2sao-2.png`),
-        })
-        break;
-      }
-      case 'VnEconomy': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/vneconomy-2.png`),
-        })
-        break;
-      }
-      case 'GiáodụcThờiđại': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/giaoducthoidai.png`),
-        })
-        break;
-      }
-      case 'Eva': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/eva.png`),
-        })
-        break;
-      }
-      case 'Thểthao247': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/thethao247.png`),
-        })
-        break;
-      }
-      case 'Côngannhândân': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/cand.png`),
-        })
-        break;
-      }
-      case 'PcWorld': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/infonet.png`),
-        })
-        break;
-      }
-      case 'BáoPhụNữ': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/baophunu-0.png`),
-        })
-        break;
-      }
-      case 'NetLife': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/netlife.png`),
-        })
-        break;
-      }
-      case 'Baoduhoc': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/baoduhoc.png`),
-        })
-        break;
-      }
-      case 'Game4V': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/game4v.png`),
-        })
-        break;
-      }
-      case 'GameK': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/gameK.png`),
-        })
-        break;
-      }
-      case 'BáoXãHội': {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/logo/baoxahoi.png`),
-        })
-        break;
-      }
-      default: {
-        this.setState({
-          source: source,
-          loading: false,
-          logo: require(`../../img/tinmoi24h.png`),
-        })
-        break;
-      }
-    }
+    this.setState({
+      source: source,
+      loading: false,
+    })ƒ
   }
   loading() {
     if (this.state.loading) {
@@ -770,11 +353,9 @@ class NewsItem extends Component {
                 underlayColor="white"
                 onPress={() => this.switcherPressed()}
                 style={[styles.modalItem, { borderColor: this.props.textColor, borderTopWidth: 0.5 }]}>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
-                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Image source={require('../../img/ic_moon_b@2x.png')} style={{ height: 24, width: 24, tintColor: this.props.textColor }} />
-                    <Text style={[styles.modalText, { color: this.props.textColor }]}>Chế độ đọc ban đêm</Text>
-                  </View>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Image source={require('../../img/ic_moon_b.png')} style={{ height: 24, width: 24, tintColor: this.props.textColor, marginLeft: 15 }} />
+                  <Text style={[styles.modalText, { color: this.props.textColor, marginRight: 15 }]}>Chế độ đọc ban đêm</Text>
                   <Switch
                     value={this.props.nightMode}
                     onValueChange={() => {
@@ -787,13 +368,12 @@ class NewsItem extends Component {
                 underlayColor="white"
                 onPress={() => this._openLink()}
                 style={[styles.modalItem, { borderColor: this.props.textColor }]}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', paddingLeft: 19 }}>
-                  <Image source={require('../../img/ic_web_b@2x.png')} style={{ height: 24, width: 24, tintColor: this.props.textColor }} />
+                <View style={{ flexDirection: 'row', alignItems: 'center', paddingLeft: 15 }}>
+                  <Image source={require('../../img/ic_web_b.png')} style={{ height: 24, width: 24, tintColor: this.props.textColor }} />
                   <Text style={[styles.modalText, { color: this.props.textColor }]}>Mở trang trong trình duyệt
                           </Text>
                 </View>
               </TouchableHighlight>
-
               <TouchableHighlight
                 underlayColor="white"
                 onPress={() => {
@@ -803,8 +383,8 @@ class NewsItem extends Component {
                 }}
                 style={[styles.modalItem, { borderBottomWidth: 0, borderColor: this.props.textColor }]}
               >
-                <View style={{ flexDirection: 'row', alignItems: 'center', paddingLeft: 19 }}>
-                  <Image source={require('../../img/ic_offline_b@2x.png')} style={{ height: 24, width: 24, tintColor: this.props.textColor }} />
+                <View style={{ flexDirection: 'row', alignItems: 'center', paddingLeft: 15 }}>
+                  <Image source={require('../../img/ic_offline_b.png')} style={{ height: 24, width: 24, tintColor: this.props.textColor }} />
                   <Text style={[styles.modalText, { color: this.props.textColor }]}>Lưu trang đọc offline</Text>
                 </View>
               </TouchableHighlight>
@@ -834,11 +414,8 @@ class NewsItem extends Component {
                   <Text style={styles.textCate}>{this.props.row.cate}</Text>
                 </View>
               }
-              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginLeft: 10 }}>
-                {(this.state.logo != '') &&
-                  <Image resizeMode='cover' source={this.state.logo} style={{ height: 20, width: 20 }} />
-                }
-                <Text style={{ textAlign: 'center', marginLeft: 10, fontSize: 11, color: '#9b9b9b' }}>{this.state.source} | </Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginLeft: 15 }}>
+                <Text style={{ textAlign: 'center', fontSize: 11, color: '#9b9b9b' }}>{this.state.source} | </Text>
               </View>
               <Text style={{ marginRight: 20, textAlign: 'center', color: '#9b9b9b', fontSize: 11 }}>{this.props.row.date}</Text>
             </View>
@@ -891,7 +468,6 @@ const styles = {
   cateContainer: {
     marginLeft: 15,
     borderRadius: 3,
-    marginRight: 15,
     width: 80,
   },
   textCate: {
@@ -960,7 +536,7 @@ const styles = {
     elevation: 5,
     shadowOpacity: 0.3,
     height: 200,
-    width: width * 3 / 4,
+    width: 250,
     borderWidth: 0.5,
     borderRadius: 10,
   },
