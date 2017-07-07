@@ -387,7 +387,7 @@ class NewsItem extends Component {
                 <View style={{ flexDirection: 'row', alignItems: 'center', paddingLeft: 15 }}>
 
                   <Image source={require('../../img/ic_offline_b.png')} style={{ height: 24, width: 24, tintColor: this.props.textColor }} />
-                  <Text style={[styles.modalText, { color: this.props.textColor }]}>Lưu trang đọc offline</Text>
+                  <Text style={[styles.modalText, { color: this.props.textColor }]}>Copy link bài viết</Text>
                 </View>
               </TouchableHighlight>
 
@@ -538,10 +538,9 @@ const styles = {
     elevation: 5,
     shadowOpacity: 0.3,
     height: 200,
-    width: 250,
+    width: 260,
     borderWidth: 0.5,
     borderRadius: 10,
-    marginRight: 5
   },
   modalContainer: {
     width: width,
@@ -551,6 +550,7 @@ const styles = {
     backgroundColor: 'rgba(0, 0, 0, 0.39)',
     justifyContent: 'flex-end',
     paddingBottom: 55,
+    paddingRight: 5,
     alignItems: 'flex-end'
   }
 }

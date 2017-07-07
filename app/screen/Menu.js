@@ -28,7 +28,7 @@ class SideMenu extends Component {
                     <Image source={require('../../img/ic_night_list_b.png')} style={{ height: 24, width: 24 , tintColor:this.props.textColor }} />
                     <Text style={{ marginLeft: 15, fontFamily: 'AlNile-Bold', color: this.props.textColor }}>TEANEWS</Text>
                 </View>
-                <View style={styles.item}>
+                <View style={styles.item} onTouchStart={() => { this.props.navigation.navigate('DrawerClose') }}>
                     <Image source={require('../../img/ic_night_today.png')} style={{ height: 24, width: 24 , tintColor:this.props.textColor }} />
                     <Text style={{ marginLeft: 15, color: this.props.textColor }}>Today</Text>
                 </View>
@@ -63,18 +63,19 @@ class SideMenu extends Component {
                     <Image source={require('../../img/ic_night_delCache.png')} style={{ height: 24, width: 24 , tintColor:this.props.textColor }} />
                     <Text style={{ marginLeft: 15, color: this.props.textColor }}>Xoá cache</Text>
                 </View >
-                <View style={styles.item}>
-                    <Image source={require('../../img/ic_night_setting.png')} style={{ height: 24, width: 24 , tintColor:this.props.textColor }} />
-                    <Text style={{ marginLeft: 15, color: this.props.textColor }}>Setting</Text>
-                </View >
-                <View style={styles.item}>
-                    <Image source={require('../../img/ic_night_logout.png')} style={{ height: 24, width: 24 , tintColor:this.props.textColor }} />
-                    <Text style={{ marginLeft: 15, color: this.props.textColor }}>Logout</Text>
-                </View >
+
             </View >
         )
     }
-    }
+}
+// <View style={styles.item}>
+//     <Image source={require('../../img/ic_night_setting.png')} style={{ height: 24, width: 24 , tintColor:this.props.textColor }} />
+//     <Text style={{ marginLeft: 15, color: this.props.textColor }}>Setting</Text>
+// </View >
+// <View style={styles.item}>
+//     <Image source={require('../../img/ic_night_logout.png')} style={{ height: 24, width: 24 , tintColor:this.props.textColor }} />
+//     <Text style={{ marginLeft: 15, color: this.props.textColor }}>Logout</Text>
+// </View >
 const styles = StyleSheet.create({
     item: {
         flexDirection: 'row',
