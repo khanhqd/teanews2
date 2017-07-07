@@ -771,8 +771,8 @@ class NewsItem extends Component {
                 onPress={() => this.switcherPressed()}
                 style={[styles.modalItem, { borderColor: this.props.textColor, borderTopWidth: 0.5 }]}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
-                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Image source={require('../../img/ic_moon_b@2x.png')} style={{ height: 24, width: 24, tintColor: this.props.textColor }} />
+                  <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 2 }}>
+                    <Image source={require('../../img/ic_moon_b.png')} style={{ height: 24, width: 24, tintColor: this.props.textColor }} />
                     <Text style={[styles.modalText, { color: this.props.textColor }]}>Chế độ đọc ban đêm</Text>
                   </View>
                   <Switch
@@ -788,7 +788,7 @@ class NewsItem extends Component {
                 onPress={() => this._openLink()}
                 style={[styles.modalItem, { borderColor: this.props.textColor }]}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', paddingLeft: 19 }}>
-                  <Image source={require('../../img/ic_web_b@2x.png')} style={{ height: 24, width: 24, tintColor: this.props.textColor }} />
+                  <Image source={require('../../img/ic_web_b.png')} style={{ height: 24, width: 24, tintColor: this.props.textColor }} />
                   <Text style={[styles.modalText, { color: this.props.textColor }]}>Mở trang trong trình duyệt
                           </Text>
                 </View>
@@ -804,7 +804,7 @@ class NewsItem extends Component {
                 style={[styles.modalItem, { borderBottomWidth: 0, borderColor: this.props.textColor }]}
               >
                 <View style={{ flexDirection: 'row', alignItems: 'center', paddingLeft: 19 }}>
-                  <Image source={require('../../img/ic_offline_b@2x.png')} style={{ height: 24, width: 24, tintColor: this.props.textColor }} />
+                  <Image source={require('../../img/ic_offline_b.png')} style={{ height: 24, width: 24, tintColor: this.props.textColor }} />
                   <Text style={[styles.modalText, { color: this.props.textColor }]}>Lưu trang đọc offline</Text>
                 </View>
               </TouchableHighlight>
