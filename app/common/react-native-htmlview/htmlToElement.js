@@ -20,7 +20,7 @@ const Img = props => {
   );
 };
 
-export default function htmlToElement(lineHeight, rawHtml, opts, done) {
+export default function htmlToElement(hideImageMode, lineHeight, rawHtml, opts, done) {
   function domToElement(dom, parent) {
     if (!dom) return null;
 
@@ -44,9 +44,13 @@ export default function htmlToElement(lineHeight, rawHtml, opts, done) {
 
       if (node.type == 'tag') {
         if (node.name == 'img') {
-          return (
-              <Img key={index} attribs={node.attribs} />
-          );
+          if (!hideImageMode) {
+            return (
+                <Img key={index} attribs={node.attribs} />
+            );
+          } else {
+            return null
+          }
         }
 
         let linkPressHandler = null;

@@ -30,7 +30,8 @@ import {
   ROOT_LINK2,
   ROOT_LINK3,
   OPEN_DROPDOWN_MENU,
-  SELECT_CATE
+  SELECT_CATE,
+  HIDE_IMAGE_MODE
 } from './types';
 
 
@@ -220,7 +221,12 @@ export const selectCate = (data) => {
     payload: data
   }
 }
-
+export const hideImageMode = (data) => {
+  return {
+    type: HIDE_IMAGE_MODE,
+    payload: data
+  }
+}
 // export const goToPlay = (number) => {
 //   return (dispatch) => {
 //     Actions.PlayScene({ numberOfPlayer: number })

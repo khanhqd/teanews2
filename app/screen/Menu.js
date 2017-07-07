@@ -63,15 +63,15 @@ class SideMenu extends Component {
                     <Image source={require('../../img/ic_night_delCache.png')} style={{ height: 24, width: 24 , tintColor:this.props.textColor }} />
                     <Text style={{ marginLeft: 15, color: this.props.textColor }}>Xoá cache</Text>
                 </View >
-
+                <View style={styles.item} onTouchStart={() => {this.props.navigation.navigate('Settings_Screen') }}>
+                    <Image source={require('../../img/ic_night_setting.png')} style={{ height: 24, width: 24 , tintColor:this.props.textColor }} />
+                    <Text style={{ marginLeft: 15, color: this.props.textColor }}>Setting</Text>
+                </View >
             </View >
         )
     }
 }
-// <View style={styles.item}>
-//     <Image source={require('../../img/ic_night_setting.png')} style={{ height: 24, width: 24 , tintColor:this.props.textColor }} />
-//     <Text style={{ marginLeft: 15, color: this.props.textColor }}>Setting</Text>
-// </View >
+
 // <View style={styles.item}>
 //     <Image source={require('../../img/ic_night_logout.png')} style={{ height: 24, width: 24 , tintColor:this.props.textColor }} />
 //     <Text style={{ marginLeft: 15, color: this.props.textColor }}>Logout</Text>
