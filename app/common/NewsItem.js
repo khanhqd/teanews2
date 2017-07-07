@@ -170,9 +170,8 @@ class NewsItem extends Component {
       }
     }
     this.setState({
-      source: source,
       loading: false,
-    })ƒ
+    })
   }
   loading() {
     if (this.state.loading) {
@@ -356,6 +355,7 @@ class NewsItem extends Component {
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <Image source={require('../../img/ic_moon_b.png')} style={{ height: 24, width: 24, tintColor: this.props.textColor, marginLeft: 15 }} />
                   <Text style={[styles.modalText, { color: this.props.textColor, marginRight: 15 }]}>Chế độ đọc ban đêm</Text>
+
                   <Switch
                     value={this.props.nightMode}
                     onValueChange={() => {
@@ -369,6 +369,7 @@ class NewsItem extends Component {
                 onPress={() => this._openLink()}
                 style={[styles.modalItem, { borderColor: this.props.textColor }]}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', paddingLeft: 15 }}>
+
                   <Image source={require('../../img/ic_web_b.png')} style={{ height: 24, width: 24, tintColor: this.props.textColor }} />
                   <Text style={[styles.modalText, { color: this.props.textColor }]}>Mở trang trong trình duyệt
                           </Text>
@@ -384,6 +385,7 @@ class NewsItem extends Component {
                 style={[styles.modalItem, { borderBottomWidth: 0, borderColor: this.props.textColor }]}
               >
                 <View style={{ flexDirection: 'row', alignItems: 'center', paddingLeft: 15 }}>
+
                   <Image source={require('../../img/ic_offline_b.png')} style={{ height: 24, width: 24, tintColor: this.props.textColor }} />
                   <Text style={[styles.modalText, { color: this.props.textColor }]}>Lưu trang đọc offline</Text>
                 </View>
@@ -415,7 +417,7 @@ class NewsItem extends Component {
                 </View>
               }
               <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginLeft: 15 }}>
-                <Text style={{ textAlign: 'center', fontSize: 11, color: '#9b9b9b' }}>{this.state.source} | </Text>
+                <Text style={{ textAlign: 'center', fontSize: 11, color: '#9b9b9b' }}>{this.state.sourceReal} | </Text>
               </View>
               <Text style={{ marginRight: 20, textAlign: 'center', color: '#9b9b9b', fontSize: 11 }}>{this.props.row.date}</Text>
             </View>
