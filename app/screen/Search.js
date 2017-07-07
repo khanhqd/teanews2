@@ -104,21 +104,17 @@ class Search extends Component {
   render() {
     return (
       <View style={[styles.container, { backgroundColor: this.props.postBackground }]}>
-        <View style={{ height: 20, width: width, backgroundColor: this.props.postBackground }}>
+        <View style={{ height: 20, width: width, backgroundColor: 'black' }}>
         </View>
-        <StatusBar
-          barStyle="light-content"
-        />
-
         <View style={[styles.menuBar, { backgroundColor: this.props.postBackground }]}>
           <View style={{
-            flexDirection: 'row', alignItems: 'center', borderColor: this.props.textColor,
+            flexDirection: 'row', alignItems: 'center', borderColor: "#9b9b9b",
             width: '80%',
             justifyContent: 'space-between',
             borderWidth: 1,
             marginLeft: 10,
-            borderRadius: 15,
-            backgroundColor: this.props.postBackground
+            borderRadius: 14,
+            backgroundColor: this.props.postBackground,
           }}>
             <TextInput
               autoCorrect={false}
@@ -187,15 +183,14 @@ const styles = StyleSheet.create({
     height: 35,
     width: width,
     flexDirection: 'row',
-    //backgroundColor: 'transparent',
     justifyContent: 'space-between',
     marginTop: 10,
     alignItems: 'center'
   },
   searchBox: {
-    width: '80%',
-    height: 35,
-    paddingLeft: 15
+    width: 250,
+    height: 28,
+    paddingLeft: 15,
   },
 })
 const mapStateToProps = state => {
