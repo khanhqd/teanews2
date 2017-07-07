@@ -15,6 +15,7 @@ import {
   StatusBar,
   Share,
   AsyncStorage,
+  LayoutAnimation
 } from 'react-native';
 var { height, width } = Dimensions.get('window');
 import * as Animatable from 'react-native-animatable';
@@ -36,9 +37,9 @@ class NewsDetail extends Component {
     super(props);
     this.state = {
       data: [],
-      left0: new Animated.Value(0),
-      left1: new Animated.Value(width),
-      left2: new Animated.Value(0),
+      left0: 0,
+      left1: width,
+      left2: 0,
       index0: 2,
       index1: 3,
       index2: 1,
@@ -86,18 +87,14 @@ class NewsDetail extends Component {
         const screenEdgeDistance = currentDragPosition - currentDragDistance;
         // Compare to the gesture distance relavant to card or modal
         const gestureResponseDistance = width - 130;
-        if ((screenEdgeDistance < gestureResponseDistance)&&(screenEdgeDistance > 130)&&(screenEdgeDistance < 30)) {
+        if ((screenEdgeDistance < gestureResponseDistance)&&(screenEdgeDistance > 130)||(screenEdgeDistance < 30)) {
           // Reject touches that started in the middle of the screen
           return false;
         } else {
-          if (this.props.loadingDetailState) {
-            Toast.show('Dữ liệu trang tiếp đang load trong giây lát')
-          } else {
-            const hasDraggedEnough = Math.abs(currentDragDistance) > 20;
-            const shouldSetResponder = hasDraggedEnough && (Math.abs(gesture.dx) > Math.abs(gesture.dy));
-            // && axisHasBeenMeasured && !isOnFirstCard;
-            return shouldSetResponder;
-          }
+          const hasDraggedEnough = Math.abs(currentDragDistance) > 20;
+          const shouldSetResponder = hasDraggedEnough && (Math.abs(gesture.dx) > Math.abs(gesture.dy));
+          // && axisHasBeenMeasured && !isOnFirstCard;
+          return shouldSetResponder;
         }
       },
       // onStartShouldSetPanResponder: (event, gestureState) => {
@@ -116,19 +113,19 @@ class NewsDetail extends Component {
           switch (this.state.index0) {
             case 2:
               if (this.props.dataSlot0 + 1 < listLength) {
-                this.state.left1.setValue(width + dx)
+                this.setState({ left1: width + dx })
                 moved = true;
               }
               break;
             case 3:
               if (this.props.dataSlot0 + 2 < listLength) {
-                this.state.left0.setValue(width + dx)
+                this.setState({ left0: width + dx })
                 moved = true;
               }
               break;
             case 1:
               if (this.props.dataSlot0 < listLength) {
-                this.state.left2.setValue(width + dx)
+                this.setState({ left2: width + dx })
                 moved = true;
               }
               break;
@@ -137,19 +134,19 @@ class NewsDetail extends Component {
           switch (this.state.index0) {
             case 2:
                 if (this.props.dataSlot0 - 1 >= 0) {
-                  this.state.left0.setValue(dx)
+                  this.setState({ left0: dx })
                   moved = true;
                 }
                 break;
             case 3:
                 if (this.props.dataSlot0 - 2 >= 0) {
-                  this.state.left2.setValue(dx)
+                  this.setState({ left2: dx })
                   moved = true;
                 }
                 break;
             case 1:
                 if (this.props.dataSlot0 >= 0) {
-                  this.state.left1.setValue(dx)
+                  this.setState({ left1: dx })
                   moved = true;
                 }
                 break;
@@ -177,6 +174,11 @@ class NewsDetail extends Component {
               case 2:
                 if (dx < -width / 4) {
                   if (this.props.dataSlot2 + 3 < listLength) {
+                    this.setState({ left2: width })
+                    setTimeout(()=>{
+                      LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+                      this.setState({ left1: 0 })
+                    },10)
                     this.setState({ index2: 3, index1: 2, index0: 1, bookmarked: false }, () => {
                       setTimeout(() => {
                         this.props.dispatch(selectedPost2(this.props.dataSlot2 + 3));
@@ -210,17 +212,11 @@ class NewsDetail extends Component {
                         }
                       }, nextPageDuration)
                     })
-                    Animated.timing(
-                      this.state.left1,
-                      { toValue: 0, duration: nextPageDuration }
-                    ).start();
-                    this.state.left2.setValue(width)
+
                   }
                 } else {
-                  Animated.timing(
-                    this.state.left1,
-                    { toValue: width, duration: resetDuration }
-                  ).start();
+                  LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+                  this.setState({ left1: width })
                 }
 
                 break;
@@ -228,6 +224,11 @@ class NewsDetail extends Component {
                 if (dx < -width / 4) {
                   let listRecent = this.props.listRecent
                   if (this.props.dataSlot1 + 3 < listLength) {
+                    this.setState({ left1: width })
+                    setTimeout(()=>{
+                      LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+                      this.setState({ left0: 0 })
+                    },10)
                     this.setState({ index0: 2, index2: 1, index1: 3, bookmarked: false }, () => {
                       setTimeout(() => {
                         this.props.dispatch(selectedPost1(this.props.dataSlot1 + 3));
@@ -260,22 +261,21 @@ class NewsDetail extends Component {
                         }
                       }, nextPageDuration)
                     })
-                    Animated.timing(
-                      this.state.left0,
-                      { toValue: 0, duration: nextPageDuration }
-                    ).start();
-                    this.state.left1.setValue(width)
+
                   }
                 } else {
-                    Animated.timing(
-                      this.state.left0,
-                      { toValue: width, duration: resetDuration }
-                    ).start();
+                  LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+                  this.setState({ left0: width })
                 }
                 break;
               case 1:
                 if (dx < -width / 4) {
                   if (this.props.dataSlot0 + 3< listLength) {
+                    this.setState({ left0: width })
+                    setTimeout(()=>{
+                      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+                      this.setState({ left2: 0 })
+                    },10)
                     this.setState({ index1: 1, index0: 3, index2: 2, bookmarked: false }, () => {
                       setTimeout(() => {
                         this.props.dispatch(selectedPost0(this.props.dataSlot0 + 3));
@@ -309,17 +309,10 @@ class NewsDetail extends Component {
                       }, nextPageDuration)
                     })
 
-                    Animated.timing(
-                      this.state.left2,
-                      { toValue: 0, duration: nextPageDuration }
-                    ).start();
-                    this.state.left0.setValue(width)
                   }
                 } else {
-                    Animated.timing(
-                      this.state.left2,
-                      { toValue: width, duration: resetDuration }
-                    ).start();
+                    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+                    this.setState({ left2: width })
                 }
                 break;
             }
@@ -327,11 +320,9 @@ class NewsDetail extends Component {
             switch (this.state.index0) {
               case 2:
                   if (dx > width / 4) {
-                      Animated.timing(
-                        this.state.left0,
-                        { toValue: width, duration: 300 }
-                      ).start();
-                      this.state.left1.setValue(0);
+                      this.setState({ left1: 0 })
+                      LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+                      this.setState({ left0: width })
 
                       this.setState({ index2: 2, index1: 1, index0: 3, bookmarked: false }, () => {
                         // if (this.props.dataSlot1 - 3 >= 0) {
@@ -341,20 +332,16 @@ class NewsDetail extends Component {
                         // }
                       })
                     } else {
-                    Animated.timing(
-                      this.state.left0,
-                      { toValue: 0, duration: resetDuration }
-                    ).start();
+                      LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+                      this.setState({ left0: 0 })
                   }
 
                 break;
               case 3:
                   if (dx > width / 4) {
-                    Animated.timing(
-                      this.state.left2,
-                      { toValue: width, duration: 300 }
-                    ).start();
-                    this.state.left0.setValue(0);
+                    this.setState({ left0: 0 })
+                    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+                    this.setState({ left2: width })
 
                     this.setState({ index0: 1, index2: 3, index1: 2, bookmarked: false }, () => {
                       // if (this.props.dataSlot0 - 3 >= 0) {
@@ -364,19 +351,15 @@ class NewsDetail extends Component {
                       // }
                     })
                   } else {
-                    Animated.timing(
-                      this.state.left2,
-                      { toValue: 0, duration: resetDuration }
-                    ).start();
+                    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+                    this.setState({ left2: 0 })
                   }
                 break;
               case 1:
                   if (dx > width / 4) {
-                    Animated.timing(
-                      this.state.left1,
-                      { toValue: width, duration: 300 }
-                    ).start();
-                    this.state.left2.setValue(0);
+                    this.setState({ left2: 0 })
+                    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+                    this.setState({ left1: width })
 
                     this.setState({ index1: 3, index0: 2, index2: 1, bookmarked: false }, () => {
                       // if (this.props.dataSlot2 - 3 >= 0) {
@@ -386,10 +369,8 @@ class NewsDetail extends Component {
                       // }
                     })
                   } else {
-                    Animated.timing(
-                      this.state.left1,
-                      { toValue: 0, duration: resetDuration }
-                    ).start();
+                    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+                    this.setState({ left1: 0 })
                   }
                 break;
             }
@@ -721,6 +702,7 @@ class NewsDetail extends Component {
             >
               <NewsItem
                 stt={0}
+                index={this.state.index0}
                 navigation={this.props.navigation}
                 row={(this.props.dataSlot0 >= 0) ? this.props.listData[this.props.dataSlot0] : this.props.listData[0]} />
             </Animated.View>
@@ -730,6 +712,7 @@ class NewsDetail extends Component {
             >
               <NewsItem
                 stt={1}
+                index={this.state.index1}
                 navigation={this.props.navigation}
                 row={(this.props.dataSlot1 >= 0) ? this.props.listData[this.props.dataSlot1] : this.props.listData[0]} />
             </Animated.View>
@@ -740,6 +723,7 @@ class NewsDetail extends Component {
             >
               <NewsItem
                 stt={2}
+                index={this.state.index2}
                 navigation={this.props.navigation}
                 row={(this.props.dataSlot2 >= 0) ? this.props.listData[this.props.dataSlot2] : this.props.listData[0]} />
             </Animated.View>

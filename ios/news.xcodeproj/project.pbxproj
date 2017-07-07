@@ -43,6 +43,8 @@
 		FA329BD71EFCFF10005A5D31 /* Lora-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA329BD31EFCFF10005A5D31 /* Lora-BoldItalic.ttf */; };
 		FA329BD81EFCFF10005A5D31 /* Lora-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA329BD41EFCFF10005A5D31 /* Lora-Italic.ttf */; };
 		FA329BD91EFCFF10005A5D31 /* Lora-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA329BD51EFCFF10005A5D31 /* Lora-Regular.ttf */; };
+		FA85511B1F0F3A4B0092E809 /* SplashScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = FA85511A1F0F3A4B0092E809 /* SplashScreen.png */; };
+		FA85511D1F0F3ADB0092E809 /* icon_News.png in Resources */ = {isa = PBXBuildFile; fileRef = FA85511C1F0F3ADB0092E809 /* icon_News.png */; };
 		FB09CDE151EA4F27A3906DCF /* libRCTToast.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C413073D9864CF1B3EA5D60 /* libRCTToast.a */; };
 /* End PBXBuildFile section */
 
@@ -310,6 +312,8 @@
 		FA329BD31EFCFF10005A5D31 /* Lora-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lora-BoldItalic.ttf"; path = "../../Desktop/Lora/Lora-BoldItalic.ttf"; sourceTree = "<group>"; };
 		FA329BD41EFCFF10005A5D31 /* Lora-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lora-Italic.ttf"; path = "../../Desktop/Lora/Lora-Italic.ttf"; sourceTree = "<group>"; };
 		FA329BD51EFCFF10005A5D31 /* Lora-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lora-Regular.ttf"; path = "../../Desktop/Lora/Lora-Regular.ttf"; sourceTree = "<group>"; };
+		FA85511A1F0F3A4B0092E809 /* SplashScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SplashScreen.png; path = ../../Desktop/SplashScreen.png; sourceTree = "<group>"; };
+		FA85511C1F0F3ADB0092E809 /* icon_News.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_News.png; path = ../../Desktop/icon_News.png; sourceTree = "<group>"; };
 		FB7F1FEAF57847CFBC637DF8 /* libRNFetchBlob.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFetchBlob.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -528,6 +532,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				FA85511C1F0F3ADB0092E809 /* icon_News.png */,
+				FA85511A1F0F3A4B0092E809 /* SplashScreen.png */,
 				FA329BD21EFCFF10005A5D31 /* Lora-Bold.ttf */,
 				FA329BD31EFCFF10005A5D31 /* Lora-BoldItalic.ttf */,
 				FA329BD41EFCFF10005A5D31 /* Lora-Italic.ttf */,
@@ -1007,10 +1013,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA85511B1F0F3A4B0092E809 /* SplashScreen.png in Resources */,
 				FA329BD61EFCFF10005A5D31 /* Lora-Bold.ttf in Resources */,
 				FA329BD91EFCFF10005A5D31 /* Lora-Regular.ttf in Resources */,
 				FA329BD81EFCFF10005A5D31 /* Lora-Italic.ttf in Resources */,
 				FA329BD71EFCFF10005A5D31 /* Lora-BoldItalic.ttf in Resources */,
+				FA85511D1F0F3ADB0092E809 /* icon_News.png in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);

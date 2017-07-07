@@ -722,7 +722,7 @@ class NewsItem extends Component {
       <View>
         <View style={{ height: 20, width: width, backgroundColor: 'black' }}>
         </View>
-        {this.props.openMenu &&
+        {this.props.openMenu && (this.props.index==2) &&
           <TouchableOpacity activeOpacity={1} style={styles.modalContainer} onPress={() => this.props.dispatch(changeModalState(!this.props.openMenu))}>
             <Animatable.View animation="slideInUp" useNativeDriver duration={300} style={[styles.menuModal, { backgroundColor: this.props.postBackground, borderColor: this.props.textColor }]}>
               <View style={{ flexDirection: 'row', flex: 1 }}>
@@ -963,6 +963,7 @@ const styles = {
     width: width * 3 / 4,
     borderWidth: 0.5,
     borderRadius: 10,
+    marginRight: 5
   },
   modalContainer: {
     width: width,
