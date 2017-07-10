@@ -123,13 +123,11 @@ class NewsItem extends Component {
     setTimeout(() => this.setState({ loading: false }), 4000);
     let url = row.url
     let other = []
-    fetch(url)
+    fetch('http://tinmoi24.vn/hani-exid-co-nang-tomboy-so-hai-ca-the-gioi/news-29-1-ae3951cfefa38c17fb92f80855211a3a')
       .then((response) => response.text())
       .then((responseData) => {
         $ = cheerio.load(responseData);
         let source = $(".meta > .span-website").text()
-        $("a").parent(".Normal").remove();
-        $("em").parent(".Normal").remove();
         $("i").parent().parent(".blockquote-reverse").remove();
         $("span,em,i,a,b,strong,ins ,u").replaceWith(function () { return $(this).contents(); });
         $("[data-component-type=video]").replaceWith("<strong>Bài viết chứa video, vui lòng mở link bằng trình duyệt để xem video</strong>");
@@ -305,9 +303,9 @@ class NewsItem extends Component {
       <View>
         <View style={{ height: 20, width: width, backgroundColor: 'black' }}>
         </View>
-        {this.props.openMenu && (this.props.index==2) &&
+        {this.props.openMenu && (this.props.index == 2) &&
           <TouchableOpacity activeOpacity={1} style={styles.modalContainer} onPress={() => this.props.dispatch(changeModalState(!this.props.openMenu))}>
-            <Animatable.View animation="slideInUp" useNativeDriver duration={300} style={[styles.menuModal, { backgroundColor: this.props.postBackground, borderColor: (this.props.textColor=='black') ? '#d8d8d8' : '#4a4a4a'}]}>
+            <Animatable.View animation="slideInUp" useNativeDriver duration={300} style={[styles.menuModal, { backgroundColor: this.props.postBackground, borderColor: (this.props.textColor == 'black') ? '#d8d8d8' : '#4a4a4a' }]}>
               <View style={{ flexDirection: 'row', flex: 1 }}>
                 <TouchableHighlight
                   underlayColor="white"
@@ -323,7 +321,7 @@ class NewsItem extends Component {
                       setTimeout(() => this.reloadWebview(), 200)
                     }
                   }}
-                  style={[styles.modalItem, { borderRightWidth: 0.5, borderTopLeftRadius: 10, borderColor: (this.props.textColor=='black') ? '#d8d8d8' : '#4a4a4a'}]}>
+                  style={[styles.modalItem, { borderRightWidth: 0.5, borderTopLeftRadius: 10, borderColor: (this.props.textColor == 'black') ? '#d8d8d8' : '#4a4a4a' }]}>
                   <View style={{ alignItems: 'center' }}>
                     <Text style={{ color: this.props.textColor, fontSize: 18 }}>A</Text>
                   </View>
@@ -342,7 +340,7 @@ class NewsItem extends Component {
                       setTimeout(() => this.reloadWebview(), 200)
                     }
                   }}
-                  style={[styles.modalItem, { borderTopRightRadius: 10, borderColor: (this.props.textColor=='black') ? '#d8d8d8' : '#4a4a4a' }]}>
+                  style={[styles.modalItem, { borderTopRightRadius: 10, borderColor: (this.props.textColor == 'black') ? '#d8d8d8' : '#4a4a4a' }]}>
                   <View style={{ alignItems: 'center' }}>
                     <Text style={{ fontSize: 24, fontWeight: 'bold', color: this.props.textColor }}>A</Text>
                   </View>
@@ -352,7 +350,7 @@ class NewsItem extends Component {
               <TouchableHighlight
                 underlayColor="white"
                 onPress={() => this.switcherPressed()}
-                style={[styles.modalItem, { borderColor: (this.props.textColor=='black') ? '#d8d8d8' : '#4a4a4a', borderTopWidth: 0.5 }]}>
+                style={[styles.modalItem, { borderColor: (this.props.textColor == 'black') ? '#d8d8d8' : '#4a4a4a', borderTopWidth: 0.5 }]}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <Image source={require('../../img/ic_moon_b.png')} style={{ height: 24, width: 24, tintColor: this.props.textColor, marginLeft: 15 }} />
                   <Text style={[styles.modalText, { color: this.props.textColor, marginRight: 15 }]}>Chế độ đọc ban đêm</Text>
@@ -368,7 +366,7 @@ class NewsItem extends Component {
               <TouchableHighlight
                 underlayColor="white"
                 onPress={() => this._openLink()}
-                style={[styles.modalItem, { borderColor: (this.props.textColor=='black') ? '#d8d8d8' : '#4a4a4a' }]}>
+                style={[styles.modalItem, { borderColor: (this.props.textColor == 'black') ? '#d8d8d8' : '#4a4a4a' }]}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', paddingLeft: 15 }}>
 
                   <Image source={require('../../img/ic_web_b.png')} style={{ height: 24, width: 24, tintColor: this.props.textColor }} />
@@ -383,7 +381,7 @@ class NewsItem extends Component {
                   Toast.show('Đã sao chép link');
                   this.props.dispatch(changeModalState(!this.props.openMenu))
                 }}
-                style={[styles.modalItem, { borderBottomWidth: 0, borderColor: (this.props.textColor=='black') ? '#d8d8d8' : '#4a4a4a' }]}
+                style={[styles.modalItem, { borderBottomWidth: 0, borderColor: (this.props.textColor == 'black') ? '#d8d8d8' : '#4a4a4a' }]}
               >
                 <View style={{ flexDirection: 'row', alignItems: 'center', paddingLeft: 15 }}>
 

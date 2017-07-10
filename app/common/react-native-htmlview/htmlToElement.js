@@ -36,7 +36,7 @@ export default function htmlToElement(hideImageMode, lineHeight, rawHtml, opts, 
         } else {
           return (
             <Text key={index} style={[parent ? opts.styles[parent.name] : null,{marginLeft: 15, marginRight: 8, lineHeight: lineHeight, textAlign:'left', marginBottom: 10}]} selectable={true}>
-               {entities.decodeHTML(node.data).trim()}
+               {entities.decodeHTML(node.data).replace(/^\s+|\s+ $/gm,'').replace(/(\r\n|\n|\r)/gm, "")}
             </Text>
           );
         }
