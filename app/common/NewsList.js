@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, Dimensions, Platform, TouchableOpacity, Image, AsyncStorage } from 'react-native';
 var { height, width } = Dimensions.get('window');
 import NewsListItem from './NewsListItem';
-import { loadListData, selectedPost0, selectedPost1, selectedPost2, addRecent } from '../actions';
+import { loadListData, selectedPost0, selectedPost1, selectedPost2, addRecent, openDropdownMenu } from '../actions';
 import { connect } from 'react-redux';
 
 class NewsList extends Component {
@@ -34,7 +34,14 @@ class NewsList extends Component {
             onPress={() => { this.props.navigation.navigate('DrawerOpen') }}>
               <Image source={require('../../img/ic_list_b.png')} style={{ height: 24, width: 24 }} />
             </TouchableOpacity>
-            <Text style={{ textAlign: 'center', fontSize: 20, marginLeft: 20, color: this.props.textColor, fontWeight: 'bold' }}></Text>
+            <TouchableOpacity
+            onPress={()=>this.props.dispatch(openDropdownMenu(!this.props.dropdown))}
+            style={{flexDirection: 'row', height: 45, marginLeft: 10, justifyContent: 'flex-start', alignItems: 'center' }}>
+              <Text style={{ textAlign: 'center', fontSize: 16, color: 'black', fontWeight: 'bold' }}>{this.props.selectedCate}</Text>
+              <Image
+              style={{width: 24, height: 24, tintColor: 'black'}}
+              source={require('../../img/ic_dropdown.png')}/>
+            </TouchableOpacity>
           </View>
           <TouchableOpacity
           style={{height: 45, width: 45, justifyContent: 'center', alignItems: 'center'}}
@@ -53,7 +60,14 @@ class NewsList extends Component {
             onPress={() => { this.props.navigation.navigate('DrawerOpen') }}>
               <Image source={require('../../img/ic_night_list_b.png')} style={{ height: 24, width: 24, tintColor: this.props.textColor }} />
             </TouchableOpacity>
-            <Text style={{ textAlign: 'center', fontSize: 20, marginLeft: 20, color: this.props.textColor, fontWeight: 'bold' }}></Text>
+            <TouchableOpacity
+            onPress={()=>this.props.dispatch(openDropdownMenu(!this.props.dropdown))}
+            style={{flexDirection: 'row', height: 45, marginLeft: 10, justifyContent: 'flex-start', alignItems: 'center' }}>
+              <Text style={{ textAlign: 'center', fontSize: 16, color: 'white', fontWeight: 'bold' }}>{this.props.selectedCate}</Text>
+              <Image
+              style={{width: 24, height: 24, tintColor: 'white'}}
+              source={require('../../img/ic_dropdown.png')}/>
+            </TouchableOpacity>
           </View>
           <TouchableOpacity
           style={{height: 45, width: 45, justifyContent: 'center', alignItems: 'center'}}
@@ -166,7 +180,9 @@ const mapStateToProps = state => {
     postBackground: state.readerModalReducer.postBackground,
     textColor: state.readerModalReducer.textColor,
     listData: state.loadListDataReducer.list,
-    listRecent: state.bookmarkReducer.listRecent
+    listRecent: state.bookmarkReducer.listRecent,
+    dropdown: state.listCateReducer.dropdown,
+    selectedCate: state.listCateReducer.selectedCate
   }
 }
 const styles = {

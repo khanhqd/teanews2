@@ -402,7 +402,7 @@ class NewsItem extends Component {
             onScroll={this.onScroll}
             scrollEventThrottle={100}
             onTouchEnd={() => {
-              if (this.state.pullToCloseDist > 60) {
+              if (this.state.pullToCloseDist > 50) {
                 this.props.navigation.goBack();
               }
             }}
