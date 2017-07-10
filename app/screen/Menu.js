@@ -26,11 +26,7 @@ class SideMenu extends Component {
             <View style={{ flex: 1, backgroundColor: this.props.postBackground, paddingTop: 20 }}>
                 <View style={styles.item} onTouchStart={() => { this.props.navigation.navigate('DrawerClose') }}>
                     <Image source={require('../../img/ic_night_list_b.png')} style={{ height: 24, width: 24 , tintColor:this.props.textColor }} />
-                    <Text style={{ marginLeft: 15, fontFamily: 'AlNile-Bold', color: this.props.textColor }}>TEANEWS</Text>
-                </View>
-                <View style={styles.item} onTouchStart={() => { this.props.navigation.navigate('DrawerClose') }}>
-                    <Image source={require('../../img/ic_night_today.png')} style={{ height: 24, width: 24 , tintColor:this.props.textColor }} />
-                    <Text style={{ marginLeft: 15, color: this.props.textColor }}>Tin mới</Text>
+                    <Text style={{ marginLeft: 15, fontFamily: 'AlNile-Bold', color: this.props.textColor }}>TIN NHANH</Text>
                 </View>
                 <TouchableOpacity style={styles.item} onPress={() => { this.props.navigation.navigate('Bookmark_Screen') }}>
                     <Image source={require('../../img/ic_night_bookmark.png')} style={{ height: 24, width: 24 , tintColor:this.props.textColor }}/>
@@ -71,7 +67,10 @@ class SideMenu extends Component {
         )
     }
 }
-
+// <View style={styles.item} onTouchStart={() => { this.props.navigation.navigate('DrawerClose') }}>
+//     <Image source={require('../../img/ic_night_today.png')} style={{ height: 24, width: 24 , tintColor:this.props.textColor }} />
+//     <Text style={{ marginLeft: 15, color: this.props.textColor }}>Tin mới</Text>
+// </View>
 // <View style={styles.item}>
 //     <Image source={require('../../img/ic_night_logout.png')} style={{ height: 24, width: 24 , tintColor:this.props.textColor }} />
 //     <Text style={{ marginLeft: 15, color: this.props.textColor }}>Logout</Text>

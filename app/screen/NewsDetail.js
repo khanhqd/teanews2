@@ -176,9 +176,9 @@ class NewsDetail extends Component {
                   if (this.props.dataSlot2 + 3 < listLength) {
                     this.setState({ left2: width })
                     setTimeout(()=>{
-                      LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+                      LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
                       this.setState({ left1: 0 })
-                    },10)
+                    },1)
                     this.setState({ index2: 3, index1: 2, index0: 1, bookmarked: false }, () => {
                       setTimeout(() => {
                         this.props.dispatch(selectedPost2(this.props.dataSlot2 + 3));
@@ -215,7 +215,7 @@ class NewsDetail extends Component {
 
                   }
                 } else {
-                  LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+                  LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
                   this.setState({ left1: width })
                 }
 
@@ -226,9 +226,9 @@ class NewsDetail extends Component {
                   if (this.props.dataSlot1 + 3 < listLength) {
                     this.setState({ left1: width })
                     setTimeout(()=>{
-                      LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+                      LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
                       this.setState({ left0: 0 })
-                    },10)
+                    },1)
                     this.setState({ index0: 2, index2: 1, index1: 3, bookmarked: false }, () => {
                       setTimeout(() => {
                         this.props.dispatch(selectedPost1(this.props.dataSlot1 + 3));
@@ -264,7 +264,7 @@ class NewsDetail extends Component {
 
                   }
                 } else {
-                  LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+                  LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
                   this.setState({ left0: width })
                 }
                 break;
@@ -273,9 +273,9 @@ class NewsDetail extends Component {
                   if (this.props.dataSlot0 + 3< listLength) {
                     this.setState({ left0: width })
                     setTimeout(()=>{
-                      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+                      LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
                       this.setState({ left2: 0 })
-                    },10)
+                    },1)
                     this.setState({ index1: 1, index0: 3, index2: 2, bookmarked: false }, () => {
                       setTimeout(() => {
                         this.props.dispatch(selectedPost0(this.props.dataSlot0 + 3));
@@ -311,7 +311,7 @@ class NewsDetail extends Component {
 
                   }
                 } else {
-                    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+                    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
                     this.setState({ left2: width })
                 }
                 break;
@@ -321,7 +321,7 @@ class NewsDetail extends Component {
               case 2:
                   if (dx > width / 4) {
                       this.setState({ left1: 0 })
-                      LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+                      LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
                       this.setState({ left0: width })
 
                       this.setState({ index2: 2, index1: 1, index0: 3, bookmarked: false }, () => {
@@ -332,7 +332,7 @@ class NewsDetail extends Component {
                         // }
                       })
                     } else {
-                      LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+                      LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
                       this.setState({ left0: 0 })
                   }
 
@@ -340,7 +340,7 @@ class NewsDetail extends Component {
               case 3:
                   if (dx > width / 4) {
                     this.setState({ left0: 0 })
-                    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+                    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
                     this.setState({ left2: width })
 
                     this.setState({ index0: 1, index2: 3, index1: 2, bookmarked: false }, () => {
@@ -351,14 +351,14 @@ class NewsDetail extends Component {
                       // }
                     })
                   } else {
-                    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+                    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
                     this.setState({ left2: 0 })
                   }
                 break;
               case 1:
                   if (dx > width / 4) {
                     this.setState({ left2: 0 })
-                    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+                    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
                     this.setState({ left1: width })
 
                     this.setState({ index1: 3, index0: 2, index2: 1, bookmarked: false }, () => {
@@ -369,7 +369,7 @@ class NewsDetail extends Component {
                       // }
                     })
                   } else {
-                    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+                    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
                     this.setState({ left1: 0 })
                   }
                 break;
