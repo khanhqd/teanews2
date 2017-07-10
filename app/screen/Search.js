@@ -127,7 +127,7 @@ class Search extends Component {
           </View>
 
           <View style={{ flex: 1, alignItems: 'center' }} onTouchStart={() => { this.props.navigation.goBack() }}>
-            <Text style={{ fontSize: 17, color: 'rgb(0, 171, 255)' }}>Cancel
+            <Text style={{ fontSize: 17, color: 'rgb(0, 171, 255)' }}>Hủy
                   </Text>
           </View>
         </View>
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   searchBox: {
-    width: 250,
+    width: '85%',
     height: 28,
     paddingLeft: 15,
   },

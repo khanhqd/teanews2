@@ -123,11 +123,11 @@ class Bookmark extends Component {
         />
         <View style={{ height: 20, width: width, backgroundColor: 'black' }}>
         </View>
-        <View style={[styles.menuBar, { backgroundColor: this.props.postBackground }]}>
+        <View style={[styles.menuBar, { backgroundColor: this.props.postBackground, borderColor: this.props.textColor }]}>
           <TouchableOpacity onPress={() => { this.props.navigation.goBack() }}>
             <Image source={require('../../img/ic_back@3x.png')} style={{ marginLeft: 20, height: 25, width: 25, tintColor: this.props.textColor }} />
           </TouchableOpacity>
-          <Text style={{ fontSize: 19, marginLeft: 20, fontWeight: 'bold', color: this.props.textColor }}>BOOKMARKS</Text>
+          <Text style={{ fontSize: 19, marginLeft: 20, fontWeight: 'bold', color: this.props.textColor }}>ĐÁNH DẤU</Text>
         </View>
         <ListView
           dataSource={this.state.dataSource}
@@ -148,7 +148,8 @@ const styles = StyleSheet.create({
     height: 50,
     width: width,
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    borderBottomWidth: 0.5
   },
   cateContainer: {
     borderRadius: 3,

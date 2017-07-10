@@ -187,10 +187,11 @@ class NewsItem extends Component {
     var scrollHeight = e.nativeEvent.contentOffset.y + height - 50;
     var contentHeight = e.nativeEvent.contentSize.height;
     var num = scrollHeight - contentHeight;
+    if (this.timeOut) clearTimeout(this.timeOut)
     if (e.nativeEvent.contentOffset.y > 100) {
       if (e.nativeEvent.contentOffset.y > this.state.disToTop) {
         this.props.dispatch(hideBottomBar(true))
-        this.setState({ disToTop: e.nativeEvent.contentOffset.y })
+        this.setState({ disToTop: e.nativeEvent.contentOffset.y },()=>{this.timeOut = setTimeout(()=>{this.props.dispatch(hideBottomBar(false))},100)})
       } else {
         this.props.dispatch(hideBottomBar(false))
         this.setState({ disToTop: e.nativeEvent.contentOffset.y })
@@ -401,8 +402,7 @@ class NewsItem extends Component {
             onScroll={this.onScroll}
             scrollEventThrottle={100}
             onTouchEnd={() => {
-              this.props.dispatch(hideBottomBar(false))
-              if (this.state.pullToCloseDist > 70) {
+              if (this.state.pullToCloseDist > 60) {
                 this.props.navigation.goBack();
               }
             }}

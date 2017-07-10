@@ -559,7 +559,13 @@ class Home extends Component {
       )
     } else {
       return (
-        <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1, width: width, height: height }}><Text>Loading...</Text></View>
+        <Image
+        style={{width: width, height: height, justifyContent: 'center', alignItems: 'center'}}
+        source={require('../../img/splash.png')}>
+          <Image
+          source={require('../../img/icon_News.png')}
+          style={{width: width/2, height: width/2}}/>
+        </Image>
       )
     }
   }
@@ -575,6 +581,7 @@ class Home extends Component {
               this.props.dispatch(replaceListCate(this.props.fullList))
               this.props.dispatch(reload(true))
               this.props.dispatch(selectCate("Tất cả"))
+              this.props.dispatch(openDropdownMenu(!this.props.dropdown))
             }}>
               <Text style={{ color: this.props.textColor}}>Tất cả</Text>
               {(this.props.selectedCate == "Tất cả") &&
@@ -589,6 +596,7 @@ class Home extends Component {
                   this.props.dispatch(replaceListCate([data]))
                   this.props.dispatch(reload(true))
                   this.props.dispatch(selectCate(data.name))
+                  this.props.dispatch(openDropdownMenu(!this.props.dropdown))
                 }}>
                   <View style={{height: 40, width: 3, backgroundColor: data.color, marginRight: 10}}></View>
                   <Text style={{ color: this.props.textColor }}>{data.name}</Text>

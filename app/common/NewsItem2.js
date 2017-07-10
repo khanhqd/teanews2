@@ -52,7 +52,7 @@ class NewsItem2 extends Component {
                     </TouchableOpacity>
                     <TouchableOpacity
                     onPress={()=>this.props.dispatch(openDropdownMenu(!this.props.dropdown))}
-                    style={{flexDirection: 'row', height: 45, width: 80, marginLeft: 10, justifyContent: 'flex-start', alignItems: 'center' }}>
+                    style={{flexDirection: 'row', height: 45, marginLeft: 10, justifyContent: 'flex-start', alignItems: 'center' }}>
                       <Text style={{ textAlign: 'center', fontSize: 16, color: 'white', fontWeight: 'bold' }}>{this.props.selectedCate}</Text>
                       <Image
                       style={{width: 24, height: 24, tintColor: 'white'}}

@@ -123,7 +123,7 @@ class Category extends Component {
                     source={require('../../img/background.jpg')}
                     style={{ width: width, height: height, position: 'absolute' }} />
 
-                <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'white', marginTop: 20, backgroundColor: 'transparent' }}>WHAT INTERESTS YOU?
+                <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'white', marginTop: 20, backgroundColor: 'transparent' }}>CHUYÊN MỤC BẠN QUAN TÂM?
                 </Text>
 
                 <ScrollView showsVerticalScrollIndicator={false}>
@@ -138,11 +138,11 @@ class Category extends Component {
                 </ScrollView>
                 <TouchableOpacity onPress={() => this.saveCate()} style={styles.loginButton}>
                     <View style={{ backgroundColor: '#4a90e2', height: 40, width: width * 0.8, marginBottom: 40, borderRadius: 5, justifyContent: 'center', alignItems: 'center' }}>
-                        <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18 }}>Save</Text>
+                        <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18 }}>Lưu</Text>
                     </View>
                 </TouchableOpacity>
                 <View style={{ position: 'absolute', bottom: 17, right: width * 0.1 }} onTouchStart={() => { this.props.navigation.goBack() }}>
-                    <Text style={{ fontStyle: 'italic', color: 'white', backgroundColor: 'transparent' }}>Skip
+                    <Text style={{ fontStyle: 'italic', color: 'white', backgroundColor: 'transparent' }}>Bỏ qua
                   </Text>
                 </View>
             </View>

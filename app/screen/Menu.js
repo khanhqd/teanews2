@@ -30,15 +30,15 @@ class SideMenu extends Component {
                 </View>
                 <View style={styles.item} onTouchStart={() => { this.props.navigation.navigate('DrawerClose') }}>
                     <Image source={require('../../img/ic_night_today.png')} style={{ height: 24, width: 24 , tintColor:this.props.textColor }} />
-                    <Text style={{ marginLeft: 15, color: this.props.textColor }}>Today</Text>
+                    <Text style={{ marginLeft: 15, color: this.props.textColor }}>Tin mới</Text>
                 </View>
                 <TouchableOpacity style={styles.item} onPress={() => { this.props.navigation.navigate('Bookmark_Screen') }}>
                     <Image source={require('../../img/ic_night_bookmark.png')} style={{ height: 24, width: 24 , tintColor:this.props.textColor }}/>
-                    <Text style={{ marginLeft: 15, color: this.props.textColor }}>Bookmark</Text>
+                    <Text style={{ marginLeft: 15, color: this.props.textColor }}>Đánh dấu</Text>
                 </TouchableOpacity >
                 <TouchableOpacity style={styles.item} onPress={() => { this.props.navigation.navigate('Recent_Screen') }}>
                     <Image source={require('../../img/ic_night_recent.png')} style={{ height: 24, width: 24 , tintColor:this.props.textColor }}/>
-                    <Text style={{ marginLeft: 15, color: this.props.textColor }}>Recent</Text>
+                    <Text style={{ marginLeft: 15, color: this.props.textColor }}>Xem gần đây</Text>
                 </TouchableOpacity>
                 <View style={styles.item} onTouchStart={() => {this.props.navigation.navigate('Category_Screen') }}>
                     <Image source={require('../../img/ic_night_quanlyCM.png')} style={{ height: 24, width: 24, tintColor: this.props.textColor }} />
@@ -65,7 +65,7 @@ class SideMenu extends Component {
                 </View >
                 <View style={styles.item} onTouchStart={() => {this.props.navigation.navigate('Settings_Screen') }}>
                     <Image source={require('../../img/ic_night_setting.png')} style={{ height: 24, width: 24 , tintColor:this.props.textColor }} />
-                    <Text style={{ marginLeft: 15, color: this.props.textColor }}>Setting</Text>
+                    <Text style={{ marginLeft: 15, color: this.props.textColor }}>Cài đặt</Text>
                 </View >
             </View >
         )
