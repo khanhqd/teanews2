@@ -60,7 +60,7 @@ class NewsItem2 extends Component {
                     </TouchableOpacity>
                   </View>
                   <TouchableOpacity
-                  style={{height: 45, width: 45, justifyContent: 'center', alignItems: 'center'}}
+                  style={{height: 50, width: 50, justifyContent: 'center', alignItems: 'center'}}
                   onPress={() => { this.props.navigation.navigate('Search_Screen') }}>
                     <Image source={require('../../img/ic_search_w.png')} style={{ height: 24, width: 24 }} />
                   </TouchableOpacity>
@@ -146,7 +146,7 @@ const styles = {
     flexDirection: 'row',
     backgroundColor: 'transparent',
     justifyContent: 'space-between',
-    paddingRight: 5,
+    paddingRight: 0,
     marginTop: 32,
     alignItems: 'center'
   }

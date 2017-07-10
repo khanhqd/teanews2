@@ -64,7 +64,7 @@ class Search extends Component {
                     ellipsizeMode="tail"
                     style={{ color: this.props.textColor, fontFamily: "Lora-Bold", fontWeight: 'bold', fontSize: 15 }}>{row.title}
                   </Text>
-                  <View style={{ flexDirection: 'row', backgroundColor: this.props.postBackground }}>
+                  <View style={{ flexDirection: 'row', backgroundColor: this.props.postBackground, marginTop: 5 }}>
                     <View style={{ height: 80, width: 80 }}>
                       <Image
                         style={{ width: 80, height: 80 }}
@@ -157,7 +157,7 @@ class Search extends Component {
           _this.setState({ result: items })
         })
       });
-    setTimeout(() => { this.setState({ isSearchEnd: true }) }, 3000)
+    setTimeout(() => { this.setState({ isSearchEnd: true }) }, 5000)
   }
 }
 
