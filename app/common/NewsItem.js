@@ -189,7 +189,7 @@ class NewsItem extends Component {
     if (e.nativeEvent.contentOffset.y > 100) {
       if (e.nativeEvent.contentOffset.y > this.state.disToTop) {
         this.props.dispatch(hideBottomBar(true))
-        this.setState({ disToTop: e.nativeEvent.contentOffset.y },()=>{this.timeOut = setTimeout(()=>{this.props.dispatch(hideBottomBar(false))},100)})
+        this.setState({ disToTop: e.nativeEvent.contentOffset.y }, () => { this.timeOut = setTimeout(() => { this.props.dispatch(hideBottomBar(false)) }, 100) })
       } else {
         this.props.dispatch(hideBottomBar(false))
         this.setState({ disToTop: e.nativeEvent.contentOffset.y })
