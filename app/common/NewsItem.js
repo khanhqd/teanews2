@@ -123,7 +123,7 @@ class NewsItem extends Component {
     setTimeout(() => this.setState({ loading: false }), 4000);
     let url = row.url
     let other = []
-    fetch('http://tinmoi24.vn/hani-exid-co-nang-tomboy-so-hai-ca-the-gioi/news-29-1-ae3951cfefa38c17fb92f80855211a3a')
+    fetch(url)
       .then((response) => response.text())
       .then((responseData) => {
         $ = cheerio.load(responseData);

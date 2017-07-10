@@ -532,19 +532,19 @@ class NewsDetail extends Component {
               <Animatable.View useNativeDriver iterationCount="infinite" direction="alternate" animation="fadeIn" style={{ width: 100, backgroundColor: 'rgba(0, 0, 0, 0.33)' }}>
               </Animatable.View>
               <View style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.33)', justifyContent: 'center' }}>
-                <Animatable.View useNativeDriver animation="fadeInRight" style={{ width: 200, height: 110, backgroundColor: 'white', marginLeft: 10, borderRadius: 10, justifyContent: 'center', alignItems: 'center', padding: 5 }}>
+                <Animatable.View useNativeDriver animation="fadeInRight" style={{ width: 170, height: 110, backgroundColor: 'white', marginLeft: 10, borderRadius: 10, justifyContent: 'center', alignItems: 'center', padding: 5 }}>
                   <Text style={{ fontWeight: 'bold' }}>Hướng dẫn (3/4)
                   </Text>
                   <Text style={{ marginTop: 5 }}>Vuốt sang phải để quay lại bài trước!
                   </Text>
-                  <View style={{ width: 200, flexDirection: 'row', margin: 10, height: 40, flex: 1, alignItems: 'center' }}>
+                  <View style={{ width: 170, flexDirection: 'row', margin: 10, height: 40, flex: 1, alignItems: 'center' }}>
                     <TouchableOpacity onPress={() => this.setState({ tutorialStep: 0 })} style={styles.loginButton}>
-                      <View style={{ borderColor: '#4a90e2', height: 30, width: 80, borderRadius: 5, justifyContent: 'center', alignItems: 'center', borderWidth: 1, marginLeft: 10 }}>
+                      <View style={{ borderColor: '#4a90e2', height: 30, width: 65, borderRadius: 5, justifyContent: 'center', alignItems: 'center', borderWidth: 1, marginLeft: 10 }}>
                         <Text style={{ color: '#4a90e2', fontWeight: '500', fontSize: 15 }}>Kết thúc</Text>
                       </View>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => this.setState({ tutorialStep: this.state.tutorialStep + 1 })} style={styles.loginButton}>
-                      <View style={{ backgroundColor: '#4a90e2', height: 30, width: 80, borderRadius: 5, justifyContent: 'center', alignItems: 'center', marginLeft: 20 }}>
+                      <View style={{ backgroundColor: '#4a90e2', height: 30, width: 65, borderRadius: 5, justifyContent: 'center', alignItems: 'center', marginLeft: 20 }}>
                         <Text style={{ color: 'white', fontWeight: '500', fontSize: 15 }}>Tiếp</Text>
                       </View>
                     </TouchableOpacity>
